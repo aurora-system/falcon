@@ -18,6 +18,14 @@
             <v-list-item-title>Contact</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="toggleDrawer">
+          <v-list-item-action>
+            <v-icon><currency-php></currency-php></v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Orders</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app color="indigo" dark>
