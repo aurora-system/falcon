@@ -1,8 +1,10 @@
+const path = require('path');
+
 module.exports = {
   devServer: {
     proxy: {
       '^/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:5000',
         ws: true,
         changeOrigin: true
       }
@@ -10,6 +12,6 @@ module.exports = {
   },
   // Change build paths to make them Maven compatible
   // see https://cli.vuejs.org/config/
-  outputDir: '../src/main/resources/public',
-  assetsDir: 'static'
+  outputDir: path.resolve(__dirname, '../api/public'),
+  // assetsDir: 'static'
 }
