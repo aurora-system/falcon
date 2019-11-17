@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import About from './views/About.vue';
-import Orders from './views/Orders.vue';
+import Orders from './components/ordering/Order.vue';
 
 Vue.use(Router)
 
@@ -25,7 +25,7 @@ export default new Router({
     {
       path: '/orders',
       name: 'orders',
-      component: () => import('./views/Orders.vue')
+      component: Orders
     }
   ]
 })
