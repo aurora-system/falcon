@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item @click="toggleDrawer">
+        <v-list-item @click="routePage('home')">
           <v-list-item-action>
             <v-icon>home</v-icon>
           </v-list-item-action>
@@ -10,17 +10,17 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="toggleDrawer">
+        <v-list-item @click="routePage('about')">
           <v-list-item-action>
             <v-icon>contact_mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>About</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="toggleDrawer">
+        <v-list-item @click="routePage('orders')">
           <v-list-item-action>
-            <v-icon><currency-php></currency-php></v-icon>
+            <v-icon>cart-outline</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Orders</v-list-item-title>
@@ -56,6 +56,9 @@
 
 <script>
 
+import Router from './router.js';
+const router = Router;
+
 export default {
   name: 'App',
   props: {
@@ -68,6 +71,9 @@ export default {
   methods: {
     toggleDrawer() {
       this.drawer = !this.drawer
+    },
+    routePage(name) {
+      router.push({ name: name })
     }
   }
 };
