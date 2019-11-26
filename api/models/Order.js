@@ -9,6 +9,14 @@ const OrderSchema = new Schema({
     type: {
         type: String,
         required: true
+    },
+    customerName: {
+        type: String,
+        required: true
+    },
+    createdDate: {
+        type: Date,
+        required: true
     }
 })
 mongoose.model('orders', OrderSchema)

@@ -8,12 +8,12 @@
                             <h2>Order Details</h2>
                             <v-row dense >
                                 <v-col class="customerName">
-                                    <v-text-field id="customerName" v-model="customerName" label="Customer Name" required outlined></v-text-field>
+                                    <v-text-field id="customerName" v-model="order.customerName" label="Customer Name" required outlined></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
                                 <v-col class="orderType">
-                                    <v-text-field id="orderType" v-model="customerName" label="Order Type" required outlined></v-text-field>
+                                    <v-text-field id="orderType" v-model="order.type" label="Order Type" required outlined></v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row dense>
@@ -25,6 +25,7 @@
                                         value=""
                                         height="100"
                                         no-resize="true"
+                                        v-model="order.remarks"
                                         ></v-textarea>
                                 </v-col>
                             </v-row>
@@ -78,7 +79,7 @@
                 <v-row>
                     <v-col cols="12" sm="6" md="12">
                          <div class="submitBtn">
-                            <v-btn large color="primary" @click="showAlert">Submit</v-btn>
+                            <v-btn large color="primary" @click="createOrder">Submit</v-btn>
                         </div>
                     </v-col>
                 </v-row>
@@ -88,10 +89,19 @@
 </template>
 
 <script>
+    import OrderService from '../../services/OrderService';
+
     export default {
         data () {
             return {
-                inputs: [ {product: "door", quantity: 5} ]
+                inputs: [ {product: "door", quantity: 5} ],
+                order: {
+                    orderId: '1',
+                    type: '',
+                    customerName: '',
+                    createdDate: '',
+                    remarks: ''
+                }
             }
         },
         computed: {
@@ -114,6 +124,13 @@
             },
             deleteRow(index) {
                 this.inputs.splice(index,1)
+            },
+            async createOrder () {
+                try {
+                    this.orders = await OrderService.insertOrder(this.order);
+                } catch (err) {
+                    this.error = err.message;
+                }
             }
         }
     }

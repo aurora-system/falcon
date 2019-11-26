@@ -19,6 +19,8 @@
 </template>
 
 <script>
+  import OrderService from '../../services/OrderService';
+
   export default {
     data () {
     return {
@@ -31,47 +33,21 @@
           sortable: false,
           value: 'orderId',
         },
+        { text: 'Type', value: 'type' },
         { text: 'Customer Name', value: 'customerName' },
-        { text: 'Product', value: 'product' },
-        { text: 'Quantity', value: 'quantity' },
-        { text: 'Total Amount', value: 'totalAmount' }
+        { text: 'Created Date', value: 'createdDate' },
+        { text: 'Remarks', value: 'remarks'}
       ],
-      orders: [
-        {
-          orderId: '0001',
-          orderType: 'sale',
-          customerName: 'Boy Dizon',
-          product: 'bumper',
-          quantity: 1,
-          totalAmount: 2000
-        },
-        {
-          orderId: '0002',
-          orderType: 'sale',
-          customerName: 'Girl Cristobal',
-          product: 'tail lights',
-          quantity: 2,
-          totalAmount: 3500
-        },
-        {
-          orderId: '0003',
-          orderType: 'service',
-          customerName: 'Maximo Minero',
-          product: 'detailing',
-          quantity: 1,
-          totalAmount: 5000
-        },
-        {
-          orderId: '0004',
-          orderType: 'sale',
-          customerName: 'Louis Dizon',
-          product: 'Mazda 3 2013 Hatchback',
-          quantity: 1,
-          totalAmount: 360000
-        },
-      ],
+      orders: [],
     }
   },
+  async created() {
+    try {
+      this.orders = await OrderService.getOrders();
+    } catch (err) {
+      this.error = err.message;
+    }
+  }
   }
 </script>
 

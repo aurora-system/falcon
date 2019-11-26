@@ -1,29 +1,30 @@
 import axios from 'axios'
 
-const url = "api/orders";
+const url = "http://localhost:3000/api/orders/";
 
 class OrderService {
     
+    // Get Orders
     static getOrders() {
         return new Promise(async (resolve, reject) => {
             try {
                 const res = await axios.get(url);
                 const data = res.data;
                 resolve(data.map(order => ({
-                    ...post,
-                    createdAt: new Date(order.createdAt)
+                    ...order,
+                    createdDate: new Date(order.createdDate)
                 })))
             } catch (err) {
                 reject(err)
             }
         })
     }
+
     // Create Order
-    static insertOrder(text) {
-        return axios.post(url, {text});
+    static insertOrder(orderId, type) {
+        return axios.post(url, {orderId, type});
     }
-    // Delete Order
-    static deleteOrder(id) {
-        return axios.delete(`${url}/${id}`)
-    }
+
 }
+
+export default OrderService;
