@@ -1,11 +1,11 @@
 <template>
   <div class="orders">
     <div class="orderForm">
-      <h1>ENTER ORDER DETAILS</h1>
+      <h3>Enter Order Details</h3>
       <orderForm></orderForm>
     </div>
     <div class="orderList">
-      <h1>LIST OF ORDERS</h1>
+      <h3>List of Orders</h3>
       <ordersList></ordersList>
     </div>
   </div>

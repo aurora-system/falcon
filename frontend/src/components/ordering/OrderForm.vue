@@ -5,7 +5,7 @@
                 <v-row> 
                     <v-col class="d-flex">
                          <v-container>
-                            <h2>Order Details</h2>
+                            <h4>Order Details</h4>
                             <v-row dense >
                                 <v-col class="customerName">
                                     <v-text-field id="customerName" v-model="order.customerName" label="Customer Name" required outlined></v-text-field>
@@ -13,7 +13,7 @@
                             </v-row>
                             <v-row dense>
                                 <v-col class="orderType">
-                                    <v-text-field id="orderType" v-model="order.type" label="Order Type" required outlined></v-text-field>
+                                    <v-select :items="orderTypes" label="Order Type" v-model="order.type" required outlined></v-select>
                                 </v-col>
                             </v-row>
                             <v-row dense>
@@ -36,19 +36,28 @@
 
                     <v-col class="d-flex" cols="12" md="8">
                          <v-container>
-                             <h2>Order Items</h2>
+                             <h4>Order Items</h4>
                              <v-row v-for="(input, index) in inputs" v-bind:key="input" dense>
                     
                                 <v-col cols="12" md="8">
-                                    <v-select :items="products" label="Product" v-model="input.product" outlined=""></v-select>
+                                    <v-select 
+                                        @change=getSubtotalAmount(input.quantity,input.product,index)
+                                        :items="products" 
+                                        name="product" 
+                                        item-text="name" 
+                                        item-value="cost"
+                                        label="Product" 
+                                        v-model="input.product"
+                                        outlined>
+                                    </v-select>
                                 </v-col>
 
                                 <v-col cols="12" md="1">
-                                    <v-text-field id="quantity" v-model="input.quantity" label="Qty" required outlined></v-text-field>
+                                    <v-text-field id="quantity" @change=getSubtotalAmount(input.quantity,input.product,index) v-model="input.quantity" label="Qty" required outlined></v-text-field>
                                 </v-col>
 
                                 <v-col class="subtotalCost" cols="12" md="2">
-                                    <v-alert text color="green" icon="mdi-currency-php">{{ subtotalAmount }}</v-alert>
+                                    <v-alert text v-model="input.cost" color="green" icon="mdi-currency-php">{{ input.subtotal }}</v-alert>
                                 </v-col>
 
                                 <v-col class="deleteBtn" cols="12" md="1">
@@ -56,16 +65,16 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on }">
-                                        <v-icon class="addProductItem" @click="addRow" large color="green">mdi-plus-thick</v-icon>
-                                    </template>
-                                    <span>Add a new product</span>
-                                </v-tooltip>
-                            </v-row>
+                                <!--<v-icon class="addProductItem" @click="addRow" large color="green">mdi-plus-thick</v-icon>-->
+                                <v-col cols="12" md="2">
+                                    <div class="addBtn">
+                                        <v-btn large color="primary" @click="addRow">Add Item</v-btn>
+                                    </div>
+                                </v-col>
+                              </v-row>
 
                             <v-row>
-                                <v-col cols="12" md="5"><h2>Total Amount: </h2></v-col>
+                                <v-col cols="12" md="5"><h4>Total Amount: </h4></v-col>
                                 <v-col cols="12" md="7">
                                     <v-alert class="totalAmount" text color="green" icon="mdi-currency-php" >{{ totalAmount }}</v-alert>
                                 </v-col>
@@ -94,20 +103,23 @@
     export default {
         data () {
             return {
-                inputs: [ {product: "door", quantity: 5} ],
+                inputs: [ { product: '', quantity: '', subtotal: '' } ],
                 order: {
                     orderId: '1',
                     type: '',
                     customerName: '',
                     createdDate: '',
                     remarks: ''
-                }
+                },
+                orderTypes: [ 'sale', 'service'],
+                products: [ 
+                    { productId: '1', name: 'rims', cost: '100' },
+                    { productId: '2', name: 'bumper', cost: '200' },
+                    { productId: '3', name: 'windshield', cost: '300' }
+                ]
             }
         },
         computed: {
-            subtotalAmount () {
-                return "100.00";
-            },
             totalAmount () {
                 return "500.00"
             }
@@ -124,6 +136,15 @@
             },
             deleteRow(index) {
                 this.inputs.splice(index,1)
+            },
+            getSubtotalAmount (qty, cost, index) {
+                //console.log("Printing cost here: " + qty + " " + cost + " " + index);
+                
+                var inputItem = this.inputs[index];
+                inputItem.subtotal = qty*cost;
+                Vue.set(this.inputs, index, inputItem);
+                
+                //this.inputs[index].subtotal = qty*cost;
             },
             async createOrder () {
                 try {

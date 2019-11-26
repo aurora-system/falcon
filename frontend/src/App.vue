@@ -20,7 +20,7 @@
         </v-list-item>
         <v-list-item @click="routePage('orders')">
           <v-list-item-action>
-            <v-icon>cart-outline</v-icon>
+            <v-icon>shopping_cart</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Orders</v-list-item-title>
