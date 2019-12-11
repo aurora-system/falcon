@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="main-app">
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
         <v-list-item @click="routePage('home')">
@@ -24,6 +24,22 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Orders</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="routePage('products')">
+          <v-list-item-action>
+            <v-icon>wallet_giftcard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Products</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="routePage('reports')">
+          <v-list-item-action>
+            <v-icon>equalizer</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Reports</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -78,3 +94,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+
+.main-app  { 
+  font-family: 'Raleway', sans-serif;
+}
+</style>
