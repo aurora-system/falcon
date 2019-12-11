@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = "http://localhost:3000/api/orders/";
+const url = "http://localhost:8080/api/orders/";
 
 class OrderService {
     

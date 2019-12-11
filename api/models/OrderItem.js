@@ -23,4 +23,4 @@ const OrderItemSchema = new Schema({
         required: true
     }
 })
-mongoose.model('orders', OrderSchema)
+mongoose.model('orderItems', OrderItemSchema)

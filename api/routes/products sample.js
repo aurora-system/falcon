@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 
 // load Product Model
 require('../models/Product');
-const Product = mongoose.model('products');
+const ProductCategory = mongoose.model('products');
 
 // list all products
 router.get('/', function(req, res, next) {
-  Product.find()
+  ProductCategory.find()
     .sort({name: 'asc'})
     .then(products => {
         console.log(products);
@@ -17,12 +17,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    let newProd = {productId: 2, name: 'Sample2', cost: "100"};
-    new Product(newProd)
+    let newCat = {categoryId: 2, name: 'Sample2'};
+    new ProductCategory(newCat)
         .save()
-        .then(prod => {
-            console.log(prod);
-            res.json(prod)
+        .then(cat => {
+            console.log(cat);
+            res.json(cat)
         })
 });
 

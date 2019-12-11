@@ -37,7 +37,7 @@
                     <v-col class="d-flex" cols="12" md="8">
                          <v-container>
                              <h4>Order Items</h4>
-                             <v-row v-for="(input, index) in inputs" v-bind:key="input" dense>
+                             <v-row v-for="(input, index) in inputs" v-bind:key="index" dense>
                     
                                 <v-col cols="12" md="8">
                                     <v-select 
@@ -57,7 +57,7 @@
                                 </v-col>
 
                                 <v-col class="subtotalCost" cols="12" md="2">
-                                    <v-alert text v-model="input.cost" color="green" icon="mdi-currency-php">{{ input.subtotal }}</v-alert>
+                                    <v-alert @change="getTotalAmount()" text v-model="input.cost" color="green" icon="mdi-currency-php">{{ input.subtotal }}</v-alert>
                                 </v-col>
 
                                 <v-col class="deleteBtn" cols="12" md="1">
@@ -99,11 +99,13 @@
 
 <script>
     import OrderService from '../../services/OrderService';
+    import ProductService from '../../services/ProductService';
 
     export default {
         data () {
             return {
-                inputs: [ { product: '', quantity: '', subtotal: '' } ],
+                totalAmount: 0,
+                inputs: [ { product: '', quantity: '', subtotal: 0 } ],
                 order: {
                     orderId: '1',
                     type: '',
@@ -112,17 +114,11 @@
                     remarks: ''
                 },
                 orderTypes: [ 'sale', 'service'],
-                products: [ 
-                    { productId: '1', name: 'rims', cost: '100' },
-                    { productId: '2', name: 'bumper', cost: '200' },
-                    { productId: '3', name: 'windshield', cost: '300' }
-                ]
+                products: []
             }
         },
         computed: {
-            totalAmount () {
-                return "500.00"
-            }
+            
         },
         methods: {
             showAlert () {
@@ -135,16 +131,16 @@
                 })
             },
             deleteRow(index) {
-                this.inputs.splice(index,1)
+                var inputItem = this.inputs[index];
+                if (inputItem.subtotal != null) {
+                    this.totalAmount = this.totalAmount - inputItem.subtotal;
+                }
+                this.inputs.splice(index,1);
             },
             getSubtotalAmount (qty, cost, index) {
-                //console.log("Printing cost here: " + qty + " " + cost + " " + index);
-                
                 var inputItem = this.inputs[index];
                 inputItem.subtotal = qty*cost;
-                Vue.set(this.inputs, index, inputItem);
-                
-                //this.inputs[index].subtotal = qty*cost;
+                this.totalAmount = this.totalAmount + inputItem.subtotal;
             },
             async createOrder () {
                 try {
@@ -152,6 +148,14 @@
                 } catch (err) {
                     this.error = err.message;
                 }
+            }
+        },
+        async created() {
+            try {
+                this.products = await ProductService.getProducts();
+                console.log("Printing products: " + this.products);
+            } catch (err) {
+                this.error = err.message;
             }
         }
     }
