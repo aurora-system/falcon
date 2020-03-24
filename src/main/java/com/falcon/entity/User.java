@@ -14,15 +14,19 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.Data;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Data
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
 
@@ -35,66 +39,4 @@ public class User {
             name = "role_id", referencedColumnName = "id"))
     private Collection <Role> roles;
 
-    public User() {}
-
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String name, String email, String password, Collection <Role> roles) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String gettName() {
-        return name;
-    }
-
-    public void setFirstName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Collection <Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection <Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=").append(id).append(", name=").append(name).append(", email=").append(email)
-				.append(", password=").append(password).append("]");
-		return builder.toString();
-	}
 }

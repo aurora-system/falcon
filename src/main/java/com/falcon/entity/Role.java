@@ -5,7 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Role {
 
     @Id
@@ -13,32 +16,4 @@ public class Role {
     private Long id;
     private String name;
 
-    public Role() {}
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Role [id=").append(id).append(", name=").append(name).append("]");
-		return builder.toString();
-	}
 }
