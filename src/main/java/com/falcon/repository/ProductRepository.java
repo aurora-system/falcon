@@ -8,5 +8,5 @@ import com.falcon.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	// Page<Product> findAllByCategoryId(long categoryId, Pageable page);
+	Page<Product> findAllByCategoryId(long categoryId, Pageable page);
 }
