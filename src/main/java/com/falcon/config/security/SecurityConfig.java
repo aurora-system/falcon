@@ -21,7 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] {"/","/authenticate","/login","/logout","/error"};
+	private static final String[] PUBLIC = new String[] 
+	        {"/","/authenticate","/login","/logout","/error","/favicon.ico"};
 	
 	@Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
