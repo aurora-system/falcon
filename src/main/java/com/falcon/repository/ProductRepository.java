@@ -2,11 +2,11 @@ package com.falcon.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.falcon.entity.Product;
 
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends PagingAndSortingRepository<Product, Long>{
 
-	Page<Product> findAllByCategoryId(long categoryId, Pageable page);
+	Page<Product> findAllByProductCategoryCategoryId(long categoryId, Pageable page);
 }

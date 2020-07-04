@@ -1,4 +1,4 @@
-package com.falcon.controller;
+package com.falcon.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.falcon.config.JwtTokenUtil;
-import com.falcon.service.JwtUserDetailsService;
 
 @RestController
 @CrossOrigin

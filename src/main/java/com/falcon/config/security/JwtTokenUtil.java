@@ -1,4 +1,4 @@
-package com.falcon.config;
+package com.falcon.config.security;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.falcon.config;
+package com.falcon.config.security;
 
 import java.io.IOException;
 
@@ -14,8 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.falcon.service.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

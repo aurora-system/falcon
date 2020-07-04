@@ -1,9 +1,9 @@
 package com.falcon.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.falcon.entity.Expense;
 
-public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+public interface ExpenseRepository extends PagingAndSortingRepository<Expense, Long> {
 
 }

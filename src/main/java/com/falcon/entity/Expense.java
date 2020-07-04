@@ -20,6 +20,7 @@ public class Expense {
 	private long expenseId;
 	@Column(length = 50)
 	private String type;
+	@Column(precision = 10, scale = 2)
 	private BigDecimal amount;
 	private String remarks;
 	private Date expenseDate;

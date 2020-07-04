@@ -8,25 +8,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "unique_name_product", columnNames = "name")
+})
 @Data
 public class Product {
 
 	@Id
 	@GeneratedValue
 	private long id;
-	@NotNull
+	@NotBlank
 	private String name;
 	private String brand;
 	private String otherDetails;
 	private String forVehicle;
 	private String color;
+	@NotNull
 	private BigDecimal aquiPrice;
-	private BigDecimal srp;
+	@NotNull
+    private BigDecimal srp;
 	private int stockLevel;
 	private int threshold;
 	private String supplierName;

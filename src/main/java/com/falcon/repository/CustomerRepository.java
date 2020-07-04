@@ -1,10 +1,12 @@
 package com.falcon.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.falcon.entity.Customer;
 
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
 
-	Customer findByName(String name);
+	Optional<Customer> findByName(String name);
 }

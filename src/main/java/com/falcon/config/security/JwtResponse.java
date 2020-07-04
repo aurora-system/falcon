@@ -1,4 +1,4 @@
-package com.falcon.controller;
+package com.falcon.config.security;
 
 import java.io.Serializable;
 

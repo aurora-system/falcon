@@ -21,7 +21,7 @@ public class InOutHistory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long historyId;
 	private Date transDate;
-	@Size(min = 2, max = 3)
+	@Size(min = 2, max = 3, message = "Transaction type is either 'IN' or 'OUT'")
 	private String transType;
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")

@@ -1,4 +1,4 @@
-package com.falcon.config;
+package com.falcon.config.security;
 
 import java.security.NoSuchAlgorithmException;
 
