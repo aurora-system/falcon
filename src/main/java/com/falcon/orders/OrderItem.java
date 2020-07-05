@@ -1,4 +1,4 @@
-package com.falcon.entity;
+package com.falcon.orders;
 
 import java.math.BigDecimal;
 
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.falcon.product.Product;
 
 import lombok.Data;
 

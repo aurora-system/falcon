@@ -1,4 +1,4 @@
-package com.falcon.entity;
+package com.falcon.product;
 
 import java.math.BigDecimal;
 

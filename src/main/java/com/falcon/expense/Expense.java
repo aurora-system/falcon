@@ -1,4 +1,4 @@
-package com.falcon.entity;
+package com.falcon.expense;
 
 import java.math.BigDecimal;
 import java.sql.Date;

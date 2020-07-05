@@ -1,4 +1,4 @@
-package com.falcon.controller;
+package com.falcon.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

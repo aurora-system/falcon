@@ -1,8 +1,6 @@
-package com.falcon.repository;
+package com.falcon.orders;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
-
-import com.falcon.entity.OrderItem;
 
 public interface OrderItemRepository extends PagingAndSortingRepository<OrderItem, Long> {
 

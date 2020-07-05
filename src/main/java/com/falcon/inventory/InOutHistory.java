@@ -1,4 +1,4 @@
-package com.falcon.entity;
+package com.falcon.inventory;
 
 import java.sql.Date;
 
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
+
+import com.falcon.product.Product;
 
 import lombok.Data;
 

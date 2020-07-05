@@ -1,8 +1,6 @@
-package com.falcon.repository;
+package com.falcon.expense;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
-
-import com.falcon.entity.Expense;
 
 public interface ExpenseRepository extends PagingAndSortingRepository<Expense, Long> {
 

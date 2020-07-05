@@ -1,8 +1,6 @@
-package com.falcon.repository;
+package com.falcon.product;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
-
-import com.falcon.entity.ProductCategory;
 
 public interface ProductCategoryRepository extends PagingAndSortingRepository<ProductCategory, Long> {
 

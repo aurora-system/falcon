@@ -1,4 +1,4 @@
-package com.falcon.entity;
+package com.falcon.customer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
