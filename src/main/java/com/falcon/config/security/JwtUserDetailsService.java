@@ -19,7 +19,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.falcon.entity.User userEntity = userRepository.findByUsername(username);
+		com.falcon.entity.User userEntity = userRepository.findByUsername(username).get();
 		if (userEntity != null) {
 			// "javainuse", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6"
 			return new User(userEntity.getUsername(), userEntity.getPassword(), new ArrayList<>());

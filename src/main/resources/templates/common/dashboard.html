@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="common/head::header('Dashboard')"></th:block>
+<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
 <body>
 	<div id="app">
 	    <v-app>
@@ -13,6 +13,6 @@
 	      </v-main>
 	    </v-app>
 	</div>
-	<th:block th:replace="common/head::footer"></th:block>
-	<th:block th:replace="common/head::vuetify"></th:block>
+	<th:block th:replace="fragments/common::footer"></th:block>
+	<th:block th:replace="fragments/common::vuetify"></th:block>
 </body>
