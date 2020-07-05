@@ -6,17 +6,92 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <title th:text="${title}"></title>
 </head>
 </th:block>
 <body>
+
+    <div th:fragment="navdrawer">
+      <v-navigation-drawer v-model="drawer" app>
+        <v-list dense>
+          <v-list-item @click="routePage('home')">
+            <v-list-item-action>
+              <v-icon>home</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Dashboard</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="routePage('about')">
+            <v-list-item-action>
+              <v-icon>contact_mail</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>About</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="routePage('orders')">
+            <v-list-item-action>
+              <v-icon>shopping_cart</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Orders</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="routePage('products')">
+            <v-list-item-action>
+              <v-icon>wallet_giftcard</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Products</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="routePage('inouthistory')">
+            <v-list-item-action>
+              <v-icon>loop</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Products In/Out</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="routePage('expenses')">
+            <v-list-item-action>
+              <v-icon>money</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Expenses</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item @click="routePage('reports')">
+            <v-list-item-action>
+              <v-icon>equalizer</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Reports</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </div>
+    
+    <div th:fragment="appbar">
+      <v-app-bar app color="blue accent-4" dense dark>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title>
+          <span>FALCON GARAGE</span>
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <span class="mr-2">v1.1</span>
+      </v-app-bar>
+    </div>
+    
     <div th:fragment="footer">
-      <v-footer app color="blue" dark>
-        <span class="white--text">&copy; 2020</span>
+      <v-footer app color="blue" dense dark>
+        <span class="white--text">&copy; 2020 FALCON GARAGE</span>
       </v-footer>
     </div>
     
@@ -25,10 +100,18 @@
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.2/dist/vuetify.min.js"></script>
     <script th:inline="javascript">
 	    const vm = new Vue({
-	        el: '#app',
+	        el: '#vuetifyapp',
 	        vuetify: new Vuetify(),
-	  	    data: {
-	  		  msg: 'world'
+	  	    data() {
+	        	return {
+		  		  msg: 'world',
+		  		  drawer: false,
+	        	}
+	  	    },
+	  	    methods: {
+	  	    	routePage(page) {
+	  	    		alert('Go to page: ' + page + ', not yet implemented.')
+	  	    	}
 	  	    }
 	    });
     </script>
