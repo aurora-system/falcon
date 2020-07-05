@@ -3,16 +3,18 @@
     xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragments/common::header('Dashboard')"></th:block>
 <body>
-	<div id="app">
+	<div id="vuetifyapp">
 	    <v-app>
+	      <th:block th:replace="fragments/common::navdrawer"></th:block>
+	      <th:block th:replace="fragments/common::appbar"></th:block>
 	      <v-main>
 	        <v-container>
 	          <a href="/about">Hello {{msg}}</a>
 	          <span th:text="${message}"></span>  
 	        </v-container>
 	      </v-main>
+	      <th:block th:replace="fragments/common::footer"></th:block>
 	    </v-app>
 	</div>
-	<th:block th:replace="fragments/common::footer"></th:block>
 	<th:block th:replace="fragments/common::vuetify"></th:block>
 </body>
