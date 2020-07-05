@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
+<body>
+	<div id="app">
+	    <v-app>
+	      <v-main>
+	        <v-container>
+	          <a href="/about">Hello {{msg}}</a>
+	          <span th:text="${message}"></span>  
+	        </v-container>
+	      </v-main>
+	    </v-app>
+	</div>
+	<th:block th:replace="fragments/common::footer"></th:block>
+	<th:block th:replace="fragments/common::vuetify"></th:block>
+</body>
