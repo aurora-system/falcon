@@ -1,7 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
 
-.v-application {
+.bmd-layout-container {
   font-family: "Raleway", sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
+}
+
+body, html {
+  height: 100%;
+   font-family: "Raleway", sans-serif;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+
+.flex-grow {
+    flex: 1 0 auto;
+}
+
+a {
+	color: inherit;
 }

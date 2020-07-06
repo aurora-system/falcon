@@ -53,5 +53,22 @@
     
 	<th:block th:replace="fragments/common::vuetify"></th:block>
     
+    	<script th:inline="javascript">
+    	const vm = new Vue({
+	        el: '#vuetifyapp',
+	        vuetify: new Vuetify(),
+	  	    data() {
+	        	return {
+		  		  msg: 'world',
+		  		  drawer: false
+	        	}
+	  	    },
+	  	    methods: {
+	  	    	routePage(page) {
+	  	    		alert('Go to page: ' + page + ', not yet implemented.')
+	  	    	}
+	  	    }
+	    });
+    </script>
 </body>
 </html>

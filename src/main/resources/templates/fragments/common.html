@@ -6,113 +6,123 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    
+    <!-- Material Design for Bootstrap CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    
+    <!-- Custom css -->
     <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css">
+    
+    <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+    <link th:href="@{https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css}" rel="stylesheet" type="text/css">
+	<script th:src="@{https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js}"></script>
+	
     <title th:text="${title}"></title>
 </head>
 </th:block>
 <body>
-    <div th:fragment="navdrawer">
-      <v-navigation-drawer v-model="drawer" app>
-        <v-list dense>
-          <v-list-item @click="routePage('home')">
-            <v-list-item-action>
-              <v-icon>mdi-home-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Dashboard</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('about')">
-            <v-list-item-action>
-              <v-icon>mdi-information-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>About</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('orders')">
-            <v-list-item-action>
-              <v-icon>mdi-cart-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Orders</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('products')">
-            <v-list-item-action>
-              <v-icon>mdi-wallet-giftcard</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Products</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('inouthistory')">
-            <v-list-item-action>
-              <v-icon>mdi-sync</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Products In/Out</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('expenses')">
-            <v-list-item-action>
-              <v-icon>mdi-cash-usd-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Expenses</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('reports')">
-            <v-list-item-action>
-              <v-icon>mdi-chart-line</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Reports</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
+		
+	<div th:fragment="appHeader">
+      	<nav class="navbar fixed-top navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Falcon Garage</a>
+      	</nav>
     </div>
     
-    <div th:fragment="appbar">
-      <v-app-bar app color="black" dense dark>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>
-          <span>FALCON GARAGE</span>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <span class="mr-2">v1.1</span>
-      </v-app-bar>
-    </div>
+    <th:block th:fragment="navdrawer">
+		<div class="bmd-layout-header">
+			<div class="navbar navbar-dark bg-dark">
+				<button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#appDrawer">
+					<span class="sr-only">Toggle drawer</span> <i
+						class="material-icons">menu</i>
+				</button>
+				<a class="navbar-brand" href="#">Falcon Garage</a>
+			</div>
+		</div>
+		
+		<div id="appDrawer" class="bmd-layout-drawer bg-faded">
+			<ul class="list-group">
+		      <li><a th:href="@{/dashboard}" class="list-group-item">Home</a></li>
+		      <li><a th:href="@{/about}" class="list-group-item">About</a></li>
+		      <li><a th:href="@{/orders/list}" class="list-group-item">Orders</a></li>
+		      <li><a th:href="@{/products/list}" class="list-group-item">Products</a></li>
+		      <li><a th:href="@{/inouthistory/list}" class="list-group-item">In/Out History</a></li>
+		    </ul>
+    	</div>
+<!--       <v-navigation-drawer v-model="drawer" app> -->
+<!--         <v-list dense> -->
+<!--           <v-list-item @click="routePage('home')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-home-outline</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>Dashboard</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--           <v-list-item @click="routePage('about')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-information-outline</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>About</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--           <v-list-item @click="routePage('orders')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-cart-outline</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>Orders</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--           <v-list-item @click="routePage('products')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-wallet-giftcard</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>Products</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--           <v-list-item @click="routePage('inouthistory')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-sync</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>Products In/Out</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--           <v-list-item @click="routePage('expenses')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-cash-usd-outline</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>Expenses</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--           <v-list-item @click="routePage('reports')"> -->
+<!--             <v-list-item-action> -->
+<!--               <v-icon>mdi-chart-line</v-icon> -->
+<!--             </v-list-item-action> -->
+<!--             <v-list-item-content> -->
+<!--               <v-list-item-title>Reports</v-list-item-title> -->
+<!--             </v-list-item-content> -->
+<!--           </v-list-item> -->
+<!--         </v-list> -->
+<!--       </v-navigation-drawer> -->
+    </th:block>
     
     <div th:fragment="footer">
-      <v-footer app color="black" dense dark>
-        <span class="white--text">&copy; 2020 FALCON GARAGE</span>
-      </v-footer>
+      	<nav class="navbar fixed-bottom navbar-dark bg-dark">
+      		<a class="navbar-brand" href="#">2020 Falcon Garage</a>
+      	</nav>
     </div>
     
-    <div th:fragment="vuetify">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.2/dist/vuetify.min.js"></script>
-    <script th:inline="javascript">
-    	const vm = new Vue({
-	        el: '#vuetifyapp',
-	        vuetify: new Vuetify(),
-	  	    data() {
-	        	return {
-		  		  msg: 'world',
-		  		  drawer: false,
-	        	}
-	  	    },
-	  	    methods: {
-	  	    	routePage(page) {
-	  	    		alert('Go to page: ' + page + ', not yet implemented.')
-	  	    	}
-	  	    }
-	    });
-    </script>
-    </div>
-    
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>    
 </body>

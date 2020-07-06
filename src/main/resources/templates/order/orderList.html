@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Orders')"></th:block>
+<body>
+	<div id="vuetifyapp">
+	    <v-app>
+	    	<th:block th:replace="fragments/common::navdrawer"></th:block>
+	      	<th:block th:replace="fragments/common::appbar"></th:block>
+	      <v-main>
+	        <v-container>
+	          	<v-card-title>
+	        		List of Orders
+	        	</v-card-title>
+	        	<v-card-text>
+	        		<v-data-table
+					    :headers="headers"
+					    :items="orders"
+					    class="elevation-1"
+					    >
+	        		</v-data-table>
+	        	</v-card-text>
+	        </v-container>
+	      </v-main>
+	      	<th:block th:replace="fragments/common::footer"></th:block>
+	    </v-app>
+	</div>
+	<th:block th:replace="fragments/common::vuetify"></th:block>
+	
+	<script th:inline="javascript">
+	const vmOrder = new Vue({
+        el: '#vuetifyapp',
+        vuetify: new Vuetify(),
+  	    data() {
+        	return {
+        		drawer: false,
+		  		headers: [
+			        { text: 'Type', value: 'type' },
+			        { text: 'Customer Name', value: 'customerName' },
+			        { text: 'Total Amount', value: 'totalAmount'},
+			        { text: 'Payment Type', value: 'paymentType'},
+			        { text: 'Date', value: 'createdDate' },
+			        { text: 'Remarks', value: 'remarks'}
+				],
+				orders: []
+        	}
+  	    },
+  	    methods: {
+  	    	routePage(page) {
+  	    		alert('Go to page: ' + page + ', not yet implemented.')
+  	    	}
+  	    },
+  	    mounted() {
+  	    	fetch('/orders/listDto', { method:'get'})
+  	    		.then(response => response.json())
+  	    		.then(data => {
+  	    			this.orders = data.orderList});
+  	    }
+    });
+// 	$(document).ready(function() {
+		 
+// 		displayOrderListDatatable();
+		 
+// 		 function displayOrderListDatatable(){
+// //  			let contextRoot = /*[[${#httpServletRequest.getContextPath()}]]*/'';
+	    		
+// 	    		var dataTable = $('#dataTables-orderList').DataTable({	    			
+// 	    			"ajax" : {
+// 	    				url : "/orders/orderListDto",
+// 	    				dataSrc: "orderList",
+// 	    			},	    			
+// 	    			"lengthMenu": [5, 10, 25, 50],
+// 	    			"ordering": false,
+// 	                "columnDefs": [
+// 	    			    { "width": "5%", "targets": 3 }
+// 	    			],
+// 	    			"columns": [
+// 	    				{ data: "customerName" },
+// 	    				{ data: "totalAmount" },
+// 	    				{ data: "createdDate" },	    				
+// 	    				{ data: "remarks" }
+// 	    			]
+// 	    		});  		
+// 	    	} //end displayOrderListDatatable()
+// 	});
+	
+// 	export default {
+// 		data () {
+// 			return {
+// 				singleSelect: false,
+// 				selected: [],
+// 				headers: [
+// 			        { text: 'Type', value: 'type' },
+// 			        { text: 'Customer Name', value: 'customerName' },
+// 			        { text: 'Total Amount', value: 'totalAmount'},
+// 			        { text: 'Payment Type', value: 'paymentType'},
+// 			        { text: 'Date', value: 'createdDate' },
+// 			        { text: 'Remarks', value: 'remarks'}
+// 				],
+// 				orders: [
+// 					{
+// 						type: 'sale',
+// 						customerName: 'Jose Vidalismo',
+// 						totalAmount: '1000',
+// 						paymentType: 'cash',
+// 						createdDate: '07/25/2020',
+// 						remarks: 'This is my first sale.'
+// 					}
+// 				]
+// 	      	}
+// 	    }
+// 	}
+	</script>
+</body>
