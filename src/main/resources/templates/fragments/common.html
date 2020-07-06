@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900&display=swap" rel="stylesheet"> -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900&display=swap" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
         <v-list dense>
           <v-list-item @click="routePage('home')">
             <v-list-item-action>
-              <v-icon>home</v-icon>
+              <v-icon>mdi-home-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Dashboard</v-list-item-title>
@@ -28,7 +28,7 @@
           </v-list-item>
           <v-list-item @click="routePage('about')">
             <v-list-item-action>
-              <v-icon>contact_mail</v-icon>
+              <v-icon>mdi-information-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>About</v-list-item-title>
@@ -36,7 +36,7 @@
           </v-list-item>
           <v-list-item @click="routePage('orders')">
             <v-list-item-action>
-              <v-icon>shopping_cart</v-icon>
+              <v-icon>mdi-cart-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Orders</v-list-item-title>
@@ -44,7 +44,7 @@
           </v-list-item>
           <v-list-item @click="routePage('products')">
             <v-list-item-action>
-              <v-icon>wallet_giftcard</v-icon>
+              <v-icon>mdi-wallet-giftcard</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Products</v-list-item-title>
@@ -52,7 +52,7 @@
           </v-list-item>
           <v-list-item @click="routePage('inouthistory')">
             <v-list-item-action>
-              <v-icon>loop</v-icon>
+              <v-icon>mdi-sync</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Products In/Out</v-list-item-title>
@@ -60,7 +60,7 @@
           </v-list-item>
           <v-list-item @click="routePage('expenses')">
             <v-list-item-action>
-              <v-icon>money</v-icon>
+              <v-icon>mdi-cash-usd-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Expenses</v-list-item-title>
@@ -68,7 +68,7 @@
           </v-list-item>
           <v-list-item @click="routePage('reports')">
             <v-list-item-action>
-              <v-icon>equalizer</v-icon>
+              <v-icon>mdi-chart-line</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Reports</v-list-item-title>
@@ -99,7 +99,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.2/dist/vuetify.min.js"></script>
     <script th:inline="javascript">
-	    const vm = new Vue({
+    	const vm = new Vue({
 	        el: '#vuetifyapp',
 	        vuetify: new Vuetify(),
 	  	    data() {
