@@ -13,6 +13,12 @@ body, html {
       -ms-text-size-adjust: 100%;
 }
 
+.container-fluid {
+	font-family: "Raleway", sans-serif;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+
 a {
 	color: inherit;
 }
