@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Product List')"></th:block>
+
+<body>
+  <h1>Product List</h1>
+  <table>
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>Category</td>
+        <td>Name</td>
+        <td>Brand</td>
+        <td>SRP</td>
+        <td>Aqui Price</td>
+        <td>Supplier</td>
+        <td>Stock Level</td>
+        <td>Low stock?</td>
+        <td>Actions</td>
+      </tr>
+    </thead>
+    <tbody>
+      <th:block th:each="product : ${products}">
+      <tr>
+        <td><a th:href="|@{/products}/${product.id}|" th:text="${product.id}"></a></td>
+        <td><a th:href="|@{/products/category}/${product.productCategory.id}|" th:text="${product.productCategory.name}"></a></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.brand}"></td>
+        <td th:text="${product.srp}"></td>
+        <td th:text="${product.aquiPrice}"></td>
+        <td th:text="${product.supplierName}"></td>
+        <td th:text="${product.stockLevel}"></td>
+        <td th:text="${product.stockLevel &lt; product.threshold ? 'LOW' : ''}"></td>
+        <td>Edit</td>
+      </tr>
+      </th:block>
+    </tbody>
+  </table>
+</body>
+</html>
