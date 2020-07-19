@@ -61,7 +61,16 @@
 		      <li><a th:href="@{/expenses}" class="list-group-item menu"><i class="material-icons">payments</i>Expenses</a></li>
 		      <li><a th:href="@{/customers}" class="list-group-item menu"><i class="material-icons">person</i>Customers</a></li>
 		      <li><a th:href="@{/reports}" class="list-group-item menu"><i class="material-icons">insert_chart</i>Reports</a></li>
-		    </ul>
+			  <li>
+			    <a href="javascript: logoutForm.submit();"
+					class="list-group-item menu"> <i class="material-icons">logout</i>Logout
+				</a>
+				<form name="logoutForm" th:hidden="true" method="post"
+					th:action="@{/logout}">
+					<input type="submit" value="Logout" />
+				</form>
+			  </li>
+			</ul>
     	</div>
     </th:block>
     

@@ -39,12 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/")
 				.loginProcessingUrl("/login")
 				.defaultSuccessUrl("/dashboard", true)
-				//.successHandler(spmsSuccessHandler());
-				//.successForwardUrl("/success");
 				.failureUrl("/")
 				.and()
 			.logout()
-				//.and()
 			;
 		// for /h2-console endpoint
 		http.headers().frameOptions().sameOrigin();

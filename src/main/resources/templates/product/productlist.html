@@ -5,6 +5,7 @@
 
 <body>
   <h1>Product List</h1>
+  <a th:href="@{/products/new}">New Product</a>
   <table>
     <thead>
       <tr>
@@ -24,7 +25,7 @@
       <th:block th:each="product : ${products}">
       <tr>
         <td><a th:href="|@{/products}/${product.id}|" th:text="${product.id}"></a></td>
-        <td><a th:href="|@{/products/category}/${product.productCategory.id}|" th:text="${product.productCategory.name}"></a></td>
+        <td><a th:href="|@{/products/category}/${product.category.id}|" th:text="${product.category.name}"></a></td>
         <td th:text="${product.name}"></td>
         <td th:text="${product.brand}"></td>
         <td th:text="${product.srp}"></td>
