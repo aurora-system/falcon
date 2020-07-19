@@ -2,28 +2,35 @@
 
 <!-- Meta header -->
 <th:block th:fragment="header(title)">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    
-    <!-- Material Design for Bootstrap CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-
-    <!-- Material Design for Bootstrap fonts and icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-    
-    <!-- Custom css -->
-    <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css">
-    
-    <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
-    <link th:href="@{https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css}" rel="stylesheet" type="text/css">
-	<script th:src="@{https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js}"></script>
-	
-    <title th:text="${title}"></title>
-</head>
+	<head><!-- HEAD -->
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Font Awesome -->
+  		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+		<!-- Material Design Bootstrap -->
+		<link rel="stylesheet" th:href="@{css/mdb.min.css}">
+		<!-- DataTables CSS -->
+		<link rel="stylesheet" th:href="@{css/datatables2.min.css}">
+		<!-- DataTables Select CSS -->
+		<link rel="stylesheet" th:href="@{css/datatables-select2.min.css}">
+	  
+		<!-- Material Design for Bootstrap CSS -->
+	    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+	    <!-- Material Design for Bootstrap fonts and icons -->
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+	    <!-- Custom css -->
+	    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+	    
+	    <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
+	<!--<link th:href="@{https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css}" rel="stylesheet" type="text/css"> -->
+	<!--<script th:src="@{https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js}"></script> -->
+		
+	    <title th:text="${title}"></title>
+	</head><!-- /HEAD -->
 </th:block>
 <body>
 		
@@ -48,11 +55,11 @@
 			<ul class="list-group">
 		      <li><a th:href="@{/dashboard}" class="list-group-item menu"><i class="material-icons">home</i>Home</a></li>
 		      <li><a th:href="@{/about}" class="list-group-item menu"><i class="material-icons">bookmark</i>Information</a></li>
-		      <li><a th:href="@{/orders/list}" class="list-group-item menu"><i class="material-icons">shopping_cart</i>Orders</a></li>
+		      <li><a th:href="@{/orders}" class="list-group-item menu"><i class="material-icons">shopping_cart</i>Orders</a></li>
 		      <li><a th:href="@{/products}" class="list-group-item menu"><i class="material-icons">commute</i>Products</a></li>
 		      <li><a th:href="@{/inouthistory}" class="list-group-item menu"><i class="material-icons">swap_horizontal_circle</i>In/Out History</a></li>
-		      <li><a th:href="@{/expenses/list}" class="list-group-item menu"><i class="material-icons">payments</i>Expenses</a></li>
-		      <li><a th:href="@{/customers/list}" class="list-group-item menu"><i class="material-icons">person</i>Customers</a></li>
+		      <li><a th:href="@{/expenses}" class="list-group-item menu"><i class="material-icons">payments</i>Expenses</a></li>
+		      <li><a th:href="@{/customers}" class="list-group-item menu"><i class="material-icons">person</i>Customers</a></li>
 		      <li><a th:href="@{/reports}" class="list-group-item menu"><i class="material-icons">insert_chart</i>Reports</a></li>
 		    </ul>
     	</div>
@@ -62,10 +69,26 @@
       	<nav class="navbar fixed-bottom navbar-dark bg-dark">
       		<a class="navbar-brand" href="#">2020 Falcon Garage</a>
       	</nav>
-    </div>
-    
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-	<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>    
+	</div>
+	
+	<th:block th:fragment="javascript">
+		<!-- jQuery -->
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<!-- Bootstrap tooltips -->
+		<script type="text/javascript" src="js/popper.min.js"></script>
+		<!-- Bootstrap core JavaScript -->
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<!-- MDB core JavaScript -->
+		<script type="text/javascript" src="js/mdb.min.js"></script>
+		<!-- DataTables JS -->
+		<script type="text/javascript" src="js/datatables2.min.js"></script>
+		<!-- DataTables Select JS -->
+		<script type="text/javascript" src="js/datatables-select2.min.js"></script>
+		
+		<!-- Popper.js -->
+		<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+		<!-- Bootstrap Material Design -->
+		<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+		<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+	</th:block>
 </body>

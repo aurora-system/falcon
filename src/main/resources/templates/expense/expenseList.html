@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Orders')"></th:block>
+<th:block th:replace="fragments/common::header('Expenses')"></th:block>
 <body>
 	<div class="bmd-layout-container bmd-drawer-f-l">
 	  	<div th:replace="fragments/common::navdrawer">Drawer goes here</div>
@@ -210,13 +210,13 @@
 		 
 // 		displayOrderListDatatable();
 		 
-		 function displayOrderListDatatable(){
+		 function displayExpenseListDatatable(){
 //  			let contextRoot = /*[[${#httpServletRequest.getContextPath()}]]*/'';
 	    		
-	    		var dataTable = $('#dataTables-orderList').DataTable({	    			
+	    		var dataTable = $('#dataTables-expenseList').DataTable({	    			
 	    			"ajax" : {
-	    				url : "/orders/listDto",
-	    				dataSrc: "orderList",
+	    				url : "/expenses/listDto",
+	    				dataSrc: "expenseList",
 	    			},	    			
 	    			"lengthMenu": [5, 10, 25, 50],
 	    			"ordering": false,
@@ -224,9 +224,9 @@
 	    			    { "width": "5%", "targets": 3 }
 	    			],
 	    			"columns": [
-	    				{ data: "customerName" },
-	    				{ data: "totalAmount" },
-	    				{ data: "createdDate" },	    				
+	    				{ data: "type" },
+	    				{ data: "amount" },
+	    				{ data: "expenseDate" },	    				
 	    				{ data: "remarks" }
 	    			]
 	    		});  		

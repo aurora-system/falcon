@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/orders")
 public class OrderController {
 
 	/**
@@ -46,7 +45,7 @@ public class OrderController {
 		return orderListDto;
 	}
 	
-	@GetMapping("/list")
+	@GetMapping("/orders")
     public String listOrders(Model model) {
         
 		List<OrderDto> orderList = new ArrayList<OrderDto>();
@@ -64,10 +63,11 @@ public class OrderController {
 		orderList.add(dto1);
 		
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("message", "Hello from @GetMapping.");
 		return "order/orderList";
     }
 	
-	@GetMapping("/create")
+	@GetMapping("/orders/create")
     public String createOrder(Model model) {
         return "order/orderCreate";
     }
