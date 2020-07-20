@@ -1,4 +1,4 @@
-package com.falcon.entity;
+package com.falcon.userprofile;
 
 import java.util.Collection;
 import java.util.HashSet;

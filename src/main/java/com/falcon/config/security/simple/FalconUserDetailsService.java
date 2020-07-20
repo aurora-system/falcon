@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.falcon.repository.UserRepository;
+import com.falcon.userprofile.UserRepository;
 
 public class FalconUserDetailsService implements UserDetailsService {
 
