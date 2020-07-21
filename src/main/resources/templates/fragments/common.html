@@ -6,6 +6,10 @@
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<!-- Material Design for Bootstrap CSS -->
+	    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+	    
 		<!-- Font Awesome -->
   		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 		<!-- Bootstrap core CSS -->
@@ -17,17 +21,19 @@
 		<!-- DataTables Select CSS -->
 		<link rel="stylesheet" th:href="@{css/datatables-select2.min.css}">
 	  
-		<!-- Material Design for Bootstrap CSS -->
-	    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 	    <!-- Material Design for Bootstrap fonts and icons -->
-	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-	    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+<!-- 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"> -->
+<!-- 	    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet"> -->
+	    
 	    <!-- Custom css -->
 	    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
 	    
-	    <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script>
-	<!--<link th:href="@{https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css}" rel="stylesheet" type="text/css"> -->
-	<!--<script th:src="@{https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js}"></script> -->
+<!-- 	    <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css}" rel="stylesheet" type="text/css"> -->
+<!-- 	    <link th:href="@{https://cdn.datatables.net/1.10.21/css/dataTables.semanticui.min.css}" rel="stylesheet" type="text/css"> -->
+<!-- 	    <script th:src="@{https://code.jquery.com/jquery-3.5.1.js}"></script> -->
+<!-- 	    <script th:src="@{https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js}"></script> -->
+<!-- 		<script th:src="@{https://cdn.datatables.net/1.10.21/js/dataTables.semanticui.min.js}"></script> -->
+<!-- 		<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js}"></script> -->
 		
 	    <title th:text="${title}"></title>
 	</head><!-- /HEAD -->
@@ -44,8 +50,8 @@
 		<div class="bmd-layout-header">
 			<div class="navbar navbar-dark bg-dark">
 				<button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#appDrawer">
-					<span class="sr-only">Toggle drawer</span> <i
-						class="material-icons">menu</i>
+					<span class="sr-only">Toggle drawer</span> 
+					<i class="fas fa-bars"></i>
 				</button>
 				<a class="navbar-brand" href="#">Falcon Garage</a>
 			</div>
@@ -53,17 +59,17 @@
 		
 		<div id="appDrawer" class="bmd-layout-drawer bg-faded">
 			<ul class="list-group">
-		      <li><a th:href="@{/dashboard}" class="list-group-item menu"><i class="material-icons">home</i>Home</a></li>
-		      <li><a th:href="@{/about}" class="list-group-item menu"><i class="material-icons">bookmark</i>Information</a></li>
-		      <li><a th:href="@{/orders}" class="list-group-item menu"><i class="material-icons">shopping_cart</i>Orders</a></li>
-		      <li><a th:href="@{/products}" class="list-group-item menu"><i class="material-icons">commute</i>Products</a></li>
-		      <li><a th:href="@{/inouthistory}" class="list-group-item menu"><i class="material-icons">swap_horizontal_circle</i>In/Out History</a></li>
-		      <li><a th:href="@{/expenses}" class="list-group-item menu"><i class="material-icons">payments</i>Expenses</a></li>
-		      <li><a th:href="@{/customers}" class="list-group-item menu"><i class="material-icons">person</i>Customers</a></li>
-		      <li><a th:href="@{/reports}" class="list-group-item menu"><i class="material-icons">insert_chart</i>Reports</a></li>
+		      <li><a th:href="@{/dashboard}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-home fa-lg"></i>Home</a></li>
+		      <li><a th:href="@{/about}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-info-circle fa-lg"></i>Information</a></li>
+		      <li><a th:href="@{/orders}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-cart-plus fa-lg"></i>Orders</a></li>
+		      <li><a th:href="@{/products}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-car fa-lg"></i>Products</a></li>
+		      <li><a th:href="@{/inouthistory}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-sync fa-lg"></i>In/Out History</a></li>
+		      <li><a th:href="@{/expenses}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-hand-holding-usd fa-lg"></i>Expenses</a></li>
+		      <li><a th:href="@{/customers}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-user-circle fa-lg"></i>Customers</a></li>
+		      <li><a th:href="@{/reports}" class="list-group-item menu" style="border: 0px;"><i class="fas fa-chart-bar fa-lg"></i>Reports</a></li>
 			  <li>
 			    <a href="javascript: logoutForm.submit();"
-					class="list-group-item menu"> <i class="material-icons">logout</i>Logout
+					class="list-group-item menu" style="border: 0px;"> <i class="fas fa-sign-out-alt fa-lg"></i>Logout
 				</a>
 				<form name="logoutForm" th:hidden="true" method="post"
 					th:action="@{/logout}">
