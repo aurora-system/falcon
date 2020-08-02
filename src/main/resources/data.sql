@@ -12,3 +12,7 @@ insert ignore into product(id,category_id,name,brand,for_vehicle,color,aqui_pric
   (3,1,'Bumper3','Brand X','Vios','Bronze Mica Metallic',2000,2500,'brand new','Secret Supplier',20,10),
   (4,1,'Bumper4','Brand X','Vios','Bronze Mica Metallic',2000,2500,'brand new','Secret Supplier',20,10),
   (5,1,'Bumper5','Brand X','Vios','Bronze Mica Metallic',2000,2500,'brand new','Secret Supplier',20,10);
+  
+insert ignore into in_out_history(id,trans_date,trans_type,product_id,product_count,updated_count) values
+  (1,'2020-07-01','IN',1,5,25),
+  (2,'2020-07-01','OUT',1,5,20);

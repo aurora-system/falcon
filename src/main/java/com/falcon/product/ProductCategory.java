@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -33,7 +35,7 @@ public class ProductCategory {
 	@NotBlank
 	@Column(length = 32)
 	private String name;
-	
+	@JsonBackReference
 	@OneToMany(mappedBy = "category")
 	List<Product> products;
 }

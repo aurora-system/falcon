@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
+<th:block th:replace="fragments/common::header('In and Out History')"></th:block>
+
 <body>
-	<div id="app">
-	    <v-app>
-	      <v-main>
-	        <v-container>
-	          <a href="/about">Hello {{msg}}</a>
-	          <span th:text="${message}"></span>  
-	        </v-container>
-	      </v-main>
-	    </v-app>
-	</div>
-	<th:block th:replace="fragments/common::footer"></th:block>
-	<th:block th:replace="fragments/common::vuetify"></th:block>
+  <h1>In and Out History</h1>
+  <a th:href="@{/inouthistory/new}">New Transaction</a>
+  <table>
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>Transaction Date</td>
+        <td>Type</td>
+        <td>Product</td>
+        <td>Count</td>
+        <td>Updated Count</td>
+        <td>Actions</td>
+      </tr>
+    </thead>
+    <tbody>
+      <th:block th:each="txn : ${inouthistories}">
+      <tr>
+        <td><a th:href="|@{/productcategories}/${txn.id}|" th:text="${txn.id}"></a></td>
+        <td><th:block th:text="${txn.transDate}"></th:block></td>
+        <td><th:block th:text="${txn.transType}"></th:block></td>
+        <td><a th:href="|@{/products}/${txn.product.id}|" th:text="${txn.product.name}"></a></td>
+        <td><th:block th:text="${txn.productCount}"></th:block></td>
+        <td><th:block th:text="${txn.updatedCount}"></th:block></td>
+        <td>Edit</td>
+      </tr>
+      </th:block>
+    </tbody>
+  </table>
 </body>
+</html>

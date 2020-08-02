@@ -13,6 +13,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 
 @Entity
@@ -39,6 +41,7 @@ public class Product {
 	private int threshold;
 	private String supplierName;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	ProductCategory category;
