@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(name = "unique_username_user", columnNames = "username"),
         @UniqueConstraint(name = "unique_email_user", columnNames = "email")
 })
