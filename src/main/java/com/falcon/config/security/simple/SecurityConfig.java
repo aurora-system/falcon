@@ -13,9 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	private static final String[] ASSETS = new String[]
+			{"/js/*","/js/**","/css/*","/css/**","/favicon.ico"};
 	private static final String[] PUBLIC = new String[] 
-	        {"/","/login","/logout","/error","/favicon.ico","/h2-console/**"};
+	        {"/","/login","/logout","/error","/h2-console/**"};
 	
 	@Autowired private PasswordEncoder passwordEncoder;
 	@Autowired private UserDetailsService falconUserDetailsService;
@@ -49,6 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/js/**","/css/**","/favicon.ico");
+		web.ignoring().antMatchers(ASSETS);
 	}
 }
