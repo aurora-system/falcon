@@ -8,8 +8,10 @@
 
 	  	<main class="bmd-layout-content"> 
 			<div class="container">
-				  <table id="dataTables-orderList" class="table table-hover table-bordered" style="width:100%">
-				  <thead class="datatable-thead">
+				
+				<!-- Order List -->
+				<table id="dataTables-orderList" class="table table-hover table-bordered" style="width: 100%">
+					<thead class="datatable-thead">
 						<tr>
 							<th class="th-sm">Reference Number</th>
 							<th class="th-sm">Type</th>
@@ -19,22 +21,23 @@
 							<th class="th-sm">Remarks</th>
 						</tr>
 					</thead>
-				  <tbody>
-				  	<th:block th:each="order : ${orders}">
-					  	<tr>
-					  		<td th:text="${order.referenceNum}"></td>
-					  		<td th:text="${order.type}"></td>
-					  		<td th:text="${order.createdDate}"></td>
-					  		<td th:text="${order.paymentType}"></td>
-					  		<td th:text="${order.totalAmount}"></td>
-					  		<td th:text="${order.remarks}"></td>
-					  	</tr>
-				  	</th:block>
-				  </tbody>
+					<tbody>
+						<th:block th:each="order : ${orders}">
+							<tr>
+								<td th:text="${order.referenceNum}"></td>
+								<td th:text="${order.type}"></td>
+								<td th:text="${order.createdDate}"></td>
+								<td th:text="${order.paymentType}"></td>
+								<td th:text="${order.totalAmount}"></td>
+								<td th:text="${order.remarks}"></td>
+							</tr>
+						</th:block>
+					</tbody>
 				</table>
 				
+				<!-- New Order Button -->
 				<div class="clearfix">
-					<button type="button" class="btn btn-elegant float-right">Create Order</button>
+					<a type="button" class="btn btn-elegant float-right" th:href="@{/orders/new}">New Order</a>
 				</div>
 			</div>
 	  	</main>

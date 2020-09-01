@@ -3,14 +3,37 @@
     xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragments/common::header('Product Details')"></th:block>
 <body>
-  <h1>Product Details</h1>
-  <th:block th:object="${product}">
-  <ul>
-    <li th:text="|ID: *{id}|"></li>
-    <li th:text="|NAME: *{name}|"></li>
-    <li th:text="|BRAND: *{brand}|"></li>
-    <li th:text="|OTHER DETAILS: *{otherDetails}|"></li>
-  </ul>
-  </th:block>
+	<div class="bmd-layout-container bmd-drawer-f-l">
+		<div th:replace="fragments/common::navdrawer">Drawer goes here</div>
+		
+		<main class="bmd-layout-content"> 
+			<div class="container">
+				<th:block th:object="${product}">
+					<table class="table table-hover table-bordered detailsPage" style="width: 100%">
+						<tr>
+							<td class="detailsField">ID</td>
+							<td th:text="*{id}"></td>
+						</tr>
+						<tr>
+							<td class="detailsField">Name</td>
+							<td th:text="*{name}"></td>
+						</tr>
+						<tr>
+							<td class="detailsField">Brand</td>
+							<td th:text="*{brand}"></td>
+						</tr>
+						<tr>
+							<td class="detailsField">Other Details</td>
+							<td th:text="*{otherDetails}"></td>
+						</tr>
+					</table>
+				</th:block>
+			</div>
+		</main>
+		
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+	
+	<th:block th:replace="fragments/common::javascript"></th:block>
 </body>
 </html>
