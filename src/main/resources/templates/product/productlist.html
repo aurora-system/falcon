@@ -9,6 +9,8 @@
 		
 		<main class="bmd-layout-content">
 			<div class="container">
+				
+				<!-- Product List -->
 				<table id="dataTables-productList" class="table table-hover table-bordered" style="width:100%">
 					<thead class="datatable-thead">
 						<tr>
@@ -36,11 +38,16 @@
 					  		<td th:text="${product.supplierName}"></td>
 					  		<td th:text="${product.stockLevel}"></td>
 					  		<td th:text="${product.stockLevel &lt; product.threshold ? 'LOW' : ''}"></td>
-					  		<td>Edit</td>
+					  		<td><a type="button" class="btn btn-elegant float-center">Edit</a></td>
 					  	</tr>
 				  	</th:block>
 				  </tbody>
 				</table>
+				
+				<!-- New Product Button -->
+				<div class="clearfix">
+					<a type="button" class="btn btn-elegant float-right" th:href="@{/products/new}">New Product</a>
+				</div>
 			</div>
 		</main>
 		<th:block th:replace="fragments/common::footer"></th:block>
