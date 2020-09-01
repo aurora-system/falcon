@@ -10,21 +10,15 @@
 			<div class="container">
 				  <table id="dataTables-orderList" class="table table-hover table-bordered" style="width:100%">
 				  <thead class="datatable-thead">
-				    <tr>
-				      <th class="th-sm">Reference Number
-				      </th>
-				      <th class="th-sm">Type
-				      </th>
-				      <th class="th-sm">Order Date
-				      </th>
-				      <th class="th-sm">Payment Type
-				      </th>
-				      <th class="th-sm">Total Amount
-				      </th>
-				      <th class="th-sm">Remarks
-				      </th>
-				    </tr>
-				  </thead>
+						<tr>
+							<th class="th-sm">Reference Number</th>
+							<th class="th-sm">Type</th>
+							<th class="th-sm">Order Date</th>
+							<th class="th-sm">Payment Type</th>
+							<th class="th-sm">Total Amount</th>
+							<th class="th-sm">Remarks</th>
+						</tr>
+					</thead>
 				  <tbody>
 				  	<th:block th:each="order : ${orders}">
 					  	<tr>
