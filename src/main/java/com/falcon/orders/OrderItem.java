@@ -30,6 +30,7 @@ public class OrderItem {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
 	private Product product;
+	
 	private int quantity;
 	private BigDecimal totalAmount;
 }
