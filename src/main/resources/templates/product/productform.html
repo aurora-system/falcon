@@ -3,66 +3,95 @@
     xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragments/common::header('New Product Details')"></th:block>
 <body>
-  <h1>Product Details</h1>
-  <form th:action="@{/products}" th:object="${product}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <div>
-      <label for="category.id">Category:</label>
-      <select id="category.id" name="category.id">
-        <option th:each="cat : ${categories}" 
-          th:value="${cat.id}" 
-          th:text="${cat.name}"
-          th:selected="${product.category != null ? cat.id == product.category.id : false}"
-          ></option>
-      </select>
-    </div>
-    <div>
-      <span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-      <label for="name">Name:</label>
-      <input type="text" th:field="*{name}"/>
-    </div>
-    <div>
-      <span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
-      <label for="brand">Brand:</label>
-      <input type="text" th:field="*{brand}"/>
-    </div>
-    <div>
-      <label for="otherDetails">Other Details:</label>
-      <input type="text" th:field="*{otherDetails}"/>
-    </div>
-    <div>
-      <label for="forVehicle">Vehicle:</label>
-      <input type="text" th:field="*{forVehicle}"/>
-    </div>
-    <div>
-      <label for="color">Color:</label>
-      <input type="text" th:field="*{color}"/>
-    </div>
-    <div>
-      <span class="validationError text-danger" th:if="${#fields.hasErrors('aquiPrice')}" th:errors="*{aquiPrice}"></span>
-      <label for="aquiPrice">Aqui Price:</label>
-      <input type="text" th:field="*{aquiPrice}"/>
-    </div>
-    <div>
-      <span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span>
-      <label for="srp">SRP:</label>
-      <input type="text" th:field="*{srp}"/>
-    </div>
-    <div>
-      <label for="stockLevel">Stock Level:</label>
-      <input type="text" th:field="*{otherDetails}"/>
-    </div>
-    <div>
-      <label for="threshold">Threshold:</label>
-      <input type="text" th:field="*{threshold}"/>
-    </div>
-    <div>
-      <label for="supplierName">Supplier Name:</label>
-      <input type="text" th:field="*{supplierName}"/>
-    </div>
-    <div>
-      <button type="submit">Save</button>
-    </div>
-  </form>
+	<div class="bmd-layout-container bmd-drawer-f-l">
+		<div th:replace="fragments/common::navdrawer">Drawer goes here</div>
+		
+		<main class="bmd-layout-content"> 
+			<div class="container">
+				<!-- New Product  Form -->
+				<form th:action="@{/products}" th:object="${product}" method="post">
+					<input type="hidden" th:field="*{id}" />
+
+					<!-- Category Selection -->
+					<div class="form-group">
+						<label for="category.id">Category:</label> 
+							<select class="form-control" id="category.id" name="category.id">
+							<option th:each="cat : ${categories}" th:value="${cat.id}"
+								th:text="${cat.name}"
+								th:selected="${product.category != null ? cat.id == product.category.id : false}"></option>
+						</select>
+					</div>
+					
+					<!-- Name -->
+					<div class="form-group">
+						<span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+						<label for="name">Name:</label> 
+						<input class="form-control" type="text" th:field="*{name}" />
+					</div>
+					
+					<!-- Brand -->
+					<div class="form-group">
+						<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
+						<label for="brand">Brand:</label> 
+						<input class="form-control" type="text" th:field="*{brand}" />
+					</div>
+					
+					<!-- Other Details -->
+					<div class="form-group">
+						<label for="otherDetails">Other Details:</label> 
+						<input class="form-control" type="text" th:field="*{otherDetails}" />
+					</div>
+					
+					<!-- Vehicle -->
+					<div class="form-group">
+						<label for="forVehicle">Vehicle:</label> 
+						<input type="text" class="form-control" th:field="*{forVehicle}" />
+					</div>
+					
+					<!-- Color -->
+					<div class="form-group">
+						<label for="color">Color:</label> 
+						<input type="text" class="form-control" th:field="*{color}" />
+					</div>
+					
+					<!-- Aqui Price -->
+					<div class="form-group">
+						<span class="validationError text-danger" th:if="${#fields.hasErrors('aquiPrice')}" th:errors="*{aquiPrice}"></span> 
+						<label for="aquiPrice">Aqui Price:</label> 
+						<input type="text" class="form-control" th:field="*{aquiPrice}" />
+					</div>
+					
+					<!-- SRP -->
+					<div class="form-group">
+						<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
+						<label for="srp">SRP:</label> 
+						<input type="text" class="form-control" th:field="*{srp}" />
+					</div>
+					
+					<!-- Stock Level -->
+					<div class="form-group">
+						<label for="stockLevel">Stock Level:</label> 
+						<input type="text" class="form-control" th:field="*{otherDetails}" />
+					</div>
+					
+					<!-- Threshold -->
+					<div class="form-group">
+						<label for="threshold">Threshold:</label> 
+						<input type="text" class="form-control" th:field="*{threshold}" />
+					</div>
+					
+					<!-- Supplier Name -->
+					<div class="form-group">
+						<label for="supplierName">Supplier Name:</label> 
+						<input type="text" class="form-control" th:field="*{supplierName}" />
+					</div>
+					
+					<div class="clearfix">
+				    	<button type="submit" class="btn btn-elegant float-right">Save</button>
+				    </div>
+				</form>
+			</div>
+		</main>
+	</div>
 </body>
 </html>
