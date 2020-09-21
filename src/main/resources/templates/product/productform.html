@@ -11,80 +11,121 @@
 				<!-- New Product  Form -->
 				<form th:action="@{/products}" th:object="${product}" method="post">
 					<input type="hidden" th:field="*{id}" />
-
+					
 					<!-- Category Selection -->
-					<div class="form-group">
-						<label for="category.id">Category:</label> 
-							<select class="form-control" id="category.id" name="category.id">
-							<option th:each="cat : ${categories}" th:value="${cat.id}"
-								th:text="${cat.name}"
-								th:selected="${product.category != null ? cat.id == product.category.id : false}"></option>
-						</select>
+						<div class="form-group">
+							<label for="category.id">Category:</label> 
+								<select class="form-control" id="category.id" name="category.id">
+								<option selected>Select...</option>
+								<option th:each="cat : ${categories}" th:value="${cat.id}"
+									th:text="${cat.name}"
+									th:selected="${product.category != null ? cat.id == product.category.id : false}"></option>
+							</select>
+						</div>
+					
+					<div class="row">
+						<div class="col-sm">
+							<!-- Brand -->
+						<div class="form-group">
+							<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
+							<label for="brand">Brand:</label> 
+							<input class="form-control" type="text" th:field="*{brand}" />
+						</div>
+						</div>
+						
+						<div class="col-sm">
+							<!-- Name -->
+							<div class="form-group">
+								<span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+								<label for="name">Name:</label> 
+								<input class="form-control" type="text" th:field="*{name}" />
+							</div>
+						</div>
 					</div>
 					
-					<!-- Name -->
-					<div class="form-group">
-						<span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-						<label for="name">Name:</label> 
-						<input class="form-control" type="text" th:field="*{name}" />
-					</div>
+					<div class="row">
+						<div class="col-sm">
+							<!-- Vehicle -->
+							<div class="form-group">
+								<label for="forVehicle">Vehicle:</label> 
+								<input type="text" class="form-control" th:field="*{forVehicle}" />
+							</div>
+						</div>
+						
+						<div class="col-sm">
+							<!-- Color -->
+							<div class="form-group">
+								<label for="color">Color:</label> 
+								<input type="text" class="form-control" th:field="*{color}" />
+							</div>
+						</div>
+					</div>	
+						
+					<div class="row">
+						<div class="col-sm">
+						
+						</div>
+						
+						<div class="col-sm">
+						
+						</div>
+					</div>	
 					
-					<!-- Brand -->
-					<div class="form-group">
-						<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
-						<label for="brand">Brand:</label> 
-						<input class="form-control" type="text" th:field="*{brand}" />
-					</div>
+					<div class="row">
+						<div class="col-sm">
+							<!-- Aqui Price -->
+							<div class="form-group">
+								<span class="validationError text-danger" th:if="${#fields.hasErrors('aquiPrice')}" th:errors="*{aquiPrice}"></span> 
+								<label for="aquiPrice">Aqui Price:</label> 
+								<input type="text" class="form-control" th:field="*{aquiPrice}" />
+							</div>
+						</div>
+						
+						<div class="col-sm">
+							<!-- SRP -->
+							<div class="form-group">
+								<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
+								<label for="srp">SRP:</label> 
+								<input type="text" class="form-control" th:field="*{srp}" />
+							</div>
+						</div>
+					</div>	
 					
-					<!-- Other Details -->
-					<div class="form-group">
-						<label for="otherDetails">Other Details:</label> 
-						<input class="form-control" type="text" th:field="*{otherDetails}" />
-					</div>
+					<div class="row">
+						<div class="col-sm">
+							<!-- Stock Level -->
+							<div class="form-group">
+								<label for="stockLevel">Stock Level:</label> 
+								<input type="text" class="form-control" th:field="*{otherDetails}" />
+							</div>
+						</div>
+						
+						<div class="col-sm">
+							<!-- Threshold -->
+							<div class="form-group">
+								<label for="threshold">Threshold:</label> 
+								<input type="text" class="form-control" th:field="*{threshold}" />
+							</div>
+						</div>
+					</div>	
 					
-					<!-- Vehicle -->
-					<div class="form-group">
-						<label for="forVehicle">Vehicle:</label> 
-						<input type="text" class="form-control" th:field="*{forVehicle}" />
-					</div>
-					
-					<!-- Color -->
-					<div class="form-group">
-						<label for="color">Color:</label> 
-						<input type="text" class="form-control" th:field="*{color}" />
-					</div>
-					
-					<!-- Aqui Price -->
-					<div class="form-group">
-						<span class="validationError text-danger" th:if="${#fields.hasErrors('aquiPrice')}" th:errors="*{aquiPrice}"></span> 
-						<label for="aquiPrice">Aqui Price:</label> 
-						<input type="text" class="form-control" th:field="*{aquiPrice}" />
-					</div>
-					
-					<!-- SRP -->
-					<div class="form-group">
-						<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
-						<label for="srp">SRP:</label> 
-						<input type="text" class="form-control" th:field="*{srp}" />
-					</div>
-					
-					<!-- Stock Level -->
-					<div class="form-group">
-						<label for="stockLevel">Stock Level:</label> 
-						<input type="text" class="form-control" th:field="*{otherDetails}" />
-					</div>
-					
-					<!-- Threshold -->
-					<div class="form-group">
-						<label for="threshold">Threshold:</label> 
-						<input type="text" class="form-control" th:field="*{threshold}" />
-					</div>
-					
-					<!-- Supplier Name -->
-					<div class="form-group">
-						<label for="supplierName">Supplier Name:</label> 
-						<input type="text" class="form-control" th:field="*{supplierName}" />
-					</div>
+					<div class="row">
+						<div class="col-sm">
+							<!-- Supplier Name -->
+							<div class="form-group">
+								<label for="supplierName">Supplier Name:</label> 
+								<input type="text" class="form-control" th:field="*{supplierName}" />
+							</div>
+						</div>
+						
+						<div class="col-sm">
+							<!-- Other Details -->
+							<div class="form-group">
+								<label for="otherDetails">Other Details:</label> 
+								<input class="form-control" type="text" th:field="*{otherDetails}" />
+							</div>
+						</div>
+					</div>	
 					
 					<div class="clearfix">
 				    	<button type="submit" class="btn btn-elegant float-right">Save</button>
