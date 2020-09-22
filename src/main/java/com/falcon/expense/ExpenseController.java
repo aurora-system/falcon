@@ -12,19 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ExpenseController {
 	
+	private ExpenseRepository expenseRepository;
+	
+	public ExpenseController(ExpenseRepository expenseRepository) {
+		this.expenseRepository = expenseRepository;
+	}
+	
 	@GetMapping("/expenses")
-    public String listExpenses(Model model) {
-        
-		List<ExpenseDto> expenseList = new ArrayList<ExpenseDto>();
-		
-		ExpenseDto dto1 = new ExpenseDto();
-		dto1.setAmount(new BigDecimal(100.00));
-		dto1.setType("service");
-		dto1.setRemarks("This is a remark");
-		dto1.setExpenseDate(new Date());
-		expenseList.add(dto1);
-		
-		model.addAttribute("expenseList", expenseList);
+	public String listExpenses(Model model) {
+		Iterable<Expense> expenseList = expenseRepository.findAll();
+		model.addAttribute("expenses", expenseList);
 		model.addAttribute("message", "Hello from @GetMapping.");
 		return "expense/expenseList";
     }
