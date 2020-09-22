@@ -3,15 +3,20 @@
     xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragments/common::header('Orders')"></th:block>
 <body>
-	<div class="bmd-layout-container bmd-drawer-f-l">
-	  	<div th:replace="fragments/common::navdrawer">Drawer goes here</div>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
 
-	  	<main class="bmd-layout-content"> 
-			<div class="container">
-				
+	  	<div class="row">
+    		<div class="col">
+				<div class="container-fluid mt-3">
 				<!-- Order List -->
 				<table id="dataTables-orderList" class="table table-hover table-bordered" style="width: 100%">
-					<thead class="datatable-thead">
+					<thead class="datatable-thead thead-dark">
 						<tr>
 							<th class="th-sm">Reference Number</th>
 							<th class="th-sm">Type</th>
@@ -35,78 +40,27 @@
 					</tbody>
 				</table>
 				
-				<!-- New Order Button -->
-				<div class="clearfix">
-					<a type="button" class="btn btn-elegant float-right" th:href="@{/orders/new}">New Order</a>
+					<!-- New Order Button -->
+					<div class="card" style="width: 18rem; float:right;">
+					  	<a type="button" class="btn btn-outline-dark float-right" th:href="@{/orders/new}">New Order</a>
+					</div>
+					
+<!-- 					<div class="clearfix"> -->
+<!-- 						<a type="button" class="btn btn-outline-dark float-right" th:href="@{/orders/new}">New Order</a> -->
+<!-- 					</div> -->
+					
+					<!-- Footer -->
+					<th:block th:replace="fragments/common::footer"></th:block>
 				</div>
 			</div>
-	  	</main>
-	  	
-	  	<th:block th:replace="fragments/common::footer"></th:block>
+	  	</div>
 	</div>
 
 	<th:block th:replace="fragments/common::javascript"></th:block>
 
-	<script th:inline="javascript">
-
-// 	$(document).ready(function() {
-		 
-// 		displayOrderListDatatable();
-		 
-// 		 function displayOrderListDatatable(){
-//  			let contextRoot = /*[[${#httpServletRequest.getContextPath()}]]*/'';
-	    		
-// 	    		var dataTable = $('#dataTables-orderList').DataTable({	    			
-// 	    			"ajax" : {
-// 	    				url : "/orders/listDto",
-// 	    				dataSrc: "orderList",
-// 	    			},	    			
-// 	    			"lengthMenu": [5, 10, 25, 50],
-// 	    			"ordering": false,
-// 	                "columnDefs": [
-// 	    			    { "width": "5%", "targets": 3 }
-// 	    			],
-// 	    			"columns": [
-// 	    				{ data: "customerName" },
-// 	    				{ data: "totalAmount" },
-// 	    				{ data: "createdDate" },	    				
-// 	    				{ data: "remarks" }
-// 	    			]
-// 	    		});  		
-// 	    	} //end displayOrderListDatatable()
-	    	
-// 	});
-	
-	</script>
-	
-	<script>
-		  // Material Design example
-// 		$(document).ready(function () {
-// 		  $('#dataTables-orderList').DataTable({
-// 			  "pagingType": "first_last_numbers"
-// 		  });
-		  
-// 		  $('#dataTables-orderList_wrapper').find('label').each(function () {
-// 		    $(this).parent().append($(this).children());
-// 		  });
-// 		  $('#dataTables-orderList_wrapper .dataTables_filter').find('input').each(function () {
-// 		    const $this = $(this);
-// 		    $this.attr("placeholder", "Search");
-// 		    $this.removeClass('form-control-sm');
-// 		  });
-// 		  $('#dataTables-orderList_wrapper .dataTables_length').addClass('d-flex flex-row');
-// 		  $('#dataTables-orderList_wrapper .dataTables_filter').addClass('md-form');
-// 		  $('#dataTables-orderList_wrapper select').removeClass('custom-select custom-select-sm form-control form-control-sm');
-// 		  $('#dataTables-orderList_wrapper select').addClass('mdb-select');
-// 		  $('#dataTables-orderList_wrapper .mdb-select').materialSelect();
-// 		  $('#dataTables-orderList_wrapper .dataTables_filter').find('label').remove();
-// 		});
-	</script>
-	
 	<script>
 		$(document).ready(function() {
 		    $('#dataTables-orderList').DataTable({
-// 		    	"pagingType": "first_last_numbers"
 		    });
 		} );
 	</script>
