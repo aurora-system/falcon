@@ -1,22 +1,21 @@
 package com.falcon.product;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.falcon.orders.OrderItem;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -39,15 +38,13 @@ public class Product {
 	@NotNull
 	private BigDecimal aquiPrice = BigDecimal.ZERO;
 	@NotNull
-    private BigDecimal srp = BigDecimal.ZERO;
+	private BigDecimal srp = BigDecimal.ZERO;
 	private int stockLevel;
 	private int threshold;
 	private String supplierName;
 	
-	@JsonManagedReference
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id")
-	private OrderItem orderItem;
+	@OneToMany(mappedBy = "product")
+	List<OrderItem> orderItemList;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")

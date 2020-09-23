@@ -4,33 +4,65 @@
 <th:block th:replace="fragments/common::header('In and Out History')"></th:block>
 
 <body>
-  <h1>In and Out History</h1>
-  <a th:href="@{/inouthistory/new}">New Transaction</a>
-  <table>
-    <thead>
-      <tr>
-        <td>Id</td>
-        <td>Transaction Date</td>
-        <td>Type</td>
-        <td>Product</td>
-        <td>Count</td>
-        <td>Updated Count</td>
-        <td>Actions</td>
-      </tr>
-    </thead>
-    <tbody>
-      <th:block th:each="txn : ${inouthistories}">
-      <tr>
-        <td><a th:href="|@{/productcategories}/${txn.id}|" th:text="${txn.id}"></a></td>
-        <td><th:block th:text="${txn.transDate}"></th:block></td>
-        <td><th:block th:text="${txn.transType}"></th:block></td>
-        <td><a th:href="|@{/products}/${txn.product.id}|" th:text="${txn.product.name}"></a></td>
-        <td><th:block th:text="${txn.productCount}"></th:block></td>
-        <td><th:block th:text="${txn.updatedCount}"></th:block></td>
-        <td>Edit</td>
-      </tr>
-      </th:block>
-    </tbody>
-  </table>
+	<div class="container-fluid">
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+    		<div class="col">
+    			<div class="container-fluid mt-3">
+    				<!-- In Out History -->
+    				<table id="dataTables-inOutHistory" class="table table-hover table-bordered" style="width:100%">
+					    <thead class="datatable-thead thead-dark">
+					      <tr>
+					        <td class="th-sm">Id</td>
+					        <td class="th-sm">Transaction Date</td>
+					        <td class="th-sm">Type</td>
+					        <td class="th-sm">Product</td>
+					        <td class="th-sm">Count</td>
+					        <td class="th-sm">Updated Count</td>
+					        <td class="th-sm">Actions</td>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <th:block th:each="txn : ${inouthistories}">
+					      <tr>
+					        <td><a th:href="|@{/productcategories}/${txn.id}|" th:text="${txn.id}"></a></td>
+					        <td><th:block th:text="${txn.transDate}"></th:block></td>
+					        <td><th:block th:text="${txn.transType}"></th:block></td>
+					        <td><a th:href="|@{/products}/${txn.product.id}|" th:text="${txn.product.name}"></a></td>
+					        <td><th:block th:text="${txn.productCount}"></th:block></td>
+					        <td><th:block th:text="${txn.updatedCount}"></th:block></td>
+					        <td>Edit</td>
+					      </tr>
+					      </th:block>
+					    </tbody>
+					  </table>
+					  
+					  <!-- New Product Button -->
+					<div class="card" style="width: 18rem; float:right;">
+						<a type="button" class="btn btn-outline-dark float-right" th:href="@{/inouthistory/new}">New Transaction</a>
+					</div>
+					
+					  <!-- Footer -->
+					<th:block th:replace="fragments/common::footer"></th:block>
+    			</div>
+    		</div>
+    	</div>
+	</div>
+  
+  <th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<script>
+		$(document).ready(function() {
+		    $('#dataTables-inOutHistory').DataTable({
+
+		    });
+		} );
+	</script>
 </body>
 </html>

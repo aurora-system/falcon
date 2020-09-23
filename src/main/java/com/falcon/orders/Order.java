@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import com.falcon.customer.Customer;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name="ORDERS")
@@ -45,5 +46,6 @@ public class Order {
 	@OneToMany(mappedBy = "order", 
 			fetch = FetchType.EAGER, 
 			cascade = CascadeType.ALL)
+	@ToString.Exclude
 	List<OrderItem> orderItems;
 }
