@@ -23,21 +23,6 @@ public class OrderController {
 		this.orderRepository = orderRepository;
 		this.productRepository = productRepository;
 	}
-	/**
-	 * Displays the list of orders.
-	 * 
-	 * @param session
-	 * @return orderListDto
-	 */
-//	@GetMapping(value = {"/listDto"}, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody OrderListDto getOrderList(HttpSession session) {
-//		
-//		OrderListDto orderListDto = new OrderListDto();
-//		
-//		Iterable<Order> orderList = orderRepository.findAll();
-//		
-//		return orderListDto;
-//	}
 	
 	@GetMapping("/orders")
 	public String listAllOrders(Model model) {
