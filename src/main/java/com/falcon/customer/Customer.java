@@ -27,4 +27,5 @@ public class Customer {
 	
 	@Size(max = 13, message = "Contact number should not exceed 13 characters")
 	private String contactNumber;
+	private String email;
 }
