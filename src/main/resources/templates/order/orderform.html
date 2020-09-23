@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
+<th:block th:replace="fragments/common::header('Create New Order')"></th:block>
 <body>
-	<div id="vuetifyapp">
-	    <v-app>
-	    	<th:block th:replace="fragments/common::navdrawer"></th:block>
-	      	<th:block th:replace="fragments/common::appbar"></th:block>
-	      <v-main>
-	        <v-container>
-	          	<v-card-title>
-	        		Create Order
-	        	</v-card-title>
-	        	<v-card-text>
-	        		
-	        	</v-card-text>
-	        </v-container>
-	      </v-main>
-	      	<th:block th:replace="fragments/common::footer"></th:block>
-	    </v-app>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+    		<div class="col">
+				<div class="container-fluid mt-3">
+					Order Form Here
+					
+					<!-- Footer -->
+					<th:block th:replace="fragments/common::footer"></th:block>
+				</div>
+			</div>
+		</div>
 	</div>
-	<th:block th:replace="fragments/common::vuetify"></th:block>
 	
-	<script th:inline="javascript">
-	 
-	</script>
+	<th:block th:replace="fragments/common::javascript"></th:block>
 </body>

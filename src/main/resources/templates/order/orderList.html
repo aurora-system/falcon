@@ -19,22 +19,35 @@
 					<thead class="datatable-thead thead-dark">
 						<tr>
 							<th class="th-sm">Reference Number</th>
+							<th class="th-sm">Customer</th>
 							<th class="th-sm">Type</th>
 							<th class="th-sm">Order Date</th>
 							<th class="th-sm">Payment Type</th>
 							<th class="th-sm">Total Amount</th>
 							<th class="th-sm">Remarks</th>
+							<th class="th-sm">View Details</th>
 						</tr>
 					</thead>
 					<tbody>
 						<th:block th:each="order : ${orders}">
+							<input id="orderRow" type="hidden" th:value="${order}">
 							<tr>
 								<td th:text="${order.referenceNum}"></td>
+								<td th:text="${order.customer.name}"></td>
 								<td th:text="${order.type}"></td>
 								<td th:text="${order.createdDate}"></td>
 								<td th:text="${order.paymentType}"></td>
 								<td th:text="${order.totalAmount}"></td>
 								<td th:text="${order.remarks}"></td>
+								<td>
+									<button type="button" class="showOrderDetails btn btn-dark" 
+										th:data-row-type="${order.type}"
+										th:data-row-remarks="${order.remarks}" 
+										th:data-row-customer="${order.customer.name}"
+										th:data-row-createdDate="${order.createdDate}"
+										th:data-row-orderItems="${order.orderItems}"
+										data-toggle="modal" data-target="#orderDetailsModal">View Details</button>
+								</td>
 							</tr>
 						</th:block>
 					</tbody>
@@ -42,7 +55,7 @@
 				
 					<!-- New Order Button -->
 					<div class="card" style="width: 18rem; float:right;">
-					  	<a type="button" class="btn btn-outline-dark float-right" th:href="@{/orders/new}">New Order</a>
+					  	<a type="button" class="btn btn-dark float-right" th:href="@{/orders/new}">New Order</a>
 					</div>
 					
 <!-- 					<div class="clearfix"> -->
@@ -55,6 +68,43 @@
 			</div>
 	  	</div>
 	</div>
+	
+	<!-- Order Details Modal -->
+	<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="card">
+	      		<div class="card-body">
+			      	<p id="orderType"></p>
+			      	<p id="customerName"></p>
+			      	<p id="createdDate"></p>
+			      	<p id="remarks"></p>
+		      	</div>
+	      	</div>
+	      	
+	      	<div class="card mt-2" id="orderItems">
+	      		<div class="card-body">
+	      			<b>Order Items</b>
+	      			<div id="orderItems">
+	      				<p id="itemQuantity"></p>
+	      				<p id="itemAmount"></p>
+	      			</div>
+	      		</div>
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<th:block th:replace="fragments/common::javascript"></th:block>
 
@@ -63,5 +113,44 @@
 		    $('#dataTables-orderList').DataTable({
 		    });
 		} );
+		
+		$(document).on("click", ".showOrderDetails", function () {
+		    $(".modal-body #orderType").html("<b>Type: </b>" + $(this).attr('data-row-type'));
+		    $(".modal-body #customerName").html("<b>Customer: </b>" + $(this).attr('data-row-customer'));
+		    $(".modal-body #createdDate").html("<b>Date: </b>" + $(this).attr('data-row-createdDate'));
+		    $(".modal-body #remarks").html("<b>Remarks: </b>" + $(this).attr('data-row-remarks'));
+		    
+// 		    $(".modal-body #orderItems").html($(this).attr('data-row-orderItems'));
+		    var str = $(this).attr('data-row-orderItems');
+		    var orderItems = str.replaceAll("=", ":").replaceAll("OrderItem(", "{").replaceAll(")", "}").replaceAll("},", "};").replaceAll("[", "").replaceAll("]", "");
+			var itemSplit = orderItems.split(";");
+			
+			$(".modal-body #orderItems").empty();
+			for (var item of itemSplit) {
+				var itemFields = item.split(",");
+				
+				var qtyVal;
+				var amtVal;
+				
+				for (var i = 0; i < itemFields.length; i++) {
+					var field = itemFields[i].split(":");
+					var fieldVal = field[1].replaceAll("}", "");
+					if (i == 1) {
+						qtyVal = fieldVal;
+					}
+					
+					if (i == 2) {
+						amtVal = fieldVal;
+					}
+				}
+				$(".modal-body #orderItems").append("Quantity: " + qtyVal);
+				$(".modal-body #orderItems").append("Amount: " + amtVal);
+				
+// 				$(".modal-body #orderItems").append(item);
+			} 
+			
+			
+// 		    var obj = JSON.parse(orderItems);
+		});
 	</script>
 </body>
