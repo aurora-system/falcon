@@ -14,26 +14,28 @@
 	  	<div class="row">
     		<div class="col">
 				<div class="container-fluid mt-3">
-					  <table id="dataTables-customerList" class="table table-bordered table-hover" style="width: 100%">
-					  <thead class="datatable-thead thead-dark">
-					    <tr>
-					    	<th class="th-sm">Id</th>
-					      	<th class="th-sm">Name</th>
-					      	<th class="th-sm">Address</th>
-					      	<th class="th-sm">Contact Number</th>
-					      	<th class="th-sm">Email</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					  	<th:block th:each="customer : ${customers}">
-					  		<tr>
-					  			<td th:text="${customer.id}"></td>
-						      	<td th:text="${customer.name}"></td>
-						      	<td th:text="${customer.address}"></td>
-						      	<td th:text="${customer.contactNumber}"></td>
-						      	<td th:text="${customer.email}"></td>
+						<!-- Customer List -->
+						<h2>CUSTOMERS</h2>
+					  	<table id="dataTables-customerList" class="table table-bordered table-hover" style="width: 100%">
+					  	<thead class="datatable-thead thead-dark">
+						    <tr>
+						    	<th class="th-sm">Id</th>
+						      	<th class="th-sm">Name</th>
+						      	<th class="th-sm">Address</th>
+						      	<th class="th-sm">Contact Number</th>
+						      	<th class="th-sm">Email</th>
 						    </tr>
-					  	</th:block>
+					 	</thead>
+					  	<tbody>
+					  		<th:block th:each="customer : ${customers}">
+					  			<tr>
+						  			<td th:text="${customer.id}"></td>
+							      	<td th:text="${customer.name}"></td>
+							      	<td th:text="${customer.address}"></td>
+							      	<td th:text="${customer.contactNumber}"></td>
+							      	<td th:text="${customer.email}"></td>
+							    </tr>
+					  		</th:block>
 					  </tbody>
 					</table>
 					
