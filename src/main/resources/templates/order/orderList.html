@@ -15,6 +15,7 @@
     		<div class="col">
 				<div class="container-fluid mt-3">
 				<!-- Order List -->
+				<h2>ORDERS</h2>
 				<table id="dataTables-orderList" class="table table-hover table-bordered" style="width: 100%">
 					<thead class="datatable-thead thead-dark">
 						<tr>
@@ -92,10 +93,8 @@
 	      	<div class="card mt-2" id="orderItems">
 	      		<div class="card-body">
 	      			<b>Order Items</b>
-	      			<div id="orderItems">
 	      				<p id="itemQuantity"></p>
 	      				<p id="itemAmount"></p>
-	      			</div>
 	      		</div>
 	      	</div>
 	      </div>
@@ -125,7 +124,7 @@
 		    var orderItems = str.replaceAll("=", ":").replaceAll("OrderItem(", "{").replaceAll(")", "}").replaceAll("},", "};").replaceAll("[", "").replaceAll("]", "");
 			var itemSplit = orderItems.split(";");
 			
-			$(".modal-body #orderItems").empty();
+// 			$(".modal-body #orderItems").empty();
 			for (var item of itemSplit) {
 				var itemFields = item.split(",");
 				
@@ -143,8 +142,8 @@
 						amtVal = fieldVal;
 					}
 				}
-				$(".modal-body #orderItems").append("Quantity: " + qtyVal);
-				$(".modal-body #orderItems").append("Amount: " + amtVal);
+				$(".modal-body #itemQuantity").html("Quantity: " + qtyVal);
+				$(".modal-body #itemAmount").html("Amount: " + amtVal);
 				
 // 				$(".modal-body #orderItems").append(item);
 			} 
