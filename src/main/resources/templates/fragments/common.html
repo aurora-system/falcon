@@ -19,6 +19,9 @@
 	    <!-- DataTables CSS -->
 	   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
 	    
+	    <!-- Material Icons -->
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	    
 	    <title th:text="${title}"></title>
 	</head><!-- /HEAD -->
 </th:block>
@@ -44,9 +47,9 @@
 			        	<a class="nav-link" th:href="@{/dashboard}">Home</a>
 			      	</li>
 			      	
-			      	<li class="nav-item">
-			      		<a class="nav-link" th:href="@{/about}">Information</a>
-			      	</li>
+<!-- 			      	<li class="nav-item"> -->
+<!-- 			      		<a class="nav-link" th:href="@{/about}">Information</a> -->
+<!-- 			      	</li> -->
 		    
 				   <li class="nav-item">
 				   		<a class="nav-link" th:href="@{/orders}">Orders</a>
@@ -98,5 +101,7 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 
+		<!-- Charts JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
 	</th:block>
 </body>
