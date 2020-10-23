@@ -13,10 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	private static final String[] ASSETS = new String[]
-			{"/js/*","/js/**","/css/*","/css/**","/favicon.ico"};
 	private static final String[] PUBLIC = new String[] 
-	        {"/","/login","/logout","/error","/h2-console/**"};
+	        {"/login","/logout","/error","/favicon.ico","/h2-console/**"};
+	private static final String[] ASSETS = new String[]
+			{"/js/*","/js/**","/css/*","/css/**"};
 	
 	@Autowired private PasswordEncoder passwordEncoder;
 	@Autowired private UserDetailsService falconUserDetailsService;
@@ -37,10 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/")
+				.loginPage("/login")
 				.loginProcessingUrl("/login")
 				.defaultSuccessUrl("/dashboard", true)
-				.failureUrl("/")
+				.failureUrl("/login?error")
 				.and()
 			.logout()
 			;

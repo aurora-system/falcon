@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- Meta header -->
 <th:block th:fragment="header(title)">
@@ -88,6 +89,16 @@
     <div th:fragment="footer">
       	<nav class="navbar fixed-bottom navbar-dark bg-dark">
       		<a class="navbar-brand" href="#">2020 Falcon Garage</a>
+      		<div sec:authorize="isAuthenticated()">
+		      	Logged user: <span sec:authentication="name">Bob</span>
+			    <a href="javascript: logoutForm.submit();"
+			        class="list-group-item menu" style="border: 0px;"> <i class="fas fa-sign-out-alt fa-lg"></i>Logout
+			    </a>
+			    <form name="logoutForm" th:hidden="true" method="post"
+			        th:action="@{/logout}">
+			        <input type="submit" value="Logout" />
+			    </form>
+		    </div>
       	</nav>
 	</div>
 	
