@@ -49,7 +49,7 @@ public class FileStorageStrategy implements StorageStrategy {
         Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
         String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/download/investigation/")
+                .path("/api/download/")
                 .path(fileName)
                 .toUriString();
 
@@ -78,7 +78,7 @@ public class FileStorageStrategy implements StorageStrategy {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 

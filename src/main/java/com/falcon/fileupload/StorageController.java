@@ -21,23 +21,41 @@ import lombok.extern.slf4j.Slf4j;
 public class StorageController {
 
     private StorageService storageService;
+    private FileInfoRepository fileInfoRepository;
 
-    public StorageController(StorageService storageService) {
+    public StorageController(StorageService storageService,
+    		FileInfoRepository fileInfoRepository
+    		) {
         this.storageService = storageService;
+        this.fileInfoRepository = fileInfoRepository;
     }
 
 
-    @PostMapping("/upload-file")
+    @PostMapping("/upload-file/{productId}")
     @Transactional
-    public ResponseEntity<FileDTO> uploadInvestigation(@RequestParam("file") MultipartFile file) throws Exception {
+    public ResponseEntity<FileDTO> uploadInvestigation(@RequestParam("file") MultipartFile file,
+    		@PathVariable long productId
+    		) throws Exception {
         log.info("REST request to upload file");
         //upload files
         FileDTO fileDTO = storageService.uploadFile(file);
+        fileInfoRepository.save(toFileInfo(fileDTO, productId));
         return new ResponseEntity<>(fileDTO, null, HttpStatus.OK);
     }
 
 
-    @GetMapping("/download/{fileName:.+}")
+    private FileInfo toFileInfo(FileDTO fileDTO, long productId) {
+		return new FileInfo(0L,
+				fileDTO.getFilename(),
+				fileDTO.getContentType(),
+				fileDTO.getDownloadUri(),
+				fileDTO.getFileSize(),
+				productId
+				);
+	}
+
+
+	@GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Object> downloadFile(@PathVariable String fileName, HttpServletRequest request) throws Exception {
         return storageService.downloadFile(fileName, request);
     }
