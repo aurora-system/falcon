@@ -62,17 +62,18 @@ public class FirebaseStorageStrategy implements StorageStrategy {
     @Override
 	public String[] uploadFile(MultipartFile multipartFile) throws IOException {
         log.debug("bucket name====" + bucketName);
-        File file = convertMultiPartToFile(multipartFile);
-        Path filePath = file.toPath();
+        //File file = convertMultiPartToFile(multipartFile);
+        //Path filePath = file.toPath();
         String objectName = generateFileName(multipartFile);
 
         Storage storage = storageOptions.getService();
 
         BlobId blobId = BlobId.of(bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-        Blob blob = storage.create(blobInfo, Files.readAllBytes(filePath));
+        //Blob blob = storage.create(blobInfo, Files.readAllBytes(filePath));
+        Blob blob = storage.create(blobInfo, multipartFile.getBytes());
 
-        log.info("File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
+        log.info("File " + multipartFile.getOriginalFilename() + " uploaded to bucket " + bucketName + " as " + objectName);
         return new String[]{blob.getSelfLink(), objectName};
     }
 
