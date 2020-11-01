@@ -21,7 +21,7 @@ public class InOutHistory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long historyId;
+	private long id;
 	private Date transDate;
 	@Size(min = 2, max = 3, message = "Transaction type is either 'IN' or 'OUT'")
 	private String transType;

@@ -1,18 +1,69 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
+<th:block th:replace="fragments/common::header('In and Out History')"></th:block>
+
 <body>
-	<div id="app">
-	    <v-app>
-	      <v-main>
-	        <v-container>
-	          <a href="/about">Hello {{msg}}</a>
-	          <span th:text="${message}"></span>  
-	        </v-container>
-	      </v-main>
-	    </v-app>
+	<div class="container-fluid">
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+    		<div class="col">
+    			<div class="container-fluid mt-3">
+    				<!-- In Out History -->
+    				<h2>IN/OUT HISTORY</h2>
+    				<table id="dataTables-inOutHistory" class="table table-hover table-bordered" style="width:100%">
+					    <thead class="datatable-thead thead-dark">
+					      <tr>
+					        <th class="th-sm">Id</th>
+					        <th class="th-sm">Transaction Date</th>
+					        <th class="th-sm">Type</th>
+					        <th class="th-sm">Product</th>
+					        <th class="th-sm">Count</th>
+					        <th class="th-sm">Updated Count</th>
+					        <th class="th-sm">Actions</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <th:block th:each="txn : ${inouthistories}">
+					      <tr>
+					        <td><a th:href="|@{/productcategories}/${txn.id}|" th:text="${txn.id}"></a></td>
+					        <td><th:block th:text="${txn.transDate}"></th:block></td>
+					        <td><th:block th:text="${txn.transType}"></th:block></td>
+					        <td><a th:href="|@{/products}/${txn.product.id}|" th:text="${txn.product.name}"></a></td>
+					        <td><th:block th:text="${txn.productCount}"></th:block></td>
+					        <td><th:block th:text="${txn.updatedCount}"></th:block></td>
+					        <td>Edit</td>
+					      </tr>
+					      </th:block>
+					    </tbody>
+					  </table>
+					  
+					  <!-- New Product Button -->
+					<div class="card" style="width: 18rem; float:right;">
+						<a type="button" class="btn btn-outline-dark float-right" th:href="@{/inouthistory/new}">New Transaction</a>
+					</div>
+					
+					  <!-- Footer -->
+					<th:block th:replace="fragments/common::footer"></th:block>
+    			</div>
+    		</div>
+    	</div>
 	</div>
-	<th:block th:replace="fragments/common::footer"></th:block>
-	<th:block th:replace="fragments/common::vuetify"></th:block>
+  
+  <th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<script>
+		$(document).ready(function() {
+		    $('#dataTables-inOutHistory').DataTable({
+
+		    });
+		} );
+	</script>
 </body>
+</html>

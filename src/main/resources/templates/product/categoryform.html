@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('New Product Category')"></th:block>
+<body>
+  <h1>New Product Category</h1>
+  <form th:action="@{/productcategories}" th:object="${productCategory}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+      <span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+      <label for="name">Name:</label>
+      <input type="text" th:field="*{name}"/>
+    </div>
+    <div>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</body>
+</html>

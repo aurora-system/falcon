@@ -1,120 +1,118 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- Meta header -->
 <th:block th:fragment="header(title)">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700,900&display=swap" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <title th:text="${title}"></title>
-</head>
+	<!-- HEAD -->
+	<head>
+	    <!-- Required meta tags -->
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		
+		<!-- Custom CSS -->
+	    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+	    
+	    <!-- DataTables CSS -->
+	   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+	    
+	    <!-- Material Icons -->
+	    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	    
+	    <title th:text="${title}"></title>
+	</head><!-- /HEAD -->
 </th:block>
 <body>
-
-    <div th:fragment="navdrawer">
-      <v-navigation-drawer v-model="drawer" app>
-        <v-list dense>
-          <v-list-item @click="routePage('home')">
-            <v-list-item-action>
-              <v-icon>home</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Dashboard</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('about')">
-            <v-list-item-action>
-              <v-icon>contact_mail</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>About</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('orders')">
-            <v-list-item-action>
-              <v-icon>shopping_cart</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Orders</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('products')">
-            <v-list-item-action>
-              <v-icon>wallet_giftcard</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Products</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('inouthistory')">
-            <v-list-item-action>
-              <v-icon>loop</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Products In/Out</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('expenses')">
-            <v-list-item-action>
-              <v-icon>money</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Expenses</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="routePage('reports')">
-            <v-list-item-action>
-              <v-icon>equalizer</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Reports</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
+		
+	<div th:fragment="appHeader">
+      	<nav class="navbar fixed-top navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Falcon Garage</a>
+      	</nav>
     </div>
     
-    <div th:fragment="appbar">
-      <v-app-bar app color="blue accent-4" dense dark>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>
-          <span>FALCON GARAGE</span>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <span class="mr-2">v1.1</span>
-      </v-app-bar>
-    </div>
+    <!-- Nav bar -->
+    <th:block th:fragment="navbar">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Falcon Garage</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    	<span class="navbar-toggler-icon"></span>
+		  	</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+			        	<a class="nav-link" th:href="@{/dashboard}">Home</a>
+			      	</li>
+			      	
+<!-- 			      	<li class="nav-item"> -->
+<!-- 			      		<a class="nav-link" th:href="@{/about}">Information</a> -->
+<!-- 			      	</li> -->
+		    
+				   <li class="nav-item">
+				   		<a class="nav-link" th:href="@{/orders}">Orders</a>
+				   </li>
+				    
+				   <li class="nav-item">
+				   		<a class="nav-link" th:href="@{/products}">Products</a>
+				   	</li>
+				    
+				    <li class="nav-item">
+				    	<a class="nav-link" th:href="@{/inouthistory}">In/Out History</a>
+				    </li>
+				    
+				    <li class="nav-item">
+				    	<a class="nav-link" th:href="@{/expenses}">Expenses</a>
+				    </li>
+				   
+				    <li class="nav-item">
+				    	<a class="nav-link" th:href="@{/customers}">Customers</a>
+				    </li>
+				    
+				    <li class="nav-item">
+				    	<a class="nav-link" th:href="@{/reports}">Reports</a>
+				    </li>
+				</ul>
+				
+				<form class="form-inline my-2 my-lg-0">
+			      <input class="form-control mr-sm-2" type="search" placeholder="Enter Ref Num..." aria-label="Search">
+			      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			    </form>
+			</div>
+		</nav>
+	</th:block>
     
+    <!-- Footer -->
     <div th:fragment="footer">
-      <v-footer app color="blue" dense dark>
-        <span class="white--text">&copy; 2020 FALCON GARAGE</span>
-      </v-footer>
-    </div>
-    
-    <div th:fragment="vuetify">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.3.2/dist/vuetify.min.js"></script>
-    <script th:inline="javascript">
-	    const vm = new Vue({
-	        el: '#vuetifyapp',
-	        vuetify: new Vuetify(),
-	  	    data() {
-	        	return {
-		  		  msg: 'world',
-		  		  drawer: false,
-	        	}
-	  	    },
-	  	    methods: {
-	  	    	routePage(page) {
-	  	    		alert('Go to page: ' + page + ', not yet implemented.')
-	  	    	}
-	  	    }
-	    });
-    </script>
-    </div>
-    
+      	<nav class="navbar fixed-bottom navbar-dark bg-dark">
+      		<a class="navbar-brand" href="#">2020 Falcon Garage</a>
+      		<div sec:authorize="isAuthenticated()">
+		      	Logged user: <span sec:authentication="name">Bob</span>
+			    <a href="javascript: logoutForm.submit();"
+			        class="list-group-item menu" style="border: 0px;"> <i class="fas fa-sign-out-alt fa-lg"></i>Logout
+			    </a>
+			    <form name="logoutForm" th:hidden="true" method="post"
+			        th:action="@{/logout}">
+			        <input type="submit" value="Logout" />
+			    </form>
+		    </div>
+      	</nav>
+	</div>
+	
+	<th:block th:fragment="javascript">
+		<!-- Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+		
+		<!-- DataTables JS -->
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+		<!-- Charts JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+	</th:block>
 </body>

@@ -1,57 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Login')"></th:block>
 
+<th:block th:replace="fragments/common::header('Login')"></th:block>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap');
+body, html {
+  height: 100%;
+   font-family: "Raleway", sans-serif;
+   font-size: 18px;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+</style>
 <body>
-    <div id="vuetifyapp"><v-app>
-      <th:block th:replace="fragments/common::appbar"></th:block>
-      <v-main>
-  	    <v-container fluid>
-  	      <v-layout row>
-  	        <v-flex xs12 sm6 offset-sm3>
-  	          <v-card>
-  	            <v-card-text>
-  	              <v-container fluid>
-  	                <form th:action="@{/login}" method="post">
-  	                  <v-layout row>
-  	                    <v-flex xs12>
-  	                      <v-text-field
-  	                        name="username"
-  	                        label="Username"
-  	                        id="username"
-  	                        type="text"
-  	                        required></v-text-field>
-  	                    </v-flex>
-  	                  </v-layout>
-  	                  <v-layout row>
-  	                    <v-flex xs12>
-  	                      <v-text-field
-  	                        name="password"
-  	                        label="Password"
-  	                        id="password"
-  	                        type="password"
-  	                        required></v-text-field>
-  	                    </v-flex>
-  	                  </v-layout>
-  	                  <v-layout row>
-  	                    <v-flex xs12>
-  	                      <v-btn type="submit">Sign in</v-btn>
-  	                    </v-flex>
-  	                  </v-layout>
-  	                </form>
-  	              </v-container>
-  	            </v-card-text>
-  	          </v-card>
-  	        </v-flex>
-  	      </v-layout>
-  	    </v-container>
-      </v-main>
-      <th:block th:replace="fragments/common::footer"></th:block>
-  	</v-app>  
-    </div>
-    
-	<th:block th:replace="fragments/common::vuetify"></th:block>
-    
+	<div class="container-fluid">
+		<th:block th:replace="fragments/common::appHeader"></th:block>
+		<div class="row justify-content-center">
+			<div class="col-4">
+				<form id="loginForm" class="form-group" th:action="@{/login}" method="post">
+					<div class="form-group">
+						<label for="username">Username</label> 
+						<input id="username" name="username" class="form-control" type="text">
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label> 
+						<input id="password" name="password" class="form-control" type="password">
+					</div>
+					<button type="submit" class="btn btn-outline-primary">Sign in</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<th:block th:replace="fragments/common::footer">Footer goes here</th:block>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
 </body>
-</html>

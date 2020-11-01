@@ -20,11 +20,12 @@ public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long customerId;
+	private long id;
 	@Column(unique = true)
 	private String name;
 	private String address;
 	
 	@Size(max = 13, message = "Contact number should not exceed 13 characters")
 	private String contactNumber;
+	private String email;
 }

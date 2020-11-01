@@ -9,11 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import com.falcon.product.Product;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -21,15 +21,18 @@ public class OrderItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long orderItemId;
+	private long id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_id")
+	@ToString.Exclude
 	private Order order;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@ToString.Exclude
 	private Product product;
+	
 	private int quantity;
 	private BigDecimal totalAmount;
 }

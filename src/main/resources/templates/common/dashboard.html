@@ -3,18 +3,118 @@
     xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragments/common::header('Dashboard')"></th:block>
 <body>
-	<div id="vuetifyapp">
-	    <v-app>
-	      <th:block th:replace="fragments/common::navdrawer"></th:block>
-	      <th:block th:replace="fragments/common::appbar"></th:block>
-	      <v-main>
-	        <v-container>
-	          <a href="/about">Hello {{msg}}</a>
-	          <span th:text="${message}"></span>  
-	        </v-container>
-	      </v-main>
-	      <th:block th:replace="fragments/common::footer"></th:block>
-	    </v-app>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-6">
+				<div class="mt-3 chart-container" style="position: relative; height:20vh; width:40vw">
+			  		<canvas id="weeklySalesChart" width="400" height="400"></canvas>
+			  	</div>
+			</div>
+			
+			<div class="col-6">
+				<div class="mt-3 chart-container" style="position: relative; height:20vh; width:40vw">
+			  		<canvas id="productSalesChart" width="400" height="400"></canvas>
+			  	</div>
+			</div>
+		</div>	
+	  	
+	  	<!-- Footer -->
+	  	<th:block th:replace="fragments/common::footer"></th:block>
 	</div>
-	<th:block th:replace="fragments/common::vuetify"></th:block>
+	<th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<!-- Script for Weekly Sales Chart -->
+	<script th:inline = javascript>
+		
+		Chart.defaults.global.defaultFontFamily = "Raleway";
+		
+		var weeklySalesData = [[${weeklySalesData}]];
+		var ctx = document.getElementById('weeklySalesChart').getContext('2d');
+		
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: Object.keys(weeklySalesData),
+		        datasets: [{
+		            label: 'Total Sales',
+		            data: Object.keys(weeklySalesData).map(function(key) {return weeklySalesData[key];}),
+		            backgroundColor: [
+		            	'rgba(54, 162, 235, 1)',
+		            	'rgba(54, 162, 235, 1)',
+		            	'rgba(54, 162, 235, 1)',
+		            	'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderColor: [
+		            	'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(54, 162, 235, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero: true
+		                }
+		            }]
+		        }
+		    }
+		});
+		
+		<!-- Script for Product Sales Chart -->
+			var dailyProductSalesData = [[${dailyProductSalesData}]];
+			var ctx = document.getElementById('productSalesChart').getContext('2d');
+			
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: Object.keys(dailyProductSalesData),
+			        datasets: [{
+			            label: 'Daily Product Sales',
+			            data: Object.keys(dailyProductSalesData).map(function(key) {return dailyProductSalesData[key];}),
+			            backgroundColor: [
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)'
+			            ],
+			            borderColor: [
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)',
+			            	'rgba(75, 192, 192, 1)'
+			            ],
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero: true
+			                }
+			            }]
+			        }
+			    }
+			});
+		</script>
+			
 </body>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('New Transaction')"></th:block>
+<body>
+  <h1>New In/Out Transaction</h1>
+  <form th:action="@{/inouthistory}" th:object="${inouthistory}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div>
+      <label for="product.id">Product:</label>
+      <select id="product.id" name="product.id">
+        <option th:each="product : ${products}" 
+          th:value="${product.id}" 
+          th:text="${product.name}"
+          th:selected="${inouthistory.product != null ? product.id == inouthistory.product.id : false}"
+          ></option>
+      </select>
+    </div>
+    <div>
+      <label for="transDate">Date:</label>
+      <input type="date" th:field="*{transDate}"/>
+    </div>
+    <div>
+      <label for="transType">Type:</label>
+      <select id="transType" name="transType">
+        <option value='IN'>IN</option>
+        <option value='OUT'>OUT</option>  
+      </select>
+    </div>
+    <div>
+      <label for="productCount">Product Count:</label>
+      <input type="text" th:field="*{productCount}"/>
+    </div>
+    <div>
+      <label for="productCount">Updated Count:</label>
+      <input type="text" th:field="*{productCount}"/>
+    </div>
+    <div>
+      <button type="submit">Save</button>
+    </div>
+  </form>
+</body>
+</html>
