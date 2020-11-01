@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.util.Date;
 import java.util.Objects;
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.falcon.firebase.FirebaseCredential;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,7 +61,7 @@ public class FirebaseStorageStrategy implements StorageStrategy {
 
     @Override
 	public String[] uploadFile(MultipartFile multipartFile) throws IOException {
-        log.debug("bucket name====" + bucketName);
+        log.debug("bucket name ==== " + bucketName);
         //File file = convertMultiPartToFile(multipartFile);
         //Path filePath = file.toPath();
         String objectName = generateFileName(multipartFile);
@@ -69,9 +72,14 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         //Blob blob = storage.create(blobInfo, Files.readAllBytes(filePath));
         Blob blob = storage.create(blobInfo, multipartFile.getBytes());
-
         log.info("File " + multipartFile.getOriginalFilename() + " uploaded to bucket " + bucketName + " as " + objectName);
-        return new String[]{blob.getSelfLink(), objectName};
+        
+        String downloadUrl = UriComponentsBuilder.newInstance()
+        		//.scheme("http").host("localhost").port(8080)
+        		.path("/api/download/")
+        		.path(objectName)
+        		.build().toUriString();
+        return new String[]{downloadUrl, objectName};
     }
 
 
@@ -93,8 +101,9 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         return ResponseEntity
                 .ok()
                 .contentLength(content.length)
-                .header("Content-type", "application/octet-stream")
-                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, URLConnection.guessContentTypeFromStream(byteArrayResource.getInputStream()))
+                //.header("Content-type", "application/octet-stream")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
                 .body(byteArrayResource);
 
     }

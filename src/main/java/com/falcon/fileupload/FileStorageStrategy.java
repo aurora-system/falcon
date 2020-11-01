@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +53,13 @@ public class FileStorageStrategy implements StorageStrategy {
                 .path("/api/download/")
                 .path(fileName)
                 .toUriString();
+        String downloadUrl = UriComponentsBuilder.newInstance()
+        		//.scheme("http").host("localhost").port(8080)
+        		.path("/api/download/")
+        		.path(fileName)
+        		.build().toUriString();
 
-        return new String[]{fileUrl, fileName};
+        return new String[]{downloadUrl, fileName};
 	}
 	
 	@Override
