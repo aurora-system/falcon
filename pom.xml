@@ -69,6 +69,7 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -118,7 +119,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
+                <!-- <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
@@ -127,7 +128,7 @@
                 </executions>
                 <configuration>
                     <mainClass>ch.vorburger.mariadb4j.springframework.boot.MariaDB4jApplication</mainClass>
-                </configuration>
+                </configuration> -->
             </plugin>
         </plugins>
     </build>
