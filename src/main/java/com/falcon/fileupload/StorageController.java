@@ -33,7 +33,7 @@ public class StorageController {
 
     @PostMapping("/upload-file/{productId}")
     @Transactional
-    public ResponseEntity<FileDTO> uploadInvestigation(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<FileDTO> uploadFile(@RequestParam("file") MultipartFile file,
     		@PathVariable long productId
     		) throws Exception {
         log.info("REST request to upload file");
