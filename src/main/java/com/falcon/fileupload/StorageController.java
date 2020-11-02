@@ -1,5 +1,7 @@
 package com.falcon.fileupload;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -35,21 +37,25 @@ public class StorageController {
     @Transactional
     public ResponseEntity<FileDTO> uploadFile(@RequestParam("file") MultipartFile file,
     		@PathVariable long productId
+    		, HttpServletRequest request
     		) throws Exception {
         log.info("REST request to upload file");
         //upload files
         FileDTO fileDTO = storageService.uploadFile(file);
-        fileInfoRepository.save(toFileInfo(fileDTO, productId));
+        String username = request.getUserPrincipal().getName();
+        fileInfoRepository.save(toFileInfo(fileDTO, username, productId));
         return new ResponseEntity<>(fileDTO, null, HttpStatus.OK);
     }
 
 
-    private FileInfo toFileInfo(FileDTO fileDTO, long productId) {
+    private FileInfo toFileInfo(FileDTO fileDTO, String username, long productId) {
 		return new FileInfo(0L,
 				fileDTO.getFilename(),
 				fileDTO.getContentType(),
 				fileDTO.getDownloadUri(),
 				fileDTO.getFileSize(),
+				LocalDate.now(),
+				username,
 				productId
 				);
 	}

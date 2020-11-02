@@ -1,5 +1,7 @@
 package com.falcon.fileupload;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,5 +23,7 @@ import lombok.NoArgsConstructor;
 	private String contentType;
 	private String downloadUri;
 	private long fileSize;
+	private LocalDate dateUploaded;
+	private String username;
 	private long productId;
 }
