@@ -14,18 +14,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.fileupload.FileInfoRepository;
+
 @Controller
 public class ProductController {
 
 	private ProductRepository productRepository;
 	private ProductCategoryRepository productCategoryRepository;
+	private FileInfoRepository fileInfoRepository;
 
 	public ProductController(
 			ProductRepository productRepository
 			,ProductCategoryRepository productCategoryRepository
+			,FileInfoRepository fileInfoRepository
 			) {
 		this.productRepository = productRepository;
 		this.productCategoryRepository = productCategoryRepository;
+		this.fileInfoRepository = fileInfoRepository;
 	}
 	
 	@GetMapping({"/productcategories"})
@@ -78,6 +83,7 @@ public class ProductController {
 		Optional<Product> product = productRepository.findById(productId);
 		Product p = product.orElse(new Product());
 		model.addAttribute("product", p);
+		model.addAttribute("imageList", fileInfoRepository.findAllByProductId(productId));
 		return "product/product";
 	}
 	
