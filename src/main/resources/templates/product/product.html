@@ -35,7 +35,7 @@
 		  <div class="container">
 		    <div class="row">
 		      <div class="col-12">
-		        <form th:action="@{|/api/upload-file/${product.id}|}" method="post" enctype="multipart/form-data">
+		        <form th:action="@{|/products/upload-photo/${product.id}|}" method="post" enctype="multipart/form-data">
 		        <input type="file" name="file" accept="image/*">
 		        <button>Upload Photo</button>
 		        </form>

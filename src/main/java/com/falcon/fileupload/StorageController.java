@@ -33,7 +33,7 @@ public class StorageController {
     }
 
 
-    @PostMapping("/upload-file/{productId}")
+    @PostMapping("/upload")
     @Transactional
     public ResponseEntity<FileDTO> uploadFile(@RequestParam("file") MultipartFile file,
     		@PathVariable long productId
