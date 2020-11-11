@@ -2,6 +2,8 @@ package com.falcon.fileupload;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class StorageFactory {
     private final FirebaseStorageStrategy firebaseStorageStrategy;
     private final FileStorageStrategy fileStorageStrategy;
 
+    @Lazy @Autowired
     public StorageFactory(Environment environment, 
     		FirebaseStorageStrategy firebaseStorageStrategy, 
     		FileStorageStrategy fileStorageStrategy) {
@@ -35,7 +38,7 @@ public class StorageFactory {
                 env -> (env.equalsIgnoreCase("prod")))) {
             return this.firebaseStorageStrategy;
         } else {
-            return this.fileStorageStrategy;
+            return this.firebaseStorageStrategy;
         }
     }
 }
