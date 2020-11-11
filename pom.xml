@@ -55,38 +55,28 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
-        <!-- <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
-        </dependency> -->
+        
         <!-- <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency> -->
-
         <!-- <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency> -->
-        <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-		</dependency>
+			<scope>runtime</scope>
+		</dependency> -->
+        <!-- <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency> -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
-        <!-- <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
-        </dependency> -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -103,11 +93,6 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <!-- <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency> -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -139,4 +124,53 @@
         </plugins>
     </build>
 
+    <profiles>
+	    <profile>
+	        <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+	        <dependencies>
+	            <!-- <dependency>
+	                <groupId>com.h2database</groupId>
+	                <artifactId>h2</artifactId>
+	                <scope>runtime</scope>
+	            </dependency> -->
+	            <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+	        </dependencies>
+	    </profile>
+	    <profile>
+	        <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+	        <dependencies>
+	            <dependency>
+	                <groupId>mysql</groupId>
+	                <artifactId>mysql-connector-java</artifactId>
+	                <scope>runtime</scope>
+	            </dependency>
+	        </dependencies>
+	    </profile>
+	    <profile>
+	        <id>heroku</id>
+            <properties>
+                <activatedProperties>heroku</activatedProperties>
+            </properties>
+	        <dependencies>
+	            <dependency>
+	                <groupId>org.postgresql</groupId>
+	                <artifactId>postgresql</artifactId>
+	                <scope>runtime</scope>
+	            </dependency>
+	        </dependencies>
+	    </profile>
+	</profiles>
 </project>
