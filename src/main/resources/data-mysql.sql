@@ -1,4 +1,5 @@
-insert ignore into user(id,username,password,email,first_name,last_name) values
+    
+insert ignore into users(id,username,password,email,first_name,last_name) values
   (1,'admin','$2y$11$6TP/e9ycvO4DwriSjfGip.6OVPNKuRArNyb4phwx9Kk3WPsdVjWUq','cjp@tuta.io','Sidyey','Pi'),
   (2,'user','$2y$11$6TP/e9ycvO4DwriSjfGip.6OVPNKuRArNyb4phwx9Kk3WPsdVjWUq','cjp@tutanota.de','LA','Lang');
 insert ignore into role(id,name) values 

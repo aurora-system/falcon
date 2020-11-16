@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(name = "unique_username_user", columnNames = "username"),
         @UniqueConstraint(name = "unique_email_user", columnNames = "email")
 })
@@ -57,7 +57,7 @@ public class User implements UserDetails {
         joinColumns = @JoinColumn(
             name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(
-            name = "role_id", referencedColumnName = "id"))
+            name = "role_id", referencedColumnName = "id", unique = true))
     private Collection<Role> roles;
 
     @Override

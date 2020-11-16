@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 	private static final String[] PUBLIC = new String[] 
 	        {"/login","/logout","/error","/favicon.ico","/h2-console/**"};
 	private static final String[] ASSETS = new String[]
