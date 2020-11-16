@@ -1,12 +1,9 @@
 package com.falcon.fileupload;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.falcon.firebase.FirebaseCredential;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,17 +49,17 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         bucketName = environment.getRequiredProperty("FIREBASE_BUCKET_NAME");
         projectId = environment.getRequiredProperty("FIREBASE_PROJECT_ID");
 
-        //InputStream firebaseCredential = createFirebaseCredential();
+        InputStream firebaseCredential = createFirebaseCredential();
         this.storageOptions = StorageOptions.newBuilder()
                 .setProjectId(projectId)
-                .setCredentials(GoogleCredentials.getApplicationDefault())
-                //.setCredentials(GoogleCredentials.fromStream(firebaseCredential))
+                //.setCredentials(GoogleCredentials.getApplicationDefault())
+                .setCredentials(GoogleCredentials.fromStream(firebaseCredential))
                 .build();
     }
 
     @Override
 	public String[] uploadFile(MultipartFile multipartFile) throws IOException {
-        log.debug("bucket name====" + bucketName);
+        log.debug("bucket name ==== " + bucketName);
         //File file = convertMultiPartToFile(multipartFile);
         //Path filePath = file.toPath();
         String objectName = generateFileName(multipartFile);
@@ -71,10 +69,15 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         BlobId blobId = BlobId.of(bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         //Blob blob = storage.create(blobInfo, Files.readAllBytes(filePath));
-        Blob blob = storage.create(blobInfo, multipartFile.getBytes());
-
+        storage.create(blobInfo, multipartFile.getBytes());
         log.info("File " + multipartFile.getOriginalFilename() + " uploaded to bucket " + bucketName + " as " + objectName);
-        return new String[]{blob.getSelfLink(), objectName};
+        
+        String downloadUrl = UriComponentsBuilder.newInstance()
+        		//.scheme("http").host("localhost").port(8080)
+        		.path("/api/download/")
+        		.path(objectName)
+        		.build().toUriString();
+        return new String[]{downloadUrl, objectName};
     }
 
 
@@ -96,20 +99,21 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         return ResponseEntity
                 .ok()
                 .contentLength(content.length)
-                .header("Content-type", "application/octet-stream")
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, URLConnection.guessContentTypeFromStream(byteArrayResource.getInputStream()))
+                //.header("Content-type", "application/octet-stream")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
                 .body(byteArrayResource);
 
     }
 
 
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+    /* private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         FileOutputStream fos = new FileOutputStream(convertedFile);
         fos.write(file.getBytes());
         fos.close();
         return convertedFile;
-    }
+    }*/
 
     private String generateFileName(MultipartFile multiPart) {
         return new Date().getTime() + "-" + Objects.requireNonNull(multiPart.getOriginalFilename()).replace(" ", "_");
@@ -122,7 +126,7 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         FirebaseCredential firebaseCredential = new FirebaseCredential();
         firebaseCredential.setType(environment.getRequiredProperty("FIREBASE_TYPE"));
         firebaseCredential.setProject_id(projectId);
-        firebaseCredential.setPrivate_key_id("FIREBASE_PRIVATE_KEY_ID");
+        firebaseCredential.setPrivate_key_id(environment.getRequiredProperty("FIREBASE_PRIVATE_KEY_ID"));
         firebaseCredential.setPrivate_key(privateKey);
         firebaseCredential.setClient_email(environment.getRequiredProperty("FIREBASE_CLIENT_EMAIL"));
         firebaseCredential.setClient_id(environment.getRequiredProperty("FIREBASE_CLIENT_ID"));

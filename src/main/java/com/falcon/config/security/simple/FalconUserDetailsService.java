@@ -1,17 +1,17 @@
 package com.falcon.config.security.simple;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.falcon.userprofile.UserRepository;
 
+@Service
 public class FalconUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
     
-    @Autowired
     public FalconUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -27,7 +27,7 @@ public class FalconUserDetailsService implements UserDetailsService {
                         .orElseThrow(() -> new UsernameNotFoundException("Username not found."));
             }
         }
-        return null;
+        throw new UsernameNotFoundException("Username not found.");
     }
 
 }

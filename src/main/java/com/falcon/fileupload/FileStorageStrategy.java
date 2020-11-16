@@ -10,6 +10,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -19,11 +20,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Lazy
 @Service
 public class FileStorageStrategy implements StorageStrategy {
 
@@ -38,28 +40,31 @@ public class FileStorageStrategy implements StorageStrategy {
 	
 	@Override
 	public String[] uploadFile(MultipartFile multipartFile) throws Exception {
-		// TODO Auto-generated method stub
 		log.info("FileStorageStrategy ==> uploading file");
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
 		if (fileName.contains("..")) {
 			throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 		}
-
 		Path targetLocation = this.fileStorageLocation.resolve(fileName);
         Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/download/investigation/")
+        /*String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/download/")
                 .path(fileName)
-                .toUriString();
-
-        return new String[]{fileUrl, fileName};
+                .toUriString();*/
+        
+        String downloadUrl = UriComponentsBuilder.newInstance()
+        		//.scheme("http").host("localhost").port(8080)
+        		.path("/api/download/")
+        		.path(fileName)
+        		.build().toUriString();
+        return new String[]{downloadUrl, fileName};
 	}
 	
 	@Override
 	public ResponseEntity<Object> downloadFile(String fileUrl, HttpServletRequest request) throws Exception {
         log.info("FileStorageStrategy==> downloading file");
-//        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+        // String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         Path filePath = this.fileStorageLocation.resolve(fileUrl).normalize();
         Resource resource = new UrlResource(filePath.toUri());
         if (!resource.exists())
@@ -78,7 +83,7 @@ public class FileStorageStrategy implements StorageStrategy {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 
