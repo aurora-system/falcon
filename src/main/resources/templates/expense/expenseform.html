@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Create New Order')"></th:block>
+<body>
+	<div class="container-fluid">
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<!-- New Product  Form -->
+					<h2>NEW EXPENSE</h2>
+					<form th:action="@{/expenses}" th:object="${expenseForm}" method="post">
+						<input type="hidden" th:field="*{id}" />
+							
+							<!-- Expense Details -->
+							<div class="row">
+								<div class="col-sm">
+									<!-- Expense Type -->
+									<div class="form-group">
+										<span class="validationError text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+										<label for="brand">Expense Type:</label> 
+										<input class="form-control" type="text" th:field="*{type}" />
+									</div>
+								</div>
+								
+								<div class="col-sm">
+									<!-- Amount -->
+									<div class="form-group">
+										<label for="monthlyDue">Amount:</label> 
+										<input class="form-control" type="number" th:field="*{amount}" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-sm">
+									<!-- Remarks -->
+									<div class="form-group">
+										<label for="remarks">Remarks:</label>
+										<input class="form-control" type="text" th:field="*{remarks}" />
+									</div>
+								</div>
+							</div>
+						
+						<div class="clearfix">
+					    	<button type="submit" class="btn btn-dark float-right">Save</button>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+</body>
+</html>
