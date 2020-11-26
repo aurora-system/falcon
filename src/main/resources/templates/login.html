@@ -18,7 +18,7 @@ body, html {
 		<!-- Navigation Bar -->
 		<div class="row">
 			<div class="col">
-				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+				<div th:replace="fragments/common::navbarLogin">Navigation bar goes here</div>
 			</div>
 		</div>
 <!-- 		<th:block th:replace="fragments/common::appHeader"></th:block> -->
@@ -34,13 +34,11 @@ body, html {
 							<label for="password">Password</label> 
 							<input id="password" name="password" class="form-control" type="password">
 						</div>
-						<button type="submit" class="btn btn-dark">Sign in</button>
+						<button type="submit" class="btn btn-dark float-right">Sign in</button>
 					</form>
 				</div>
 			</div>
 		</div>
-		<!-- Footer -->
-		<th:block th:replace="fragments/common::footer"></th:block>
 	</div>
 <!-- 	<th:block th:replace="fragments/common::footer">Footer goes here</th:block> -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
