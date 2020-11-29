@@ -54,7 +54,7 @@
 									
 									<!-- Remove -->
 									<div class="col-sm-2">
-										<button type="button" class="form-control btn btn-danger float-right">Remove</button>
+										<button id="removeButton" type="button" class="form-control btn btn-danger float-right">Remove</button>
 									</div>
 									
 									<!-- Category -->
@@ -169,6 +169,10 @@
 	<th:block th:replace="fragments/common::javascript"></th:block>
 	
 	<script th:inline="javascript">
+		
+		function removeProduct(index){
+			$("#productRow"+index).remove();
+		}
 	
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip();
@@ -182,10 +186,10 @@
 			 $("#addProduct").click(function() {
 				 var productRowWrapper = 
 					 $(`
-						<div id="productRow`+i+`" class="form-group">
+						<div id="productRow`+i+`" class="row form-group">
 							<!-- Remove -->
 							<div class="col-sm-2">
-								<button type="button" class="form-control btn btn-danger float-right">Remove</button>
+								<button id="removeButton" onclick="removeProduct(`+i+`)" type="button" class="form-control btn btn-danger float-right">Remove</button>
 							</div>
 							
 							<!-- Category -->
@@ -218,14 +222,14 @@
 							<div class="col-sm-2">
 								<div class="form-group">
 									
-									<input name="orderItems[0].quantity" id="quantity" class="form-control" type="number" data-toggle="tooltip" data-placement="bottom" title="" value="0" data-original-title="Quantity">
+									<input name="orderItems[`+i+`].quantity" id="quantity" class="form-control" type="number" data-toggle="tooltip" data-placement="bottom" title="" value="0" data-original-title="Quantity">
 								</div>
 							</div>
 							
 							<!-- Total -->
 							<div class="col-sm-2">
 								<div class="form-group">
-									<input name="orderItems[0].totalAmount" id="totalAmount" class="form-control" type="number" placeholder="0" readonly="" data-toggle="tooltip" data-placement="bottom" title="" value="" data-original-title="Sub Total">
+									<input name="orderItems[`+i+`].totalAmount" id="totalAmount" class="form-control" type="number" placeholder="0" readonly="" data-toggle="tooltip" data-placement="bottom" title="" value="" data-original-title="Sub Total">
 								</div>
 							</div>
 						</div>
@@ -239,7 +243,13 @@
 				var rowNumbered = "productRow"+i;
 					$(this).attr("id", rowNumbered);
 					i++;
-				});
+			});
+			
+			$(this).find('[id="removeButton"]').each(function() {
+				var removeProductCall = "removeProduct("+i+")";
+				$(this).attr("onclick", removeProductCall);
+			});
+			
 		 });
 	
 	</script>
