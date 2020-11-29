@@ -31,3 +31,7 @@ a {
 .datatable-thead .th-sm {
 /* 	color: "blue"; */
 }
+
+.tooltip {
+  font-family: "Raleway", sans-serif;
+}

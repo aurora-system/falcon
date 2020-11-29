@@ -24,31 +24,31 @@
 						<input type="hidden" th:field="*{order.id}" />
 							<!-- Product Selection -->
 							<div id="productContainer">
-								<div class="row">
-									<div class="col-sm-2">
+<!-- 								<div class="row"> -->
+<!-- 									<div class="col-sm-2"> -->
 										
-									</div>
+<!-- 									</div> -->
 									
-									<!-- Category Label -->
-									<div class="col-sm-3">
-										<label for="category.id">Product Category:</label> 
-									</div>
+<!-- 									Category Label -->
+<!-- 									<div class="col-sm-3"> -->
+<!-- 										<label for="category.id">Product Category:</label>  -->
+<!-- 									</div> -->
 									
-									<!-- Product Label -->
-									<div class="col-sm-3">
-										<label for="product.id">Product:</label> 
-									</div>
+<!-- 									Product Label -->
+<!-- 									<div class="col-sm-3"> -->
+<!-- 										<label for="product.id">Product:</label>  -->
+<!-- 									</div> -->
 									
-									<!-- Quantity Label -->
-									<div class="col-sm-2">
-										<label for="quantity">Quantity:</label> 
-									</div>
+<!-- 									Quantity Label -->
+<!-- 									<div class="col-sm-2"> -->
+<!-- 										<label for="quantity">Quantity:</label>  -->
+<!-- 									</div> -->
 									
-									<!-- Total Label -->
-									<div class="col-sm-2">
-										<label for="totalAmount">Amount:</label> 
-									</div>
-								</div>
+<!-- 									Total Label -->
+<!-- 									<div class="col-sm-2"> -->
+<!-- 										<label for="totalAmount">Amount:</label>  -->
+<!-- 									</div> -->
+<!-- 								</div> -->
 								
 								<div id="productRow" class="row form-group" th:each="orderItem, i : ${orderForm.orderItems}">
 									
@@ -60,8 +60,8 @@
 									<!-- Category -->
 									<div class="col-sm-3">
 										<div class="form-group">
-											<select class="form-control" id="category.id" name="category.id">
-												<option selected>Select...</option>
+											<select class="form-control" id="category.id" name="category.id" data-toggle="tooltip" data-placement="bottom" title="Category">
+												<option selected>Select Category...</option>
 												<option th:each="cat : ${categories}" th:value="${cat.id}"
 													th:text="${cat.name}"
 													></option>
@@ -72,8 +72,8 @@
 									<!-- Product -->
 									<div class="col-sm-3">
 										<div class="form-group">
-											<select class="form-control" id="product.id" name="product.id">
-												<option selected>Select...</option>
+											<select class="form-control" id="product.id" name="product.id" data-toggle="tooltip" data-placement="bottom" title="Product">
+												<option selected>Select Product...</option>
 												<option th:each="prod : ${products}" th:value="${prod.id}"
 													th:text="${prod.name}"
 													th:selected="${orderItem.product != null ? prod.id == product.category.id : false}"></option>
@@ -85,14 +85,14 @@
 									<div class="col-sm-2">
 										<div class="form-group">
 											<span class="validationError text-danger" th:if="${#fields.hasErrors('orderItems[__${i.index}__].quantity')}" th:errors="*{orderItems[__${i.index}__].quantity}"></span>
-											<input name="quantity" id="quantity" class="form-control" type="number" th:field="*{orderItems[__${i.index}__].quantity}" />
+											<input name="quantity" id="quantity" class="form-control" type="number" th:field="*{orderItems[__${i.index}__].quantity}" data-toggle="tooltip" data-placement="bottom" title="Quantity"/>
 										</div>
 									</div>
 									
 									<!-- Total -->
 									<div class="col-sm-2">
 										<div class="form-group">
-											<input name="totalAmount" id="totalAmount" class="form-control" type="number" th:field="*{orderItems[__${i.index}__].totalAmount}" disabled=disabled/>
+											<input name="totalAmount" id="totalAmount" class="form-control" type="number" th:field="*{orderItems[__${i.index}__].totalAmount}" placeholder=0 readonly data-toggle="tooltip" data-placement="bottom" title="Sub Total"/>
 										</div>
 									</div>
 								</div>
@@ -108,7 +108,7 @@
 								</div>
 								<div class="col-sm-2">
 									<div class="form-group">
-										<input name="totalAmountComputed" id="totalAmountComputed" class="form-control" type="number" th:field="*{order.totalAmount}" disabled=disabled/>
+										<input name="totalAmountComputed" id="totalAmountComputed" class="form-control" type="number" th:field="*{order.totalAmount}" readonly/>
 									</div>
 								</div>
 							</div>
@@ -169,6 +169,10 @@
 	<th:block th:replace="fragments/common::javascript"></th:block>
 	
 	<script th:inline="javascript">
+	
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+		})
 		
 		var i = 0;
 	
@@ -180,7 +184,6 @@
 					 $(`
 						<div id="productRow`+i+`" class="form-group">
 					 		NEW PRODUCT
-
 						</div>
 					 `);
 				 
