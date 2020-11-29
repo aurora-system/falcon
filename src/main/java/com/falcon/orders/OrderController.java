@@ -28,7 +28,7 @@ public class OrderController {
 	public String listAllOrders(Model model) {
 		Iterable<Order> orders = orderRepository.findAll();
 		model.addAttribute("orders", orders);
-		return "order/orderlist";
+		return "order/orderList";
 	}
 	
 	@GetMapping({"/orders/{orderId}"})
