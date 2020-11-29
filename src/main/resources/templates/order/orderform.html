@@ -4,24 +4,191 @@
 <th:block th:replace="fragments/common::header('Create New Order')"></th:block>
 <body>
 	<div class="container-fluid">
-	  	<!-- Navigation Bar -->
+		<!-- Navigation Bar -->
 		<div class="row">
 			<div class="col">
 				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
 			</div>
 		</div>
 		
-		<div class="row">
-    		<div class="col">
-				<div class="container-fluid mt-3">
-					Order Form Here
-					
-					<!-- Footer -->
-					<th:block th:replace="fragments/common::footer"></th:block>
+		<form th:action="@{/orders}" th:object="${orderForm}" method="post">
+			<div class="row">
+				<div class="col">
+					<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+						<!-- New Product  Form -->
+						<h2>NEW ORDER</h2>
+						<div class="clearfix">
+					    	<button type="button" id="addProduct" class="btn btn-dark float-right">Add Product</button>
+					    </div>
+					    <hr/>
+						<input type="hidden" th:field="*{order.id}" />
+							<!-- Product Selection -->
+							<div id="productContainer">
+								<div class="row">
+									<div class="col-sm-2">
+										
+									</div>
+									
+									<!-- Category Label -->
+									<div class="col-sm-3">
+										<label for="category.id">Product Category:</label> 
+									</div>
+									
+									<!-- Product Label -->
+									<div class="col-sm-3">
+										<label for="product.id">Product:</label> 
+									</div>
+									
+									<!-- Quantity Label -->
+									<div class="col-sm-2">
+										<label for="quantity">Quantity:</label> 
+									</div>
+									
+									<!-- Total Label -->
+									<div class="col-sm-2">
+										<label for="totalAmount">Amount:</label> 
+									</div>
+								</div>
+								
+								<div id="productRow" class="row form-group" th:each="orderItem, i : ${orderForm.orderItems}">
+									
+									<!-- Remove -->
+									<div class="col-sm-2">
+										<button type="button" class="form-control btn btn-danger float-right">Remove</button>
+									</div>
+									
+									<!-- Category -->
+									<div class="col-sm-3">
+										<div class="form-group">
+											<select class="form-control" id="category.id" name="category.id">
+												<option selected>Select...</option>
+												<option th:each="cat : ${categories}" th:value="${cat.id}"
+													th:text="${cat.name}"
+													></option>
+											</select>
+										</div>
+									</div>
+									
+									<!-- Product -->
+									<div class="col-sm-3">
+										<div class="form-group">
+											<select class="form-control" id="product.id" name="product.id">
+												<option selected>Select...</option>
+												<option th:each="prod : ${products}" th:value="${prod.id}"
+													th:text="${prod.name}"
+													th:selected="${orderItem.product != null ? prod.id == product.category.id : false}"></option>
+											</select>
+										</div>
+									</div>
+									
+									<!-- Quantity -->
+									<div class="col-sm-2">
+										<div class="form-group">
+											<span class="validationError text-danger" th:if="${#fields.hasErrors('orderItems[__${i.index}__].quantity')}" th:errors="*{orderItems[__${i.index}__].quantity}"></span>
+											<input name="quantity" id="quantity" class="form-control" type="number" th:field="*{orderItems[__${i.index}__].quantity}" />
+										</div>
+									</div>
+									
+									<!-- Total -->
+									<div class="col-sm-2">
+										<div class="form-group">
+											<input name="totalAmount" id="totalAmount" class="form-control" type="number" th:field="*{orderItems[__${i.index}__].totalAmount}" disabled=disabled/>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr/>
+							
+							<!-- Total Amount Computed -->
+							<div class="row">
+								<div class="col-sm-8">
+								</div>
+								<div class="col-sm-2">
+									<p>TOTAL AMOUNT </p>
+								</div>
+								<div class="col-sm-2">
+									<div class="form-group">
+										<input name="totalAmountComputed" id="totalAmountComputed" class="form-control" type="number" th:field="*{order.totalAmount}" disabled=disabled/>
+									</div>
+								</div>
+							</div>
+						
+						<!-- Order Details -->	
+						<div class="row">
+							<!-- Customer-->
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="customer.id">Customer:</label>
+									<select class="form-control" id="customer.id" name="customer.id">
+										<option selected>Select...</option>
+										<option th:each="cust : ${customers}" th:value="${cust.id}" th:text="${cust.name}"></option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Payment Type -->
+							<div class="col-sm">
+								<div class="form-group">
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('order.paymentType')}" th:errors="*{order.paymentType}"></span>
+									<label for="paymentType">Payment Type:</label> 
+									<input class="form-control" type="text" th:field="*{order.paymentType}" />
+								</div>
+							</div>
+							
+							<!-- Monthly Due Date -->
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="monthlyDue">Monthly Due Date:</label> 
+									<input class="form-control" type="number" th:field="*{order.monthlyDueDate}" />
+								</div>
+							</div>
+						</div>
+						
+						<!-- Remarks -->
+						<div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="remarks">Remarks:</label>
+									<textarea class="form-control" th:field="*{order.remarks}"></textarea>
+								</div>
+							</div>
+						</div>
+						
+						<div class="clearfix">
+							<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
+							<a th:href="@{/orders}" class="btn btn-dark float-right">Cancel</a>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</form>
+		<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
 	</div>
 	
 	<th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<script th:inline="javascript">
+		
+		var i = 0;
+	
+	 	$(document).ready(function() {
+			 
+			 // Add Product
+			 $("#addProduct").click(function() {
+				 var productRowWrapper = 
+					 $(`
+						<div id="productRow`+i+`" class="form-group">
+					 		NEW PRODUCT
+
+						</div>
+					 `);
+				 
+				 $("#productContainer").append(productRowWrapper);
+				 i++;
+			 });
+		 });
+	
+	</script>
 </body>
+</html>
