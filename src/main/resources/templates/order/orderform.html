@@ -183,13 +183,63 @@
 				 var productRowWrapper = 
 					 $(`
 						<div id="productRow`+i+`" class="form-group">
-					 		NEW PRODUCT
+							<!-- Remove -->
+							<div class="col-sm-2">
+								<button type="button" class="form-control btn btn-danger float-right">Remove</button>
+							</div>
+							
+							<!-- Category -->
+							<div class="col-sm-3">
+								<div class="form-group">
+									<select class="form-control" id="category.id" name="category.id" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Category">
+										<option selected="">Select Category...</option>
+										<option value="1">Body and Paint</option>
+										<option value="3">Engine</option>
+										<option value="2">Glass</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Product -->
+							<div class="col-sm-3">
+								<div class="form-group">
+									<select class="form-control" id="product.id" name="product.id" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Product">
+										<option selected="">Select Product...</option>
+										<option value="1">Vios Brand X bumper</option>
+										<option value="2">Honda Civic Clifford's Bumper</option>
+										<option value="3">Bumper3</option>
+										<option value="4">Turbo 1.7 CRDi Engine</option>
+										<option value="5">1/4 Tempered Glass</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Quantity -->
+							<div class="col-sm-2">
+								<div class="form-group">
+									
+									<input name="orderItems[0].quantity" id="quantity" class="form-control" type="number" data-toggle="tooltip" data-placement="bottom" title="" value="0" data-original-title="Quantity">
+								</div>
+							</div>
+							
+							<!-- Total -->
+							<div class="col-sm-2">
+								<div class="form-group">
+									<input name="orderItems[0].totalAmount" id="totalAmount" class="form-control" type="number" placeholder="0" readonly="" data-toggle="tooltip" data-placement="bottom" title="" value="" data-original-title="Sub Total">
+								</div>
+							</div>
 						</div>
 					 `);
 				 
 				 $("#productContainer").append(productRowWrapper);
 				 i++;
 			 });
+			 
+			$('[id="productRow"]').each(function() {
+				var rowNumbered = "productRow"+i;
+					$(this).attr("id", rowNumbered);
+					i++;
+				});
 		 });
 	
 	</script>

@@ -18,7 +18,7 @@ public class ExpenseController {
 	Iterable<Expense> expenseList = expenseRepository.findAll();
 	model.addAttribute("expenses", expenseList);
 	model.addAttribute("message", "Hello from @GetMapping.");
-	return "expense/expenseList";
+	return "expense/expenselist";
     }
     
     @GetMapping({"/expenses/new"})
