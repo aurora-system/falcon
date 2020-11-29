@@ -80,9 +80,9 @@
 				    </li>
 				</ul>
 				
-				<form class="form-inline my-2 my-lg-0">
-			      <input class="form-control mr-sm-2" type="search" placeholder="Enter Ref Num..." aria-label="Search">
-			      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+				<form class="form-inline my-2 my-lg-0" th:action="@{/search/{keyword}(keyword=toyota)}">
+			      <input class="form-control mr-sm-2" type="search" placeholder="Enter keyword..." aria-label="Search" id="keywordVal">
+			      <button class="btn btn-success my-2 my-sm-0" type="button" onclick="onSearchClick()">Search</button>
 			    </form>
 			</div>
 		</nav>
@@ -117,5 +117,16 @@
 
 		<!-- Charts JS -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+		
+		<script th:inline="javascript">
+			
+		function onSearchClick() {
+			    var key = $('#keywordVal').val(); 
+			    /*[+
+			    var myUrl = [[@{/search/}]] + key; 
+			    +]*/
+			    window.location.href = myUrl;
+			}
+		</script>
 	</th:block>
 </body>

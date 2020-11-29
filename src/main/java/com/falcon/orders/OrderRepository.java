@@ -1,10 +1,16 @@
 package com.falcon.orders;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface OrderRepository extends PagingAndSortingRepository<Order, Long> {
 	
-	//Page<Order> findAllById(long orderId, Pageable page);
+    //Page<Order> findAllById(long orderId, Pageable page);
+    
+    @Query("select o from Order o where o.referenceNum like %:key% or o.remarks like %:key%")
+    List<Order> findByReferenceNumOrRemarks(String key);
 }
