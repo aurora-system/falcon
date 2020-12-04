@@ -48,7 +48,7 @@ public class OrderController {
 	OrderForm orderForm = new OrderForm();
 	orderForm.getOrderItems().add(new OrderItem());
 	model.addAttribute("orderForm", orderForm);
-	model.addAttribute("customers", productRepository.findAll());
+	model.addAttribute("customers", customerRepository.findAll());
 	model.addAttribute("categories", productCategoryRepository.findAll());
 	model.addAttribute("products", productRepository.findAll());
 	return "order/orderform";
