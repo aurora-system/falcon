@@ -1,14 +1,24 @@
 package com.falcon.orders;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.customer.CustomerRepository;
+import com.falcon.product.Product;
 import com.falcon.product.ProductCategoryRepository;
 import com.falcon.product.ProductRepository;
 
@@ -52,5 +62,22 @@ public class OrderController {
 	model.addAttribute("categories", productCategoryRepository.findAll());
 	model.addAttribute("products", productRepository.findAll());
 	return "order/orderform";
+    }
+    
+    @PostMapping("/orders")
+    @Transactional
+    public String saveOrder(@Valid OrderForm orderForm, Errors errors, final RedirectAttributes redirect) {
+	
+	Order order = orderForm.getOrder();
+	order.setCreatedDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+	order.setOrderItems(orderForm.getOrderItems());
+	
+	if (errors.hasErrors()) {
+		return "order/orderform";
+	}
+	
+	// How to save the order id on the order items?
+
+	return "redirect:/orders";
     }
 }

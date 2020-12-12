@@ -27,7 +27,7 @@ public class SearchController {
 	public String dashboard(Model model, @PathVariable String keyword) {
 	    
 	    // Search in orders
-	    List<Order> orderSearchResults = orderRepository.findByReferenceNumOrRemarks(keyword);
+	    List<Order> orderSearchResults = orderRepository.findByIdOrRemarks(keyword);
 	    
 	    // Search in products
 	    List<Product> productSearchResults = productRepository.findByReferenceNumOrRemarks(keyword);

@@ -29,15 +29,13 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String type;
-	@NotNull
+	private String type; // service or sale
 	private Date createdDate;
 	@NotNull
 	private BigDecimal totalAmount = BigDecimal.ZERO;
 	private String paymentType;
 	private int monthlyDueDate;
 	private String remarks;
-	private String referenceNum;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id")

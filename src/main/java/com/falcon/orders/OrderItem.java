@@ -37,4 +37,6 @@ public class OrderItem {
 	private int quantity;
 	private BigDecimal priceOverride;
 	private BigDecimal totalAmount;
+	
+	private boolean priceOverriden;
 }
