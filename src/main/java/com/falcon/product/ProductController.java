@@ -121,19 +121,19 @@ public class ProductController {
 	}
 	
 	@PostMapping("/products/upload-photo/{productId}")
-    @Transactional
-    public String uploadFile(@RequestParam("file") MultipartFile file,
+	@Transactional
+	public String uploadFile(@RequestParam("file") MultipartFile file,
     		@PathVariable long productId
     		, Model model
     		, HttpServletRequest request
     		) throws Exception {
-        log.info("REST request to upload file");
-        //upload files
-        FileDTO fileDTO = storageService.uploadFile(file);
-        String username = request.getUserPrincipal().getName();
-        fileInfoRepository.save(toFileInfo(fileDTO, username, productId));
-        return "redirect:/products/" + productId;
-    }
+            log.info("REST request to upload file");
+            //upload files
+            FileDTO fileDTO = storageService.uploadFile(file);
+            String username = request.getUserPrincipal().getName();
+            fileInfoRepository.save(toFileInfo(fileDTO, username, productId));
+            return "redirect:/products/" + productId;
+	}
 	
 	private FileInfo toFileInfo(FileDTO fileDTO, String username, long productId) {
 		return new FileInfo(0L,

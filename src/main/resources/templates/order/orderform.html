@@ -136,8 +136,8 @@
 									<span class="validationError text-danger" th:if="${#fields.hasErrors('order.paymentType')}" th:errors="*{order.paymentType}"></span>
 									<label for="paymentType">Payment Type:</label> 
 									<select class="form-control" th:field="*{order.paymentType}" >
-										<option value="1">Cash</option>
-										<option value="2">Check</option>
+										<option value="cash">Cash</option>
+										<option value="check">Check</option>
 									</select>
 								</div>
 							</div>
