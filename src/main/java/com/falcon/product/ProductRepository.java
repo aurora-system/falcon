@@ -14,5 +14,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     Page<Product> findAllByCategoryId(long categoryId, Pageable page);
 	
     @Query("select p from Product p where p.name like %:key% or p.brand like %:key%")
-    List<Product> findByReferenceNumOrRemarks(String key);
+    List<Product> findByNameOrBrand(String key);
 }

@@ -11,6 +11,6 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Long>
 	
     //Page<Order> findAllById(long orderId, Pageable page);
     
-    @Query("select o from Order o where o.id like %:key% or o.remarks like %:key%")
-    List<Order> findByIdOrRemarks(String key);
+    @Query("select o from Order o where o.remarks like %:key%")
+    List<Order> findByRemarks(String key);
 }
