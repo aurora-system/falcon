@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import com.falcon.orders.OrderItem;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(uniqueConstraints = {
@@ -44,10 +45,12 @@ public class Product {
 	private String supplierName;
 	
 	@OneToMany(mappedBy = "product")
+	@ToString.Exclude
 	List<OrderItem> orderItemList;
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
+	@ToString.Exclude
 	ProductCategory category;
 	
 }

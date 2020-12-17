@@ -49,7 +49,9 @@ public class OrderController {
     public String orderDetails(@PathVariable long orderId, Model model) {
 	Optional<Order> order = orderRepository.findById(orderId);
 	Order o = order.orElse(new Order());
+	List<OrderItem> orderItems = o.getOrderItems();
 	model.addAttribute("order", o);
+	model.addAttribute("orderItems", orderItems);
 	return "order/order";
     }
 
@@ -72,11 +74,18 @@ public class OrderController {
 	order.setCreatedDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 	order.setOrderItems(orderForm.getOrderItems());
 	
+	for (OrderItem item : order.getOrderItems()) {
+	    item.setOrder(order);
+	}
+	
 	if (errors.hasErrors()) {
 		return "order/orderform";
 	}
 	
 	// How to save the order id on the order items?
+	Order savedOrder = orderRepository.save(order);
+	
+	
 
 	return "redirect:/orders";
     }

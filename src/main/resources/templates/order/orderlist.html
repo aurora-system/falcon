@@ -32,7 +32,7 @@
 							<th class="th-sm">Payment Type</th>
 							<th class="th-sm">Total Amount</th>
 							<th class="th-sm">Remarks</th>
-							<th class="th-sm">View Details</th>
+							<th class="th-sm">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -47,13 +47,7 @@
 								<td th:text="${order.totalAmount}"></td>
 								<td th:text="${order.remarks}"></td>
 								<td>
-									<button type="button" class="showOrderDetails btn btn-dark" 
-										th:data-row-type="${order.type}"
-										th:data-row-remarks="${order.remarks}" 
-										th:data-row-customer="${order.customer.name}"
-										th:data-row-createdDate="${order.createdDate}"
-										th:data-row-orderItems="${order.orderItems}"
-										data-toggle="modal" data-target="#orderDetailsModal">View Details</button>
+									<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">View Details</a>
 								</td>
 							</tr>
 						</th:block>
