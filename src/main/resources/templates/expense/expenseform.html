@@ -18,15 +18,26 @@
 					<h2>NEW EXPENSE</h2>
 					<form th:action="@{/expenses}" th:object="${expenseForm}" method="post">
 						<input type="hidden" th:field="*{id}" />
-							
 							<!-- Expense Details -->
 							<div class="row">
+								<!-- Expense Date -->
+								<div class="col-sm">
+									<div class="form-group">
+										<label for="expenseDate">Date</label>
+										<input type="date" class="datepick form-control" th:field="*{expenseDate}" id="expenseDate" name="expenseDate" placeholder="enter expense date" title="enter expense date">
+									</div>
+								</div>
+								
 								<div class="col-sm">
 									<!-- Expense Type -->
 									<div class="form-group">
 										<span class="validationError text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
 										<label for="brand">Expense Type:</label> 
-										<input class="form-control" type="text" th:field="*{type}" />
+										<select class="form-control" th:field="*{type}" >
+											<option value="salary">salary</option>
+											<option value="rent">rent</option>
+											<option value="miscellaneous">miscellaneous</option>
+										</select>
 									</div>
 								</div>
 								
