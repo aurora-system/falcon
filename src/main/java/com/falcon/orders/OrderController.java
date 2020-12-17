@@ -71,7 +71,7 @@ public class OrderController {
     public String saveOrder(@Valid OrderForm orderForm, Errors errors, final RedirectAttributes redirect) {
 	
 	Order order = orderForm.getOrder();
-	order.setCreatedDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+//	order.setCreatedDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 	order.setOrderItems(orderForm.getOrderItems());
 	
 	for (OrderItem item : order.getOrderItems()) {
@@ -85,8 +85,6 @@ public class OrderController {
 	// How to save the order id on the order items?
 	Order savedOrder = orderRepository.save(order);
 	
-	
-
 	return "redirect:/orders";
     }
 }

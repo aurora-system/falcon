@@ -1,6 +1,7 @@
 package com.falcon.orders;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.falcon.customer.Customer;
 
@@ -30,7 +34,12 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String type; // service or sale
-	private Date createdDate;
+	
+	@NotNull(message="is mandatory")
+	@PastOrPresent
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate createdDate;
+	
 	@NotNull
 	private BigDecimal totalAmount = BigDecimal.ZERO;
 	private String paymentType;

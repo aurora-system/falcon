@@ -1,8 +1,13 @@
 package com.falcon.customer;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.expense.Expense;
 
@@ -26,5 +31,16 @@ public class CustomerController {
     public String newCustomerForm(Model model) {
 	model.addAttribute("customerForm", new Customer());
 	return "customer/customerform";
+    }
+    
+    @PostMapping("/customers")
+    public String saveCustomer(@Valid Customer customer, Errors errors, final RedirectAttributes redirect) {
+	
+	if (errors.hasErrors()) {
+		return "customer/customerform";
+	}
+	
+	customerRepository.save(customer);
+	return "redirect:/customers";
     }
 }

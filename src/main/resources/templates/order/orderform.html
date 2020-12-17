@@ -120,7 +120,7 @@
 						<!-- Order Details -->	
 						<div class="row">
 							<!-- Customer-->
-							<div class="col-sm">
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="customer.id">Customer:</label>
 									<select class="form-control" id="customer.id" name="customer.id" th:field="*{order.customer}">
@@ -130,8 +130,15 @@
 								</div>
 							</div>
 							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="orderDate">Order Date</label>
+									<input type="date" class="form-control" th:field="*{order.createdDate}" id="orderDate" name="orderDate" placeholder="enter order date" title="enter order date">
+								</div>
+							</div>
+							
 							<!-- Payment Type -->
-							<div class="col-sm">
+							<div class="col-sm-2">
 								<div class="form-group">
 									<span class="validationError text-danger" th:if="${#fields.hasErrors('order.paymentType')}" th:errors="*{order.paymentType}"></span>
 									<label for="paymentType">Payment Type:</label> 
@@ -143,7 +150,7 @@
 							</div>
 							
 							<!-- Monthly Due Date -->
-							<div class="col-sm">
+							<div class="col-sm-2">
 								<div class="form-group">
 									<label for="monthlyDue">Monthly Due Date:</label> 
 									<select class="form-control" type="date" th:field="*{order.monthlyDueDate}" >
