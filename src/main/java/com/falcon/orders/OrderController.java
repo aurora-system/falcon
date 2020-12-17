@@ -71,20 +71,12 @@ public class OrderController {
     public String saveOrder(@Valid OrderForm orderForm, Errors errors, final RedirectAttributes redirect) {
 	
 	Order order = orderForm.getOrder();
-//	order.setCreatedDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 	order.setOrderItems(orderForm.getOrderItems());
-	
-	for (OrderItem item : order.getOrderItems()) {
-	    item.setOrder(order);
-	}
-	
 	if (errors.hasErrors()) {
 		return "order/orderform";
 	}
 	
-	// How to save the order id on the order items?
-	Order savedOrder = orderRepository.save(order);
-	
+	orderRepository.save(order);
 	return "redirect:/orders";
     }
 }
