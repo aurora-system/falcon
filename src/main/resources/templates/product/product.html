@@ -19,7 +19,7 @@
 						<div class="clearfix">
 							<h2>
 								<span th:text="*{name}"></span>
-								<a th:href="@{/products}" class="btn btn-dark float-right">Back</a>
+								<a onclick="goBack()" class="btn btn-dark float-right">Back</a>
 							</h2>
 						</div>
 						<table class="table table-hover table-bordered detailsPage" style="width: 100%">
@@ -107,5 +107,10 @@
 	
 	<th:block th:replace="fragments/common::javascript"></th:block>
 	
+	<script th:inline="javascript">
+		function goBack() {
+			window.history.back();
+		}
+	</script>
 </body>
 </html>

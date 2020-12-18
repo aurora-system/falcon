@@ -17,7 +17,7 @@
 				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
 					<div class="clearfix">
 						<h2>ORDER DETAILS
-							<a th:href="@{/orders}" class="btn btn-dark float-right">Back</a>
+							<a onclick="goBack()" class="btn btn-dark float-right">Back</a>
 						</h2>
 					</div>
 					<th:block th:object="${order}">
@@ -94,5 +94,11 @@
 	
 	<th:block th:replace="fragments/common::javascript"></th:block>
 	
+	<script th:inline="javascript">
+		
+		function goBack() {
+			window.history.back();
+		}
+	</script>
 </body>
 </html>
