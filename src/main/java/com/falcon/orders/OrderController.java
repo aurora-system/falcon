@@ -68,6 +68,11 @@ public class OrderController {
 	
 	Order order = orderForm.getOrder();
 	order.setOrderItems(orderForm.getOrderItems());
+	
+	for (OrderItem item : order.getOrderItems()) {
+	    item.setOrder(order);
+	}
+	
 	if (errors.hasErrors()) {
 		return "order/orderform";
 	}
