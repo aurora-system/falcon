@@ -78,11 +78,11 @@
 	<th:block th:replace="fragments/common::javascript"></th:block>
 	
 	<!-- Script for Weekly Sales Chart -->
-	<script th:inline = javascript>
+	<script th:inline="javascript">
 		
 		Chart.defaults.global.defaultFontFamily = "Raleway";
 		
-		var weeklySalesData = [[${weeklySalesData}]];
+		var weeklySalesData = /*[[${weeklySalesData}]]*/[];
 		var ctx = document.getElementById('weeklySalesChart').getContext('2d');
 		
 		var myChart = new Chart(ctx, {
@@ -124,44 +124,44 @@
 		    }
 		});
 		
-		<!-- Script for Product Sales Chart -->
-			var dailyProductSalesData = [[${dailyProductSalesData}]];
-			var ctx = document.getElementById('productSalesChart').getContext('2d');
-			
-			var myChart = new Chart(ctx, {
-			    type: 'bar',
-			    data: {
-			        labels: Object.keys(dailyProductSalesData),
-			        datasets: [{
-			            label: 'Daily Product Sales',
-			            data: Object.keys(dailyProductSalesData).map(function(key) {return dailyProductSalesData[key];}),
-			            backgroundColor: [
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)'
-			            ],
-			            borderColor: [
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)',
-			            	'rgba(75, 192, 192, 1)'
-			            ],
-			            borderWidth: 1
-			        }]
-			    },
-			    options: {
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero: true
-			                }
-			            }]
-			        }
-			    }
-			});
-		</script>
+		//Script for Product Sales Chart
+		var dailyProductSalesData = /*[[${dailyProductSales}]]*/[];
+		var ctx = document.getElementById('productSalesChart').getContext('2d');
+		
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: Object.keys(dailyProductSalesData),
+		        datasets: [{
+		            label: 'Daily Product Sales',
+		            data: Object.keys(dailyProductSalesData).map(function(key) {return dailyProductSalesData[key];}),
+		            backgroundColor: [
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)'
+		            ],
+		            borderColor: [
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)',
+		            	'rgba(75, 192, 192, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero: true
+		                }
+		            }]
+		        }
+		    }
+		});
+	</script>
 			
 </body>

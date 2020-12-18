@@ -1,12 +1,20 @@
 package com.falcon.common;
 
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.toList;
+
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.falcon.orders.Order;
+import com.falcon.orders.OrderItem;
 import com.falcon.orders.OrderRepository;
 import com.falcon.product.ProductRepository;
 
@@ -45,6 +53,17 @@ public class DashboardController {
 		model.addAttribute("weeklySalesData", weeklySalesData);
 	        model.addAttribute("dailyProductSalesData", dailyProductSalesData);
 		model.addAttribute("message", "Hello from @GetMapping.");
+		
+		List<Order> ordersToday = orderRepository.findByCreatedDate(LocalDate.now());
+		List<OrderItem> orderItems = ordersToday.stream()
+				.map(Order::getOrderItems)
+				.flatMap(List::stream)
+				.collect(toList());
+		Map<Object, Long> ordersTodayMap = orderItems.stream()
+				.collect(Collectors.groupingBy(item -> item.getProduct().getName()
+						, counting()));
+		
+		model.addAttribute("dailyProductSales", ordersTodayMap);
 		return "common/dashboard";
 	}
 }
