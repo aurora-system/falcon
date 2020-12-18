@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Orders')"></th:block>
+<body>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+
+	  	<div class="row">
+    		<div class="col">
+				<div class="container-fluid mt-3 shadow-lg p-3 mb-3 bg-white rounded">
+					<!-- Order List -->
+					<h2>ORDERS TODAY</h2>
+					<table id="dataTables-orderList" class="table table-hover table-bordered " style="width: 100%">
+						<thead class="datatable-thead thead-dark">
+							<tr>
+								<th class="th-sm">Order Id</th>
+								<th class="th-sm">Customer</th>
+								<th class="th-sm">Type</th>
+								<th class="th-sm">Payment Type</th>
+								<th class="th-sm">Total Amount</th>
+								<th class="th-sm">Remarks</th>
+								<th class="th-sm">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="order : ${orders}">
+								<input id="orderRow" type="hidden" th:value="${order}">
+								<tr>
+									<td th:text="${order.id}"></td>
+									<td th:text="${order.customer.name}"></td>
+									<td th:text="${order.type}"></td>
+									<td th:text="${order.paymentType}"></td>
+									<td th:text="${order.totalAmount}"></td>
+									<td th:text="${order.remarks}"></td>
+									<td>
+										<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+	  	</div>
+	  	<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+
+	<th:block th:replace="fragments/common::javascript"></th:block>
+
+	<script>
+		$(document).ready(function() {
+		    $('#dataTables-orderList').DataTable({
+		    });
+		} );
+	</script>
+</body>

@@ -1,8 +1,5 @@
 package com.falcon.orders;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.customer.CustomerRepository;
-import com.falcon.product.Product;
 import com.falcon.product.ProductCategoryRepository;
 import com.falcon.product.ProductRepository;
 
@@ -44,7 +40,7 @@ public class OrderController {
 	model.addAttribute("orders", orders);
 	return "order/orderlist";
     }
-
+    
     @GetMapping({ "/orders/{orderId}" })
     public String orderDetails(@PathVariable long orderId, Model model) {
 	Optional<Order> order = orderRepository.findById(orderId);
