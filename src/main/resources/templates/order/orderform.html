@@ -157,7 +157,7 @@
 								<div class="form-group">
 									<span class="validationError text-danger" th:if="${#fields.hasErrors('order.paymentType')}" th:errors="*{order.paymentType}"></span>
 									<label for="paymentType">Payment Type:</label> 
-									<select class="form-control" th:field="*{order.paymentType}" >
+									<select class="form-control" th:field="*{order.paymentType}" id="paymentType">
 										<option value="cash">Cash</option>
 										<option value="check">Check</option>
 									</select>
@@ -168,7 +168,8 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="monthlyDue">Monthly Due Date:</label> 
-									<select class="form-control" type="date" th:field="*{order.monthlyDueDate}" >
+									<select class="form-control" type="date" th:field="*{order.monthlyDueDate}" id="monthlyDue" disabled=true>
+										<option value="0">N/A</option>
 										<option value="1">1</option>
 										<option value="2">2</option>
 										<option value="3">3</option>
@@ -304,6 +305,18 @@
 				rowNum = $(this).attr("id").replace("quantity", "");
 				var subTotal = $(this).val() * $("#priceOverride"+rowNum).val();
 				$("#totalAmount"+rowNum).val(subTotal);
+				updateTotalAmount();
+	      	});
+		
+		$('#paymentType').change(
+			function() {
+				var pType = $(this).val();
+				if (pType == "cash") {
+					$("#monthlyDue").val("0");
+					$("#monthlyDue").prop('disabled', true);
+				} else {
+					$("#monthlyDue").prop('disabled', false);;
+				}
 				updateTotalAmount();
 	      	});
 	
