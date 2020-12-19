@@ -54,4 +54,6 @@ public class Order {
 			cascade = CascadeType.ALL)
 	@ToString.Exclude
 	List<OrderItem> orderItems;
+	
+	private String status = "PROCESSED"; // { PROCESSED, CANCELLED }
 }

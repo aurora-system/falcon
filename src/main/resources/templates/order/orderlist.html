@@ -32,7 +32,7 @@
 							<th class="th-sm">Payment Type</th>
 							<th class="th-sm">Total Amount</th>
 							<th class="th-sm">Remarks</th>
-							<th class="th-sm">Action</th>
+							<th class="th-sm">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -48,6 +48,7 @@
 								<td th:text="${order.remarks}"></td>
 								<td>
 									<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									<a type="button" class="showOrderDetails btn btn-danger">Cancel</a>
 								</td>
 							</tr>
 						</th:block>

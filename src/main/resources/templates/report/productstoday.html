@@ -41,11 +41,19 @@
 	</div>
 
 	<th:block th:replace="fragments/common::javascript"></th:block>
+	<th:block th:replace="fragments/common::export"></th:block>
 
 	<script>
 		$(document).ready(function() {
 		    $('#dataTables-orderList').DataTable({
+		    	dom: "<'row'<'col-md-6'l><'col-md-6'f>>" +
+		    	"<'row'<'col-md-6'><'col-md-6'>>" +
+		    	"<'row'<'col-md-12't>><'row'<'col-md-12'ip>>B",
+		        buttons: [
+		            'excel', 'pdf', 'print'
+		        ],
 		    });
+		    $('.dt-button').addClass("btn btn-dark");
 		} );
 	</script>
 </body>
