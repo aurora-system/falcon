@@ -19,30 +19,34 @@
 					<table id="dataTables-orderList" class="table table-hover table-bordered " style="width: 100%">
 						<thead class="datatable-thead thead-dark">
 							<tr>
+								<th class="th-sm">Action</th>
 								<th class="th-sm">Order Id</th>
 								<th class="th-sm">Customer</th>
 								<th class="th-sm">Type</th>
 								<th class="th-sm">Payment Type</th>
-								<th class="th-sm">Total Amount</th>
 								<th class="th-sm">Remarks</th>
-								<th class="th-sm">Action</th>
+								<th class="th-sm">Total Amount</th>
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each="order : ${orders}">
 								<input id="orderRow" type="hidden" th:value="${order}">
 								<tr>
+									<td>
+										<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									</td>
 									<td th:text="${order.id}"></td>
 									<td th:text="${order.customer.name}"></td>
 									<td th:text="${order.type}"></td>
 									<td th:text="${order.paymentType}"></td>
-									<td th:text="${order.totalAmount}"></td>
 									<td th:text="${order.remarks}"></td>
-									<td>
-										<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
-									</td>
+									<td th:text="${order.totalAmount}"></td>
 								</tr>
 							</th:block>
+							<tr>
+								<td colspan="6" class="table-secondary text-right">Total Sales Amount</td>
+								<td class="table-success" th:text="${totalAmount}"></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

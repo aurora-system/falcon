@@ -37,7 +37,7 @@ public class Order {
 	@NotNull(message="is mandatory")
 	@PastOrPresent
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate createdDate;
+	private LocalDate createdDate = LocalDate.now();
 	
 	@NotNull
 	private BigDecimal totalAmount = BigDecimal.ZERO;

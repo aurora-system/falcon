@@ -51,7 +51,14 @@ public class ReportController {
 	@GetMapping("/reports/orderstoday")
 	public String listAllOrdersToday(Model model) {
 	    Iterable<Order> orders = orderRepository.findByCreatedDate(LocalDate.now());
+	    double totalAmount = 0.0;
+	    
+	    for (Order order : orders) {
+		totalAmount = totalAmount + order.getTotalAmount().doubleValue();
+	    }
+	    
 	    model.addAttribute("orders", orders);
+	    model.addAttribute("totalAmount", totalAmount);
 	    return "report/orderstoday";
 	}
 	
