@@ -110,7 +110,7 @@
 								<!-- Stock Level -->
 								<div class="form-group">
 									<label for="stockLevel">Stock Level:</label> 
-									<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('stockLevel')}" th:errors="*{stockLevel}"></span> 
 									<input type="text" class="form-control" th:field="*{stockLevel}" />
 								</div>
 							</div>
@@ -119,7 +119,7 @@
 								<!-- Threshold -->
 								<div class="form-group">
 									<label for="threshold">Threshold:</label> 
-									<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('threshold')}" th:errors="*{threshold}"></span> 
 									<input type="text" class="form-control" th:field="*{threshold}" />
 								</div>
 							</div>
