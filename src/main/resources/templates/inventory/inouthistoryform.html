@@ -17,7 +17,7 @@
 				<!-- New In/Out Transaction Form -->
 				<h2>NEW IN/OUT TRANSACTION</h2>
 				
-				<form th:action="@{/inouthistory}" th:object="${inouthistory}" method="post">
+				<form th:action="@{/inouthistory}" th:object="${inOutHistory}" method="post">
 				    <input type="hidden" th:field="*{id}" />
 				    
 				    <!-- Product -->
@@ -26,10 +26,11 @@
 					      <div class="form-group">
 						      <label for="product.id">Product:</label>
 						      <select class="form-control"  id="product.id" name="product.id">
+						        <option value="0">- Select a product -</option>
 						        <option th:each="product : ${products}" 
 						          th:value="${product.id}" 
 						          th:text="${product.name}"
-						          th:selected="${inouthistory.product != null ? product.id == inouthistory.product.id : false}"
+						          th:selected="${inOutHistory.product != null ? product.id == inOutHistory.product.id : false}"
 						          ></option>
 						      </select>
 					      </div>
@@ -41,16 +42,19 @@
 				    		<!-- Date -->
 				    		<div class="form-group">
 						      <label for="transDate">Date:</label>
-						      <input class="form-control" type="date" th:field="*{transDate}"/>
+						      <span class="validationError text-danger" th:if="${#fields.hasErrors('transDate')}" th:errors="*{transDate}"></span>
+      						  <input class="form-control" type="date" th:field="*{transDate}"/>
 					      	</div>
 				    	</div>
 				    	<div class="col-sm">
 				    		<!-- Transaction Type -->
 				    		<div class="form-group">
 				    			<label for="transType">Type:</label> 
-			    				<select class="form-control" id="transType" name="transType">
-									<option value='IN'>IN</option>
-									<option value='OUT'>OUT</option>
+			    				<span class="validationError text-danger" th:if="${#fields.hasErrors('transType')}" th:errors="*{transType}"></span>
+      						    <select class="form-control" id="transType" name="transType">
+      						        <option value="">- IN or OUT -</option>
+									<option value="IN">IN</option>
+									<option value="OUT">OUT</option>
 								</select>
 							</div>
 				    	</div>
@@ -60,13 +64,15 @@
 				    	<div class="col-sm">
 				    		<div class="form-group">
 					    		<label for="productCount">Product Count:</label>
-					      		<input class="form-control" type="number" th:field="*{productCount}"/>
+					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('productCount')}" th:errors="*{productCount}"></span>
+      						    <input class="form-control" type="number" th:field="*{productCount}"/>
 				      		</div>
 				    	</div>
 						<div class="col-sm">
 							<div class="form-group">
 					    		<label for="productCount">Updated Count:</label>
-					      		<input class="form-control" type="number" th:field="*{productCount}"/>
+					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('updatedCount')}" th:errors="*{updatedCount}"></span>
+      						    <input class="form-control" type="number" th:field="*{updatedCount}"/>
 				      		</div>
 				    	</div>				    	
 				    </div>
