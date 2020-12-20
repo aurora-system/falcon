@@ -33,6 +33,10 @@ public class OrderItem {
 	@ToString.Exclude
 	private Product product;
 	
+	private String categoryId;
 	private int quantity;
+	private BigDecimal priceOverride;
 	private BigDecimal totalAmount;
+	
+	private boolean priceOverriden;
 }

@@ -33,14 +33,19 @@ public class InOutHistoryController {
 	
 	@GetMapping({"/inouthistory/new"})
 	public String newInOutHistoryForm(Model model) {
-		model.addAttribute("inouthistory", new InOutHistory());
+		model.addAttribute("inOutHistory", new InOutHistory());
 		model.addAttribute("products", productRepository.findAll());
 		return "inventory/inouthistoryform";
 	}
 	
 	@PostMapping({"/inouthistory"})
-	public String saveInOutHistory(@Valid InOutHistory inOutHistory, Errors errors, RedirectAttributes redirect) {
+	public String saveInOutHistory(
+			@Valid InOutHistory inOutHistory, Errors errors
+			, final RedirectAttributes redirect
+			, Model model
+			) {
 		if (errors.hasErrors()) {
+			model.addAttribute("products", productRepository.findAll());
 			return "inventory/inouthistoryform";
 		}
 		inOutHistoryRepository.save(inOutHistory);

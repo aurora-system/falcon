@@ -64,16 +64,19 @@ public class ProductController {
 	
 	@GetMapping({"/productcategories/new"})
 	public String newProductCategoryForm(Model model) {
-		model.addAttribute("product", new ProductCategory());
+		model.addAttribute("productCategory", new ProductCategory());
 		return "product/categoryform";
 	}
 	
 	@PostMapping({"/productcategories"})
-	public String saveProductCategory(@Valid ProductCategory product, Errors errors, RedirectAttributes redirect) {
+	public String saveProductCategory(
+			@Valid ProductCategory product, Errors errors
+			, final RedirectAttributes redirect) {
 		if (errors.hasErrors()) {
 			return "product/categoryform";
 		}
 		productCategoryRepository.save(product);
+		redirect.addFlashAttribute("message", "New Product Category saved successfully.");
 		return "redirect:/products";
 	}
 	
@@ -104,36 +107,39 @@ public class ProductController {
 	@GetMapping({"/products/new"})
 	public String newProductForm(Model model) {
 		model.addAttribute("product", new Product());
-		// model.addAttribute("product", productRepository.findById(1L).get());
 		model.addAttribute("categories", productCategoryRepository.findAll());
 		return "product/productform";
 	}
 	
 	@PostMapping({"/products"})
-	public String saveProduct(@Valid Product product, Errors errors, RedirectAttributes redirect) {
+	public String saveProduct(
+			@Valid Product product, Errors errors
+			, final RedirectAttributes redirect
+			, Model model
+			) {
 		if (errors.hasErrors()) {
+			model.addAttribute("categories", productCategoryRepository.findAll());
 			return "product/productform";
 		}
 		productRepository.save(product);
-		redirect.addAttribute("categories", productCategoryRepository.findAll());
-		redirect.addFlashAttribute("product", product);
+		redirect.addFlashAttribute("message", "New Product added successfully.");
 		return "redirect:/products";
 	}
 	
 	@PostMapping("/products/upload-photo/{productId}")
-    @Transactional
-    public String uploadFile(@RequestParam("file") MultipartFile file,
+	@Transactional
+	public String uploadFile(@RequestParam("file") MultipartFile file,
     		@PathVariable long productId
     		, Model model
     		, HttpServletRequest request
     		) throws Exception {
-        log.info("REST request to upload file");
-        //upload files
-        FileDTO fileDTO = storageService.uploadFile(file);
-        String username = request.getUserPrincipal().getName();
-        fileInfoRepository.save(toFileInfo(fileDTO, username, productId));
-        return "redirect:/products/" + productId;
-    }
+            log.info("REST request to upload file");
+            //upload files
+            FileDTO fileDTO = storageService.uploadFile(file);
+            String username = request.getUserPrincipal().getName();
+            fileInfoRepository.save(toFileInfo(fileDTO, username, productId));
+            return "redirect:/products/" + productId;
+	}
 	
 	private FileInfo toFileInfo(FileDTO fileDTO, String username, long productId) {
 		return new FileInfo(0L,

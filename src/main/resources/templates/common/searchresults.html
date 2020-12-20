@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
+<body>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<!-- Search Results for Orders -->
+		<div class="row">
+			<div class="col-sm">
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<h2>Search Results for ORDERS</h2>
+					<table id="dataTables-orderList" class="table table-hover table-bordered " style="width: 100%">
+						<thead class="datatable-thead thead-dark">
+							<tr>
+								<th class="th-sm">Customer</th>
+								<th class="th-sm">Type</th>
+								<th class="th-sm">Order Date</th>
+								<th class="th-sm">Payment Type</th>
+								<th class="th-sm">Total Amount</th>
+								<th class="th-sm">Remarks</th>
+								<th class="th-sm">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="order : ${orderSearchResults}">
+								<input id="orderRow" type="hidden" th:value="${order}">
+								<tr>
+									<td th:text="${order.customer.name}"></td>
+									<td th:text="${order.type}"></td>
+									<td th:text="${order.createdDate}"></td>
+									<td th:text="${order.paymentType}"></td>
+									<td th:text="${order.totalAmount}"></td>
+									<td th:text="${order.remarks}"></td>
+									<td>
+										<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Search Results for Products -->
+		<div class="row">
+			<div class="col-sm">
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<h2>Search Results for PRODUCTS</h2>
+					<table id="dataTables-productList" class="table table-hover table-bordered" style="width:100%">
+						<thead class="datatable-thead thead-dark">
+							<tr>
+								<th class="th-sm">Id</th>
+								<th class="th-sm">Category</th>
+								<th class="th-sm">Name</th>
+								<th class="th-sm">Brand</th>
+								<th class="th-sm">SRP</th>
+								<th class="th-sm">Aqui Price</th>
+								<th class="th-sm">Supplier</th>
+								<th class="th-sm">Stock Level</th>
+								<th class="th-sm">Low stock?</th>
+								<th class="th-sm">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+					  	<th:block th:each="product : ${productSearchResults}">
+						  	<tr>
+						  		<td><a th:href="|@{/products}/${product.id}|" th:text="${product.id}"></a></td>
+						  		<td><a th:href="|@{/products/category}/${product.category.id}|" th:text="${product.category.name}"></a></td>
+						  		<td th:text="${product.name}"></td>
+						  		<td th:text="${product.brand}"></td>
+						  		<td th:text="${product.srp}"></td>
+						  		<td th:text="${product.aquiPrice}"></td>
+						  		<td th:text="${product.supplierName}"></td>
+						  		<td th:text="${product.stockLevel}"></td>
+						  		<td th:text="${product.stockLevel &lt; product.threshold ? 'LOW' : ''}"></td>
+						  		<td><a type="button" class="btn btn-dark float-center">Details</a></td>
+						  	</tr>
+					  	</th:block>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	  	<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+	
+	<th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<!-- Script for Weekly Sales Chart -->
+	<script th:inline = javascript>
+		
+		
+	</script>
+			
+</body>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Create New Order')"></th:block>
+<body>
+	<div class="container-fluid">
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<!-- New Product  Form -->
+					<h2>NEW EXPENSE</h2>
+					<form th:action="@{/expenses}" th:object="${expenseForm}" method="post">
+						<input type="hidden" th:field="*{id}" />
+							<!-- Expense Details -->
+							<div class="row">
+								<!-- Expense Date -->
+								<div class="col-sm">
+									<div class="form-group">
+										<label for="expenseDate">Date</label>
+										<input type="date" class="datepick form-control" th:field="*{expenseDate}" id="expenseDate" name="expenseDate" placeholder="enter expense date" title="enter expense date">
+									</div>
+								</div>
+								
+								<div class="col-sm">
+									<!-- Expense Type -->
+									<div class="form-group">
+										<span class="validationError text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+										<label for="brand">Expense Type:</label> 
+										<select class="form-control" th:field="*{type}" >
+											<option value="salary">salary</option>
+											<option value="rent">rent</option>
+											<option value="miscellaneous">miscellaneous</option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="col-sm">
+									<!-- Amount -->
+									<div class="form-group">
+										<label for="monthlyDue">Amount:</label> 
+										<input class="form-control" type="number" th:field="*{amount}" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-sm">
+									<!-- Remarks -->
+									<div class="form-group">
+										<label for="remarks">Remarks:</label>
+										<input class="form-control" type="text" th:field="*{remarks}" />
+									</div>
+								</div>
+							</div>
+						
+						<div class="clearfix">
+					    	<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
+					    	<a th:href="@{/expenses}" class="btn btn-dark float-right">Cancel</a>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+</body>
+</html>

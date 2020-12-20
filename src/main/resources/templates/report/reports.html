@@ -13,9 +13,67 @@
 
 		<div class="row">
 			<div class="col">
-				<div class="container-fluid mt-3">
+				<div class="container-fluid mt-3 shadow-lg p-3 mb-3 bg-white rounded">
 					<h2>REPORTS</h2>
-					This is the Reports Page.
+					<hr/>
+					<div class="row">
+						<div class="col m-2 shadow-lg p-3 bg-white rounded">
+							<div class="card">
+							  <h5 class="card-header">Daily Totals</h5>
+							  <div class="card-body">
+							    <p class="card-text">View a report containing sales totals and expenses.</p>
+							    <a th:href="@{/reports/orderstoday}" class="btn btn-dark float-right">Go</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col m-2 shadow-lg p-3 bg-white rounded">
+							<div class="card">
+							  <h5 class="card-header">Products Sold Today</h5>
+							  <div class="card-body">
+							    <p class="card-text">View a list of products sold today.</p>
+							    <a th:href="@{/reports/productstoday}" class="btn btn-dark float-right">Go</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col m-2 shadow-lg p-3 bg-white rounded">
+							<div class="card">
+							  <h5 class="card-header">Orders Today</h5>
+							  <div class="card-body">
+							    <p class="card-text">View a list of orders created today.</p>
+							    <a th:href="@{/reports/orderstoday}" class="btn btn-dark float-right">Go</a>
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col m-2 shadow-lg p-3 bg-white rounded">
+							<div class="card">
+							  <h5 class="card-header">Monthly Orders Report</h5>
+							  <div class="card-body">
+							    <p class="card-text">View a list of orders for a selected month.</p>
+							    <a th:href="@{/reports/orderstoday}" class="btn btn-dark float-right">Go</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col m-2 shadow-lg p-3 bg-white rounded">
+							<div class="card">
+							  <h5 class="card-header">Monthly Product Statistics</h5>
+							  <div class="card-body">
+							    <p class="card-text">View a report of the number of products sold for a given month.</p>
+							    <a th:href="@{/reports/orderstoday}" class="btn btn-dark float-right">Go</a>
+							  </div>
+							</div>
+						</div>
+						<div class="col m-2 shadow-lg p-3 bg-white rounded">
+							<div class="card">
+							  <h5 class="card-header">In and Out Report</h5>
+							  <div class="card-body">
+							    <p class="card-text">View a statistics of incoming and outgooing products.</p>
+							    <a th:href="@{/reports/orderstoday}" class="btn btn-dark float-right">Go</a>
+							  </div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>	
