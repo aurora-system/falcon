@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.falcon.orders.OrderItem;
 
@@ -32,15 +33,20 @@ public class Product {
 	private long id;
 	@NotBlank
 	private String name;
+	@NotBlank
 	private String brand;
 	private String otherDetails;
 	private String forVehicle;
 	private String color;
 	@NotNull
+	@PositiveOrZero
 	private BigDecimal aquiPrice = BigDecimal.ZERO;
 	@NotNull
+	@PositiveOrZero
 	private BigDecimal srp = BigDecimal.ZERO;
+	@PositiveOrZero
 	private int stockLevel;
+	@PositiveOrZero
 	private int threshold;
 	private String supplierName;
 	

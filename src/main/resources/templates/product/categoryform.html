@@ -7,8 +7,8 @@
   <form th:action="@{/productcategories}" th:object="${productCategory}" method="post">
     <input type="hidden" th:field="*{id}" />
     <div>
-      <span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
       <label for="name">Name:</label>
+      <span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
       <input type="text" th:field="*{name}"/>
     </div>
     <div>

@@ -20,22 +20,29 @@
 						<input type="hidden" th:field="*{id}" />
 						
 						<!-- Category Selection -->
+						<div class="row">
+						    <div class="col-sm">
 							<div class="form-group ">
 								<label for="category.id">Category:</label> 
-									<select class="form-control" id="category.id" name="category.id">
+								<select class="form-control" id="category.id" name="category.id">
 									<option selected>Select...</option>
 									<option th:each="cat : ${categories}" th:value="${cat.id}"
 										th:text="${cat.name}"
 										th:selected="${product.category != null ? cat.id == product.category.id : false}"></option>
 								</select>
+    						    <div class="my-2">
+        					        <a th:href="@{/productcategories/new}" class="btn btn-dark float-right">Add New Category</a>
+		    				    </div>
+						    </div>
 							</div>
+						</div>
 						
 						<div class="row">
 							<div class="col-sm">
 								<!-- Brand -->
 							<div class="form-group">
-								<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
 								<label for="brand">Brand:</label> 
+								<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
 								<input class="form-control" type="text" th:field="*{brand}" />
 							</div>
 							</div>
@@ -43,8 +50,8 @@
 							<div class="col-sm">
 								<!-- Name -->
 								<div class="form-group">
-									<span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 									<label for="name">Name:</label> 
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 									<input class="form-control" type="text" th:field="*{name}" />
 								</div>
 							</div>
@@ -82,8 +89,8 @@
 							<div class="col-sm">
 								<!-- Aqui Price -->
 								<div class="form-group">
-									<span class="validationError text-danger" th:if="${#fields.hasErrors('aquiPrice')}" th:errors="*{aquiPrice}"></span> 
 									<label for="aquiPrice">Aqui Price:</label> 
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('aquiPrice')}" th:errors="*{aquiPrice}"></span> 
 									<input type="text" class="form-control" th:field="*{aquiPrice}" />
 								</div>
 							</div>
@@ -91,8 +98,8 @@
 							<div class="col-sm">
 								<!-- SRP -->
 								<div class="form-group">
-									<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
 									<label for="srp">SRP:</label> 
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
 									<input type="text" class="form-control" th:field="*{srp}" />
 								</div>
 							</div>
@@ -103,7 +110,8 @@
 								<!-- Stock Level -->
 								<div class="form-group">
 									<label for="stockLevel">Stock Level:</label> 
-									<input type="text" class="form-control" th:field="*{otherDetails}" />
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
+									<input type="text" class="form-control" th:field="*{stockLevel}" />
 								</div>
 							</div>
 							
@@ -111,6 +119,7 @@
 								<!-- Threshold -->
 								<div class="form-group">
 									<label for="threshold">Threshold:</label> 
+									<span class="validationError text-danger" th:if="${#fields.hasErrors('srp')}" th:errors="*{srp}"></span> 
 									<input type="text" class="form-control" th:field="*{threshold}" />
 								</div>
 							</div>

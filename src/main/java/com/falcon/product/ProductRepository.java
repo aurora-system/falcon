@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.falcon.orders.Order;
-
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long>{
 
     Page<Product> findAllByCategoryId(long categoryId, Pageable page);
