@@ -77,7 +77,7 @@ public class ProductController {
 		}
 		productCategoryRepository.save(product);
 		redirect.addFlashAttribute("message", "New Product Category saved successfully.");
-		return "redirect:/products";
+		return "redirect:/productcategories";
 	}
 	
 	@GetMapping({"/products"})
@@ -93,6 +93,18 @@ public class ProductController {
 		Iterable<Product> products = productRepository.findAllByCategoryId(categoryId, pageOne);
 		model.addAttribute("products", products);
 		return "product/productlist";
+	}
+	
+	@GetMapping({"/products/category/{categoryId}/new"})
+	public String newProductsByCategory(@PathVariable long categoryId, Model model) {
+		Pageable pageOne = PageRequest.of(0, 20);
+		Iterable<Product> products = productRepository.findAllByCategoryId(categoryId, pageOne);
+		model.addAttribute("products", products);
+		Product p = new Product();
+		p.setCategory(productCategoryRepository.findById(categoryId).orElseGet(() -> new ProductCategory()));
+		model.addAttribute("product", p);
+		model.addAttribute("categories", productCategoryRepository.findAll());
+		return "product/productform";
 	}
 	
 	@GetMapping({"/products/{productId}"})
