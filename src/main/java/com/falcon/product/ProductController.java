@@ -62,6 +62,14 @@ public class ProductController {
 		return "product/category";
 	}
 	
+	@GetMapping({"/productcategories/{categoryId}/edit"})
+	public String editCategoryDetails(@PathVariable long categoryId, Model model) {
+		ProductCategory cat = productCategoryRepository.findById(categoryId)
+				.orElse(new ProductCategory(""));
+		model.addAttribute("productCategory", cat);
+		return "product/categoryform";
+	}
+	
 	@GetMapping({"/productcategories/new"})
 	public String newProductCategoryForm(Model model) {
 		model.addAttribute("productCategory", new ProductCategory());
@@ -110,10 +118,20 @@ public class ProductController {
 	@GetMapping({"/products/{productId}"})
 	public String productDetails(@PathVariable long productId, Model model) {
 		Optional<Product> product = productRepository.findById(productId);
-		Product p = product.orElse(new Product());
+		Product p = product.orElseGet(() ->new Product());
 		model.addAttribute("product", p);
 		model.addAttribute("imageList", fileInfoRepository.findAllByProductId(productId));
 		return "product/product";
+	}
+	
+	@GetMapping({"/products/{productId}/edit"})
+	public String editProductDetails(@PathVariable long productId, Model model) {
+		Optional<Product> product = productRepository.findById(productId);
+		Product p = product.orElseGet(() ->new Product());
+		model.addAttribute("product", p);
+		model.addAttribute("categories", productCategoryRepository.findAll());
+		model.addAttribute("imageList", fileInfoRepository.findAllByProductId(productId));
+		return "product/productform";
 	}
 	
 	@GetMapping({"/products/new"})
