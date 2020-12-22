@@ -43,8 +43,8 @@
                           <td><a th:href="|@{/productcategories}/${cat.id}|" th:text="${cat.id}"></a></td>
                           <td><a th:href="|@{/products/category}/${cat.id}|" th:text="${cat.name}"></a></td>
                           <td>
-                              <a type="button" class="btn btn-dark float-center">Edit</a>
-                              <a type="button" th:href="|@{/products}/category/${cat.id}/new|" class="btn btn-dark float-center">New Product</a>
+                              <a type="button" th:href="|@{/productcategories}/${cat.id}/edit|" class="btn btn-dark float-right ml-1">Edit</a>
+                              <a type="button" th:href="|@{/products}/category/${cat.id}/new|" class="btn btn-dark float-right">New Product</a>
                           </td>
                         </tr>
                         </th:block>
