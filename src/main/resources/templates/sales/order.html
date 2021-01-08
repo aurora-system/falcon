@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Order Details')"></th:block>
+<body>
+	<div class="container-fluid">
+		
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<div class="clearfix">
+						<h2>ORDER DETAILS
+							<a onclick="goBack()" class="btn btn-dark float-right">Back</a>
+						</h2>
+					</div>
+					<th:block th:object="${order}">
+						<table class="table table-hover table-bordered detailsPage" style="width: 100%">
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">ID</td>
+								<td class="col-8" th:text="*{id}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Type</td>
+								<td class="col-8" th:text="*{type}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Date</td>
+								<td class="col-8" th:text="*{createdDate}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Payment Type</td>
+								<td class="col-8" th:text="*{paymentType}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Due Date</td>
+								<td class="col-8" th:text="*{monthlyDueDate}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Remarks</td>
+								<td class="col-8" th:text="*{remarks}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Customer</td>
+								<td class="col-8" th:text="*{customer.name}"></td>
+							</tr>
+						</table>
+					</th:block>
+				</div>
+				
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<h2>ORDER ITEMS</h2>
+					<table id="dataTables-orderItemList" class="table table-hover table-bordered " style="width: 100%">
+						<thead class="datatable-thead thead-dark">
+							<tr>
+								<th class="th-sm">Product</th>
+								<th class="th-sm">Quantity</th>
+								<th class="th-sm">Unit Price</th>
+								<th class="th-sm">Price Override</th>
+								<th class="th-sm">Sub Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="orderItem : ${orderItems}">
+								<tr>
+									<td th:text="${orderItem.product.name}"></td>
+									<td th:text="${orderItem.quantity}"></td>
+									<td th:text="${orderItem.product.srp}"></td>
+									<td th:text="${orderItem.priceOverride}"></td>
+									<td th:text="${orderItem.totalAmount}"></td>
+								</tr>
+							</th:block>
+							<tr>
+								<td colspan="4" class="table-secondary text-right">
+									Total Amount
+								</td>
+								<td class="table-success" th:text="${order.totalAmount}">
+									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+	
+	<th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<script th:inline="javascript">
+		
+		function goBack() {
+			window.history.back();
+		}
+	</script>
+</body>
+</html>
