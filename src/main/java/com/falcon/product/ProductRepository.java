@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long>{
 
-    Page<Product> findAllByCategoryId(long categoryId, Pageable page);
+    Page<Product> findAllByCategory(String category, Pageable page);
 	
     @Query("select p from Product p where p.name like %:key% or p.brand like %:key%")
     List<Product> findByNameOrBrand(String key);

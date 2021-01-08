@@ -1,19 +1,16 @@
 package com.falcon.userprofile;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import static java.util.stream.Collectors.toSet;
 
-import javax.persistence.CascadeType;
+import java.util.Collection;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -51,20 +48,14 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "users_roles",
-        joinColumns = @JoinColumn(
-            name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(
-            name = "role_id", referencedColumnName = "id", unique = true))
-    private Collection<Role> roles;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Collection<String> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return authorities;
+        return this.roles.stream()
+        		.map(SimpleGrantedAuthority::new)
+        		.collect(toSet());
     }
     @Override
     public boolean isAccountNonExpired() {

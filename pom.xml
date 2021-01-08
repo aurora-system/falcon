@@ -127,9 +127,9 @@
     <profiles>
 	    <profile>
 	        <id>dev</id>
-            <!-- <activation>
+            <activation>
                 <activeByDefault>true</activeByDefault>
-            </activation> -->
+            </activation>
             <properties>
                 <activatedProperties>dev</activatedProperties>
             </properties>
@@ -161,9 +161,9 @@
 	    </profile>
 	    <profile>
 	        <id>heroku</id>
-            <activation>
+            <!-- <activation>
                 <activeByDefault>true</activeByDefault>
-            </activation>
+            </activation> -->
             <properties>
                 <activatedProperties>heroku</activatedProperties>
             </properties>
