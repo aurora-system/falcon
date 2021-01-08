@@ -1,6 +1,8 @@
 package com.falcon.salesorder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -14,6 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.falcon.config.data.Auditable;
 
@@ -32,6 +37,9 @@ import lombok.ToString;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String type; // service or sale
+	@PastOrPresent
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate transDate = LocalDate.now();
 	@NotBlank
 	private String invoiceNumber;
 	@NotNull
@@ -50,6 +58,6 @@ import lombok.ToString;
 	private Customer customer;
 	@ElementCollection
 	@ToString.Exclude
-	List<SalesOrderItem> salesOrderItems;
+	List<SalesOrderItem> salesOrderItems = new ArrayList<>();
 	
 }
