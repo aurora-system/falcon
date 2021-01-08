@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Create New Product')"></th:block>
+<th:block th:replace="fragments/common::header('Add New Supplier')"></th:block>
 <body>
 	<div class="container-fluid">
 		<!-- Navigation Bar -->
@@ -14,9 +14,8 @@
 		<div class="row">
 			<div class="col">
 				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
-					<!-- New Product  Form -->
-					<h2>NEW PRODUCT</h2>
-					<form th:action="@{/products}" th:object="${product}" method="post">
+					<h2>NEW SUPPLIER</h2>
+					<form th:action="@{/suppliers}" th:object="${supplier}" method="post">
 						<input type="hidden" th:field="*{id}" />
 						
 						<div class="row">
@@ -30,36 +29,26 @@
 							</div>
 							
 							<div class="col-sm">
-								<!-- Brand -->
-							<div class="form-group">
-								<label for="brand">Brand:</label> 
-								<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
-								<input class="form-control" type="text" th:field="*{brand}" />
-							</div>
+								<!-- Color -->
+								<div class="form-group">
+									<label for="contactNumber">Contact Number:</label> 
+									<input type="text" class="form-control" th:field="*{contactNumber}" />
+								</div>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="col-sm">
-								<!-- Vehicle -->
 								<div class="form-group">
-									<label for="description">Description:</label> 
-									<textarea type="text" class="form-control" th:field="*{description}" rows="4"></textarea>
-								</div>
-							</div>
-							
-							<div class="col-sm">
-								<!-- Color -->
-								<div class="form-group">
-									<label for="category">Category:</label> 
-									<input type="text" class="form-control" th:field="*{category}" />
+									<label for="address">Address:</label> 
+									<input class="form-control" type="text" th:field="*{address}" />
 								</div>
 							</div>
 						</div>	
 						
 						<div class="clearfix">
 					    	<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
-					    	<a th:href="@{/products}" class="btn btn-dark float-right">Cancel</a>
+					    	<a th:href="@{/suppliers}" class="btn btn-dark float-right">Cancel</a>
 					    </div>
 					</form>
 					

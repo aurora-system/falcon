@@ -1,6 +1,7 @@
 insert ignore into users(id,username,password,email,first_name,last_name) values
   (1,'admin','$2y$11$6TP/e9ycvO4DwriSjfGip.6OVPNKuRArNyb4phwx9Kk3WPsdVjWUq','cjp@tuta.io','Sidyey','Pi'),
   (2,'user','$2y$11$6TP/e9ycvO4DwriSjfGip.6OVPNKuRArNyb4phwx9Kk3WPsdVjWUq','cjp@tutanota.de','LA','Lang');
+insert ignore into user_roles values(1,'ROLE_ADMIN');
 
 --insert ignore into product_category(id,name) values (1,'Body and Paint');
 --insert ignore into product(id,category_id,name,brand,for_vehicle,color,aqui_price,srp,other_details,supplier_name,stock_level,threshold) values

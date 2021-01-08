@@ -1,15 +1,18 @@
 package com.falcon.purchase;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.falcon.config.data.Auditable;
 import com.falcon.product.Product;
@@ -27,6 +30,9 @@ import lombok.NoArgsConstructor;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@PastOrPresent
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate transDate = LocalDate.now();
 	@NotBlank
 	private String purchaseNumber;
 	@ManyToOne

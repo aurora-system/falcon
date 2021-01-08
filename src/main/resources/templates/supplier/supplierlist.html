@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Products')"></th:block>
+<th:block th:replace="fragments/common::header('Suppliers')"></th:block>
 
 <body>
 	<div class="container-fluid">
@@ -17,11 +17,11 @@
     			<div class="container-fluid mt-3 shadow-lg p-3 mb-3 bg-white rounded">
     				<!-- New Product Button -->
 					<div class="card" style="width: 18rem; float:right;">
-						<a type="button" class="btn btn-dark float-right" th:href="@{/products/new}">New Product</a>
+						<a type="button" class="btn btn-dark float-right" th:href="@{/suppliers/new}">New Supplier</a>
 					</div>
 				
     				<!-- Product List -->
-    				<h2>PRODUCTS</h2>
+    				<h2>SUPPLIERS</h2>
     				<div class="row">
 				        <div class="col-lg-12">
 				            <th:block th:if="${message != null}">
@@ -34,28 +34,25 @@
 				            </th:block>
 				        </div>
 				    </div>
-					<table id="dataTables-productList" class="table table-hover table-bordered" style="width:100%">
+					<table id="dataTables-supplierList" class="table table-hover table-bordered" style="width:100%">
 						<thead class="datatable-thead thead-dark">
 							<tr>
 								<th class="th-sm">Id</th>
 								<th class="th-sm">Name</th>
-								<th class="th-sm">Brand</th>
-								<th class="th-sm">Description</th>
-								<th class="th-sm">Category</th>
+								<th class="th-sm">Address</th>
+								<th class="th-sm">Contact Number</th>
 								<th class="th-sm">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-					  	<th:block th:each="product : ${products}">
+					  	<th:block th:each="supplier : ${supplierList}">
 						  	<tr>
-						  		<td th:text="${product.id}"></td>
-						  		<td th:text="${product.name}"></td>
-						  		<td th:text="${product.brand}"></td>
-						  		<td th:text="${product.description}"></td>
-						  		<td th:text="${product.category}"></td>
+						  		<td th:text="${supplier.id}"></td>
+						  		<td th:text="${supplier.name}"></td>
+						  		<td th:text="${supplier.address}"></td>
+						  		<td th:text="${supplier.contactNumber}"></td>
 						  		<td>
-						  			<a type="button" th:href="|@{/products}/${product.id}/edit|" class="btn btn-dark float-center">Edit</a>
-						  			<a type="button" th:href="|@{/products}/${product.id}|" class="showOrderDetails btn btn-dark float-center">Details</a>
+						  			<a type="button" th:href="|@{/suppliers}/${supplier.id}/edit|" class="btn btn-dark float-center">Edit</a>
 						  		</td>
 						  	</tr>
 					  	</th:block>
@@ -74,7 +71,7 @@
 	
 	<script>
 		$(document).ready(function() {
-		    $('#dataTables-productList').DataTable({
+		    $('#dataTables-supplierList').DataTable({
 
 		    });
 		} );
