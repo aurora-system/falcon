@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Available Stocks')"></th:block>
+
+<body>
+	<div class="container-fluid">
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+    		<div class="col">
+    			<div class="container-fluid mt-3 shadow-lg p-3 mb-3 bg-white rounded">
+    				<h2>AVAILABLE STOCKS</h2>
+    				<div class="row">
+				        <div class="col-lg-12">
+				            <th:block th:if="${message != null}">
+				                <div class="alert alert-success alert-dismissible" role="alert">
+				                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				                        X
+				                    </button>
+				                    <strong th:text="${message}"></strong>
+				                </div>
+				            </th:block>
+				        </div>
+				    </div>
+    				<table id="dataTables-stock" class="table table-hover table-bordered" style="width:100%">
+					    <thead class="datatable-thead thead-dark">
+					      <tr>
+					        <th class="th-sm">Id</th>
+					        <th class="th-sm">Product</th>
+					        <th class="th-sm">Quantity</th>
+					        <th class="th-sm">Unit Cost</th>
+					        <th class="th-sm">Mark Up</th>
+					        <th class="th-sm">Selling Price</th>
+					        <th class="th-sm">Low Count?</th>
+					        <th class="th-sm">Actions</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <th:block th:each="stock : ${stockList}">
+					      <tr>
+					        <td th:text="${stock.id}"></td>
+					        <td th:text="${stock.product.name}"></td>
+					        <td th:text="${stock.quantity}"></td>
+					        <td th:text="${stock.unitCost}"></td>
+					        <td th:text="${stock.markup}"></td>
+					        <td th:text="${stock.unitCost + stock.markup}"></td>
+					        <td th:text="${stock.quantity < stock.lowCountIndicator ? 'YES' : 'NO'}"></td>
+					        <td>
+								<a type="button" th:href="|@{/stocks}/${stock.id}/edit|" class="btn btn-dark float-center">Update Mark Up</a>
+							</td>
+					      </tr>
+					      </th:block>
+					    </tbody>
+					  </table>
+    			</div>
+    		</div>
+    	</div>
+    	
+    	<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+  
+    <th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<script>
+		$(document).ready(function() {
+		    $('#dataTables-stock').DataTable({
+
+		    });
+		} );
+	</script>
+</body>
+</html>

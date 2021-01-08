@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.falcon.config.data.Auditable;
 import com.falcon.product.Product;
@@ -28,7 +30,12 @@ import lombok.NoArgsConstructor;
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
+	@PositiveOrZero
 	private long quantity;
-	private BigDecimal unitCost;
-	private BigDecimal markup;
+	@NotNull @PositiveOrZero
+	private BigDecimal unitCost = BigDecimal.ZERO;
+	@NotNull @PositiveOrZero
+	private BigDecimal markup = BigDecimal.ZERO;
+	@PositiveOrZero
+	private long lowCountIndicator;
 }
