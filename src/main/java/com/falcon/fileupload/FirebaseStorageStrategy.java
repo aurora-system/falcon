@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,7 @@ import com.google.cloud.storage.StorageOptions;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Lazy
 @Slf4j
 @Service
 public class FirebaseStorageStrategy implements StorageStrategy {

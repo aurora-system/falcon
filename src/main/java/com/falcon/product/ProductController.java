@@ -96,20 +96,19 @@ public class ProductController {
 	}
 	
 	@GetMapping({"/products/category/{categoryId}"})
-	public String listAllProductsByCategory(@PathVariable long categoryId, Model model) {
+	public String listAllProductsByCategory(@PathVariable String categoryId, Model model) {
 		Pageable pageOne = PageRequest.of(0, 20);
-		Iterable<Product> products = productRepository.findAllByCategoryId(categoryId, pageOne);
+		Iterable<Product> products = productRepository.findAllByCategory(categoryId, pageOne);
 		model.addAttribute("products", products);
 		return "product/productlist";
 	}
 	
 	@GetMapping({"/products/category/{categoryId}/new"})
-	public String newProductsByCategory(@PathVariable long categoryId, Model model) {
+	public String newProductsByCategory(@PathVariable String categoryId, Model model) {
 		Pageable pageOne = PageRequest.of(0, 20);
-		Iterable<Product> products = productRepository.findAllByCategoryId(categoryId, pageOne);
+		Iterable<Product> products = productRepository.findAllByCategory(categoryId, pageOne);
 		model.addAttribute("products", products);
 		Product p = new Product();
-		p.setCategory(productCategoryRepository.findById(categoryId).orElseGet(() -> new ProductCategory()));
 		model.addAttribute("product", p);
 		model.addAttribute("categories", productCategoryRepository.findAll());
 		return "product/productform";
