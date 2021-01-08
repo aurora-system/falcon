@@ -1,5 +1,8 @@
 package com.falcon.purchase;
 
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -10,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
+import com.falcon.stock.Stock;
+import com.falcon.stock.StockRepository;
 import com.falcon.supplier.SupplierRepository;
 
 @Controller
@@ -19,15 +25,18 @@ public class PurchaseController {
 	private PurchaseRepository purchaseRepository;
 	private ProductRepository productRepository;
 	private SupplierRepository supplierRepository;
+	private StockRepository stockRepository;
 	
 	public PurchaseController(
 			PurchaseRepository purchaseRepository
 			, ProductRepository productRepository
 			, SupplierRepository supplierRepository
+			, StockRepository stockRepository
 			) {
 		this.purchaseRepository = purchaseRepository;
 		this.productRepository = productRepository;
 		this.supplierRepository = supplierRepository;
+		this.stockRepository = stockRepository;
 	}
 	
 	@GetMapping("/purchases")
@@ -53,6 +62,7 @@ public class PurchaseController {
 	}
 	
 	@PostMapping({"/purchases"})
+	@Transactional
 	public String savePurchase(
 			@Valid Purchase purchase, Errors errors
 			, final RedirectAttributes redirect
@@ -64,6 +74,20 @@ public class PurchaseController {
 			return "purchases/purchaseform";
 		}
 		purchaseRepository.save(purchase);
+		Optional<Stock> stock = stockRepository.findByProductIdAndUnitCost(purchase.getProduct().getId(), purchase.getUnitCost());
+		if (stock.isPresent()) {
+		    Stock s = stock.get();
+		    s.setQuantity(s.getQuantity()+purchase.getQuantity());
+		    stockRepository.save(s);
+		} else {
+			Product product = productRepository.findById(purchase.getProduct().getId())
+					.orElseGet(() -> new Product());
+			Stock s = new Stock();
+			s.setProduct(product);
+			s.setQuantity(purchase.getQuantity());
+			s.setUnitCost(purchase.getUnitCost());
+			stockRepository.save(s);
+		}
 		redirect.addFlashAttribute("message", "New Purchase added successfully.");
 		return "redirect:/purchases";
 	}

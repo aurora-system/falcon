@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('New Purchase')"></th:block>
+<body>
+  <div class="container-fluid">
+  	<!-- Navigation Bar -->
+	<div class="row">
+		<div class="col">
+			<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col">
+			<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+				<!-- New In/Out Transaction Form -->
+				<h2>UPDATE MARKUP</h2>
+				
+				<form th:action="@{/stocks}" th:object="${stock}" method="post">
+				    <input type="hidden" th:field="*{id}" />
+				    <input type="hidden" th:field="*{product.id}" />
+				    <input type="hidden" th:field="*{quantity}" />
+				    <input type="hidden" th:field="*{unitCost}" />
+				    <div class="row">
+				    	<div class="col-sm">
+				    		<div class="form-group">
+						      <label for="markup">Mark Up:</label>
+						      <span class="validationError text-danger" th:if="${#fields.hasErrors('markup')}" th:errors="*{markup}"></span>
+      						  <input class="form-control" type="text" th:field="*{markup}"/>
+					      	</div>
+				    	</div>
+				    	<div class="col-sm">
+					      <div class="form-group">
+						      <label for="product.id">Low Count Indicator:</label>
+						      <input type="text" class="form-control"  th:field="*{lowCountIndicator}" />
+					      </div>
+				      	</div>
+				    </div>
+				    
+				    <div class="row">
+				    	<div class="col-sm">
+							<table class="table table-hover table-bordered detailsPage" style="width: 100%">
+								<tr class="d-flex">
+									<td class="table-secondary detailsField text-right col-4">Product</td>
+									<td class="col-8" th:text="*{product.name}"></td>
+								</tr>
+								<tr class="d-flex">
+									<td class="table-secondary detailsField text-right col-4">Quantity</td>
+									<td class="col-8" th:text="*{quantity}"></td>
+								</tr>
+								<tr class="d-flex">
+									<td class="table-secondary detailsField text-right col-4">Unit Cost</td>
+									<td class="col-8" th:text="*{unitCost}"></td>
+								</tr>
+								<tr class="d-flex">
+									<td class="table-secondary detailsField text-right col-4">Low Count Indicator</td>
+									<td class="col-8" th:text="*{lowCountIndicator}"></td>
+								</tr>
+							</table>
+				    	</div>			    	
+				    </div>
+				    
+				    <div class="clearfix">
+				    	<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
+				    	<a th:href="@{/stocks}" class="btn btn-dark float-right">Cancel</a>
+				    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<th:block th:replace="fragments/common::footer"></th:block>
+ </div>
+</body>
+</html>
