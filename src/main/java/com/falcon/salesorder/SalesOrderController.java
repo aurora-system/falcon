@@ -1,8 +1,13 @@
 package com.falcon.salesorder;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.stock.StockRepository;
 
@@ -31,5 +36,17 @@ public class SalesOrderController {
 		model.addAttribute(stockRepository.findAll());
 		model.addAttribute(new SalesOrder());
 		return "sales/orderform";
+	}
+	
+	@PostMapping("/salesorders")
+	public String saveSalesOrder(
+			@Valid SalesOrder salesOrder, Errors errors
+			, final RedirectAttributes redirect
+			, Model model
+			) {
+		if (errors.hasErrors()) {
+			return "sales/orderform";
+		}
+		return "redirect:/salesorders";
 	}
 }
