@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Sales Return')"></th:block>
+<body>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+
+	  	<div class="row">
+    		<div class="col">
+				<div class="container-fluid mt-3 shadow-lg p-3 mb-3 bg-white rounded">
+				
+				<!-- New Order Button -->
+					<div class="card" style="width: 18rem; float:right;">
+					  	<a type="button" class="btn btn-dark float-right" th:href="@{/salesreturns/new}">New Order</a>
+					</div>
+					
+				<!-- Order List -->
+				<h2>SALES ORDERS</h2>
+				<table id="dataTables-salesReturnList" class="table table-hover table-bordered " style="width: 100%">
+					<thead class="datatable-thead thead-dark">
+						<tr>
+							<!-- <th class="th-sm">Order Id</th> -->
+							<th class="th-sm">Customer</th>
+							<th class="th-sm">Order Date</th>
+							<th class="th-sm">Invoice No.</th>
+							<th class="th-sm">Total Amount</th>
+							<th class="th-sm">Type</th>
+							<th class="th-sm">Payment Type</th>
+							<th class="th-sm">Remarks</th>
+							<th class="th-sm">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="salesReturn : ${salesReturnList}">
+							<input id="orderRow" type="hidden" th:value="${salesReturn}">
+							<tr>
+								<!-- <td th:text="${salesReturn.id}"></td> -->
+								<td th:text="${salesReturn.customer.name}"></td>
+								<td th:text="${salesReturn.transDate}"></td>
+								<td th:text="${salesReturn.invoiceNumber}"></td>
+								<td th:text="${salesReturn.totalAmount}"></td>
+								<td th:text="${salesReturn.type}"></td>
+								<td th:text="${salesReturn.paymentType}"></td>
+								<td th:text="${salesReturn.remarks}"></td>
+								<td th:text="${salesReturn.status}"></td>
+								<td>
+									<a type="button" th:href="|@{/salessalesReturns}/${salesReturn.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									<button type="button" class="showOrderDetails btn btn-danger" th:disabled="${salesReturn.status == 'CANCELLED'}">Cancel</button>
+								</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				
+<!-- 					<div class="clearfix"> -->
+<!-- 						<a type="button" class="btn btn-outline-dark float-right" th:href="@{/salesReturns/new}">New Order</a> -->
+<!-- 					</div> -->
+					
+				</div>
+			</div>
+	  	</div>
+	  	
+	  	<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	
+	</div>
+	
+	
+	<!-- Order Details Modal -->
+	<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="card">
+	      		<div class="card-body">
+			      	<p id="orderType"></p>
+			      	<p id="customerName"></p>
+			      	<p id="createdDate"></p>
+			      	<p id="remarks"></p>
+		      	</div>
+	      	</div>
+	      	
+	      	<div class="card mt-2" id="orderItems">
+	      		<div class="card-body">
+	      			<b>Order Items</b>
+	      				<p id="itemQuantity"></p>
+	      				<p id="itemAmount"></p>
+	      		</div>
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<th:block th:replace="fragments/common::javascript"></th:block>
+
+	<script>
+		$(document).ready(function() {
+		    $('#dataTables-salesReturnList').DataTable({
+		    	
+		    });
+		} );
+		
+		$(document).on("click", ".showOrderDetails", function () {
+		    $(".modal-body #orderType").html("<b>Type: </b>" + $(this).attr('data-row-type'));
+		    $(".modal-body #customerName").html("<b>Customer: </b>" + $(this).attr('data-row-customer'));
+		    $(".modal-body #createdDate").html("<b>Date: </b>" + $(this).attr('data-row-createdDate'));
+		    $(".modal-body #remarks").html("<b>Remarks: </b>" + $(this).attr('data-row-remarks'));
+		    
+// 		    $(".modal-body #orderItems").html($(this).attr('data-row-orderItems'));
+		    var str = $(this).attr('data-row-orderItems');
+		    var orderItems = str.replaceAll("=", ":").replaceAll("OrderItem(", "{").replaceAll(")", "}").replaceAll("},", "};").replaceAll("[", "").replaceAll("]", "");
+			var itemSplit = orderItems.split(";");
+			
+// 			$(".modal-body #orderItems").empty();
+			for (var item of itemSplit) {
+				var itemFields = item.split(",");
+				
+				var qtyVal;
+				var amtVal;
+				
+				for (var i = 0; i < itemFields.length; i++) {
+					var field = itemFields[i].split(":");
+					var fieldVal = field[1].replaceAll("}", "");
+					if (i == 1) {
+						qtyVal = fieldVal;
+					}
+					
+					if (i == 2) {
+						amtVal = fieldVal;
+					}
+				}
+				$(".modal-body #itemQuantity").html("Quantity: " + qtyVal);
+				$(".modal-body #itemAmount").html("Amount: " + amtVal);
+				
+// 				$(".modal-body #orderItems").append(item);
+			} 
+			
+			
+// 		    var obj = JSON.parse(orderItems);
+		});
+	</script>
+</body>
