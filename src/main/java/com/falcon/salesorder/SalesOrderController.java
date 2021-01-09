@@ -1,5 +1,7 @@
 package com.falcon.salesorder;
 
+import java.math.BigDecimal;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -47,6 +49,11 @@ public class SalesOrderController {
 		if (errors.hasErrors()) {
 			return "sales/orderform";
 		}
+		BigDecimal totalAmount = salesOrder.getSalesOrderItems().stream()
+				.map(SalesOrderItem::getNetSellingPrice)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		salesOrder.setTotalAmount(totalAmount);
+		salesOrderRepository.save(salesOrder);
 		return "redirect:/salesorders";
 	}
 }

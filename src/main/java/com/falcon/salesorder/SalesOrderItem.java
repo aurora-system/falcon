@@ -3,6 +3,7 @@ package com.falcon.salesorder;
 import java.math.BigDecimal;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -14,7 +15,7 @@ import lombok.ToString;
 @Embeddable
 @Data public class SalesOrderItem {
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_id")
 	@ToString.Exclude
 	private Stock stock;

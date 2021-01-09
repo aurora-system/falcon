@@ -25,7 +25,7 @@
 				<table id="dataTables-orderList" class="table table-hover table-bordered " style="width: 100%">
 					<thead class="datatable-thead thead-dark">
 						<tr>
-							<th class="th-sm">Order Id</th>
+							<!-- <th class="th-sm">Order Id</th> -->
 							<th class="th-sm">Customer</th>
 							<th class="th-sm">Order Date</th>
 							<th class="th-sm">Invoice No.</th>
@@ -37,10 +37,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<th:block th:each="order : ${salesorderList}">
+						<th:block th:each="order : ${salesOrderList}">
 							<input id="orderRow" type="hidden" th:value="${order}">
 							<tr>
-								<td th:text="${order.id}"></td>
+								<!-- <td th:text="${order.id}"></td> -->
 								<td th:text="${order.customer.name}"></td>
 								<td th:text="${order.transDate}"></td>
 								<td th:text="${order.invoiceNumber}"></td>
