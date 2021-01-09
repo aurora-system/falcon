@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('New Purchase Return')"></th:block>
+<body>
+  <div class="container-fluid">
+  	<!-- Navigation Bar -->
+	<div class="row">
+		<div class="col">
+			<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col">
+			<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+				<!-- New In/Out Transaction Form -->
+				<h2>NEW PURCHASE RETURN</h2>
+				
+				<form th:action="@{/purchasereturns}" th:object="${purchaseReturn}" method="post">
+				    <input type="hidden" th:field="*{id}" />
+				    
+				    <div class="row">
+				    	<div class="col-sm">
+				    		<!-- Date -->
+				    		<div class="form-group">
+						      <label for="returnDate">Date:</label>
+						      <span class="validationError text-danger" th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}"></span>
+      						  <input class="form-control" type="date" th:field="*{returnDate}"/>
+					      	</div>
+				    	</div>
+				    	<div class="col-sm">
+				    		<!-- Transaction Type -->
+				    		<div class="form-group">
+				    			<label for="purchaseNumber">Purchase No.:</label> 
+			    				<span class="validationError text-danger" th:if="${#fields.hasErrors('purchaseNumber')}" th:errors="*{purchaseNumber}"></span>
+      						    <input class="form-control" type="text" th:field="*{purchaseNumber}"/>
+							</div>
+				    	</div>
+				    </div>
+				    
+				    <!-- Supplier -->
+				    <div class="row">
+				    	<div class="col-sm">
+					      <div class="form-group">
+						      <label for="supplier.id">Supplier:</label>
+						      <select class="form-control"  id="supplier.id" name="supplier.id">
+						        <option value="0">- Select supplier -</option>
+						        <option th:each="supplier : ${supplierList}" 
+						          th:value="${supplier.id}" 
+						          th:text="${supplier.name}"
+						          th:selected="${purchaseReturn.supplier != null ? supplier.id == purchaseReturn.supplier.id : false}"
+						          ></option>
+						      </select>
+					      </div>
+				      	</div>
+				    </div>
+				    
+				    <!-- Product -->
+				    <div class="row">
+				    	<div class="col-sm">
+					      <div class="form-group">
+						      <label for="product.id">Product:</label>
+						      <select class="form-control"  id="product.id" name="product.id">
+						        <option value="0">- Select a product -</option>
+						        <option th:each="product : ${productList}" 
+						          th:value="${product.id}" 
+						          th:text="${product.name}"
+						          th:selected="${purchaseReturn.product != null ? product.id == purchaseReturn.product.id : false}"
+						          ></option>
+						      </select>
+					      </div>
+				      	</div>
+				    </div>
+				    
+				    <div class="row">
+				    	<div class="col-sm">
+				    		<div class="form-group">
+					    		<label for="quantity">Quantity:</label>
+					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+      						    <input class="form-control" type="number" th:field="*{quantity}"/>
+				      		</div>
+				    	</div>
+						<div class="col-sm">
+							<div class="form-group">
+					    		<label for="unitCost">Unit Cost:</label>
+					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('unitCost')}" th:errors="*{unitCost}"></span>
+      						    <input class="form-control" type="number" th:field="*{unitCost}"/>
+				      		</div>
+				    	</div>			    	
+				    </div>
+				    
+				    <div class="clearfix">
+				    	<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
+				    	<a th:href="@{/purchasereturns}" class="btn btn-dark float-right">Cancel</a>
+				    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<th:block th:replace="fragments/common::footer"></th:block>
+ </div>
+</body>
+</html>
