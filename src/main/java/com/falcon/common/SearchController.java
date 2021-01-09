@@ -5,29 +5,29 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.falcon.orders.Order;
-import com.falcon.orders.OrderRepository;
 import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
+import com.falcon.salesorder.SalesOrder;
+import com.falcon.salesorder.SalesOrderRepository;
 
 @Controller
 public class SearchController {
 
-	private OrderRepository orderRepository;
+	private SalesOrderRepository orderRepository;
 	private ProductRepository productRepository;
 	
-	public SearchController(OrderRepository orderRepository, ProductRepository productRepository) {
+	public SearchController(SalesOrderRepository orderRepository, ProductRepository productRepository) {
 		this.orderRepository = orderRepository;
 		this.productRepository = productRepository;
 	}
 	
-	@GetMapping("/search/{keyword}")
-	public String dashboard(Model model, @PathVariable String keyword) {
+	@GetMapping("/search")
+	public String dashboard(Model model, @RequestParam String keyword) {
 	    
 	    // Search in orders
-	    List<Order> orderSearchResults = orderRepository.findByRemarks(keyword);
+	    List<SalesOrder> orderSearchResults = orderRepository.findAllByInvoiceNumberOrRemarks(keyword);
 	    
 	    // Search in products
 	    List<Product> productSearchResults = productRepository.findByNameOrBrand(keyword);

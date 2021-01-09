@@ -12,7 +12,7 @@
 		</div>
 		
 		<!-- Search Results for Orders -->
-		<div class="row">
+		<div class="row" th:unless="${#lists.isEmpty(orderSearchResults)}">
 			<div class="col-sm">
 				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
 					<h2>Search Results for ORDERS</h2>
@@ -34,12 +34,12 @@
 								<tr>
 									<td th:text="${order.customer.name}"></td>
 									<td th:text="${order.type}"></td>
-									<td th:text="${order.createdDate}"></td>
+									<td th:text="${order.transDate}"></td>
 									<td th:text="${order.paymentType}"></td>
 									<td th:text="${order.totalAmount}"></td>
 									<td th:text="${order.remarks}"></td>
 									<td>
-										<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+										<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
 									</td>
 								</tr>
 							</th:block>
@@ -50,44 +50,42 @@
 		</div>
 		
 		<!-- Search Results for Products -->
-		<div class="row">
+		<div class="row" th:unless="${#lists.isEmpty(productSearchResults)}">
 			<div class="col-sm">
 				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
 					<h2>Search Results for PRODUCTS</h2>
 					<table id="dataTables-productList" class="table table-hover table-bordered" style="width:100%">
 						<thead class="datatable-thead thead-dark">
 							<tr>
-								<th class="th-sm">Id</th>
 								<th class="th-sm">Category</th>
 								<th class="th-sm">Name</th>
 								<th class="th-sm">Brand</th>
-								<th class="th-sm">SRP</th>
-								<th class="th-sm">Aqui Price</th>
-								<th class="th-sm">Supplier</th>
-								<th class="th-sm">Stock Level</th>
-								<th class="th-sm">Low stock?</th>
+								<th class="th-sm">Description</th>
+								
 								<th class="th-sm">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 					  	<th:block th:each="product : ${productSearchResults}">
 						  	<tr>
-						  		<td><a th:href="|@{/products}/${product.id}|" th:text="${product.id}"></a></td>
-						  		<td><a th:href="|@{/products/category}/${product.category.id}|" th:text="${product.category.name}"></a></td>
+						  		<td th:text="${product.category}"></td>
 						  		<td th:text="${product.name}"></td>
 						  		<td th:text="${product.brand}"></td>
-						  		<td th:text="${product.srp}"></td>
-						  		<td th:text="${product.aquiPrice}"></td>
-						  		<td th:text="${product.supplierName}"></td>
-						  		<td th:text="${product.stockLevel}"></td>
-						  		<td th:text="${product.stockLevel &lt; product.threshold ? 'LOW' : ''}"></td>
-						  		<td><a type="button" class="btn btn-dark float-center">Details</a></td>
+						  		<td th:text="${product.description}"></td>
+						  		<td><a th:href="|@{/products}/${product.id}|" type="button" class="btn btn-dark float-center">Details</a></td>
 						  	</tr>
 					  	</th:block>
 					  </tbody>
 					</table>
 				</div>
 			</div>
+		</div>
+		
+		<div class="row" th:if="${#lists.isEmpty(orderSearchResults) && #lists.isEmpty(productSearchResults)}">
+		    <div class="col-sm">
+		        <h3>No results found.</h3>
+		        <p><a th:href="@{/}" class="btn btn-info float-center">Back to Dashboard</a></p>
+		    </div>
 		</div>
 
 	  	<!-- Footer -->
