@@ -34,7 +34,7 @@ public class DashboardController {
 		this.productRepository = productRepository;
 	}
 	
-	@GetMapping("/dashboard")
+	@GetMapping({"/", "/dashboard"})
 	public String dashboard(Model model) {
 		
 		// Weekly Sales Data - dummy

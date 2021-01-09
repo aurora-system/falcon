@@ -20,19 +20,31 @@
 							<a onclick="goBack()" class="btn btn-dark float-right">Back</a>
 						</h2>
 					</div>
-					<th:block th:object="${order}">
+					<th:block th:object="${salesOrder}">
 						<table class="table table-hover table-bordered detailsPage" style="width: 100%">
 							<tr class="d-flex">
-								<td class="table-secondary detailsField text-right col-4">ID</td>
-								<td class="col-8" th:text="*{id}"></td>
+								<td class="table-secondary detailsField text-right col-4">Customer</td>
+								<td class="col-8" th:text="*{customer.name}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">TIN</td>
+								<td class="col-8" th:text="*{customer.tin}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Address</td>
+								<td class="col-8" th:text="*{customer.address}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Contact Number</td>
+								<td class="col-8" th:text="*{customer.contactNumber}"></td>
+							</tr>
+							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Date</td>
+								<td class="col-8" th:text="*{transDate}"></td>
 							</tr>
 							<tr class="d-flex">
 								<td class="table-secondary detailsField text-right col-4">Type</td>
 								<td class="col-8" th:text="*{type}"></td>
-							</tr>
-							<tr class="d-flex">
-								<td class="table-secondary detailsField text-right col-4">Date</td>
-								<td class="col-8" th:text="*{createdDate}"></td>
 							</tr>
 							<tr class="d-flex">
 								<td class="table-secondary detailsField text-right col-4">Payment Type</td>
@@ -45,10 +57,6 @@
 							<tr class="d-flex">
 								<td class="table-secondary detailsField text-right col-4">Remarks</td>
 								<td class="col-8" th:text="*{remarks}"></td>
-							</tr>
-							<tr class="d-flex">
-								<td class="table-secondary detailsField text-right col-4">Customer</td>
-								<td class="col-8" th:text="*{customer.name}"></td>
 							</tr>
 						</table>
 					</th:block>
@@ -67,20 +75,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<th:block th:each="orderItem : ${orderItems}">
+							<th:block th:each="orderItem : ${salesOrder.salesOrderItems}">
 								<tr>
-									<td th:text="${orderItem.product.name}"></td>
+									<td th:text="${orderItem.stock.product.name}"></td>
 									<td th:text="${orderItem.quantity}"></td>
-									<td th:text="${orderItem.product.srp}"></td>
-									<td th:text="${orderItem.priceOverride}"></td>
-									<td th:text="${orderItem.totalAmount}"></td>
+									<td th:text="${orderItem.sellingPrice}"></td>
+									<td th:text="${orderItem.discountPrice}"></td>
+									<td th:text="${orderItem.netSellingPrice}"></td>
 								</tr>
 							</th:block>
 							<tr>
 								<td colspan="4" class="table-secondary text-right">
 									Total Amount
 								</td>
-								<td class="table-success" th:text="${order.totalAmount}">
+								<td class="table-success" th:text="${salesOrder.totalAmount}">
 									
 								</td>
 							</tr>

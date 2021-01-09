@@ -48,9 +48,10 @@
 								<td th:text="${order.type}"></td>
 								<td th:text="${order.paymentType}"></td>
 								<td th:text="${order.remarks}"></td>
+								<td th:text="${order.status}"></td>
 								<td>
-									<a type="button" th:href="|@{/orders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
-									<a type="button" class="showOrderDetails btn btn-danger">Cancel</a>
+									<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									<button type="button" class="showOrderDetails btn btn-danger" th:disabled="${order.status == 'CANCELLED'}">Cancel</button>
 								</td>
 							</tr>
 						</th:block>

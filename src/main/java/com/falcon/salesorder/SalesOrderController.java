@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +39,13 @@ public class SalesOrderController {
 		model.addAttribute(stockRepository.findAll());
 		model.addAttribute(new SalesOrder());
 		return "sales/orderform";
+	}
+	
+	@GetMapping("/salesorders/{id}")
+	public String viewSalesOrder(Model model, @PathVariable long id) {
+		model.addAttribute(salesOrderRepository.findById(id).orElseGet(() ->new SalesOrder()));
+		model.addAttribute(stockRepository.findAll());
+		return "sales/order";
 	}
 	
 	@PostMapping("/salesorders")
