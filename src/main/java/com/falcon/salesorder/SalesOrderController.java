@@ -1,7 +1,10 @@
 package com.falcon.salesorder;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.stock.Stock;
 import com.falcon.stock.StockRepository;
 
 @Controller
@@ -49,6 +53,7 @@ public class SalesOrderController {
 	}
 	
 	@PostMapping("/salesorders")
+	@Transactional
 	public String saveSalesOrder(
 			@Valid SalesOrder salesOrder, Errors errors
 			, final RedirectAttributes redirect
@@ -62,6 +67,19 @@ public class SalesOrderController {
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		salesOrder.setTotalAmount(totalAmount);
 		salesOrderRepository.save(salesOrder);
+		List<SalesOrderItem> items = salesOrder.getItems();
+		for (SalesOrderItem soi : items) {
+			Optional<Stock> stock = stockRepository.findByProductIdAndUnitCost(soi.getStock().getProduct().getId()
+					, soi.getStock().getUnitCost());
+			if (stock.isPresent()) {
+				Stock s = stock.get();
+				s.setQuantity(s.getQuantity() - soi.getQuantity());
+				stockRepository.save(s);
+			} else {
+				redirect.addFlashAttribute("message", "Stock is not found in system.");
+				return "redirect:/salesorders";
+			}
+		}
 		return "redirect:/salesorders";
 	}
 }
