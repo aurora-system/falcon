@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
@@ -57,7 +58,8 @@ import lombok.ToString;
 	})
 	private Customer customer;
 	@ElementCollection
+	@OrderColumn(name = "idx", nullable = false)
 	@ToString.Exclude
-	List<SalesOrderItem> salesOrderItems = new ArrayList<>();
+	List<SalesOrderItem> items = new ArrayList<>();
 	
 }

@@ -57,7 +57,7 @@ public class SalesOrderController {
 		if (errors.hasErrors()) {
 			return "sales/orderform";
 		}
-		BigDecimal totalAmount = salesOrder.getSalesOrderItems().stream()
+		BigDecimal totalAmount = salesOrder.getItems().stream()
 				.map(SalesOrderItem::getNetSellingPrice)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		salesOrder.setTotalAmount(totalAmount);
