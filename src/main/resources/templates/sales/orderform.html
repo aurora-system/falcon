@@ -77,7 +77,7 @@
 									<!-- Product -->
 									<div class="col-sm-3">
 										<div class="form-group">
-											<select class="form-control product" id="product0" th:field="*{salesOrderItems[0].stock.id}" data-toggle="tooltip" data-placement="bottom" title="Product">
+											<select class="form-control product" id="product0" th:field="*{items[0].stock.id}" data-toggle="tooltip" data-placement="bottom" title="Product">
 												<option disabled="disabled" value="0" selected>Product...</option>
 												<option th:each="stock : ${stockList}" th:value="${stock.id}" th:text="${stock.product.name}"
 												    th:data-row-srp="${stock.unitCost + stock.markup}"></option>
@@ -88,21 +88,21 @@
 									<!-- Quantity -->
 									<div class="col-sm-2">
 										<div class="form-group">
-											<input class="form-control quantity" type="number" id="quantity0" th:field="*{salesOrderItems[0].quantity}" min=0 data-toggle="tooltip" data-placement="bottom" title="Quantity"/>
+											<input class="form-control quantity" type="number" id="quantity0" th:field="*{items[0].quantity}" min=0 data-toggle="tooltip" data-placement="bottom" title="Quantity"/>
 										</div>
 									</div>
 									
 									<!-- Selling Price -->
 									<div class="col-sm-2">
 										<div class="form-group">
-											<input class="form-control sellingPrice" type="number" id="sellingPrice0" th:field="*{salesOrderItems[0].sellingPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Selling Price"/>
+											<input class="form-control sellingPrice" type="number" id="sellingPrice0" th:field="*{items[0].sellingPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Selling Price"/>
 										</div>
 									</div>
 									
 									<!-- Discount Price -->
 									<div class="col-sm-2">
 										<div class="form-group">
-											<input class="form-control discountPrice" type="number" id="discountPrice0" th:field="*{salesOrderItems[0].discountPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Discount Price"/>
+											<input class="form-control discountPrice" type="number" id="discountPrice0" th:field="*{items[0].discountPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Discount Price"/>
 										</div>
 									</div>
 									
