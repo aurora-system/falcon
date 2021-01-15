@@ -40,13 +40,14 @@ public class SalesOrderController {
 	
 	@GetMapping("/salesorders/new")
 	public String newSalesOrderForm(Model model) {
-		model.addAttribute(stockRepository.findAll());
+	    model.addAttribute(stockRepository.findAll());
 		model.addAttribute(new SalesOrder());
 		return "sales/orderform";
 	}
 	
 	@GetMapping("/salesorders/{id}")
-	public String viewSalesOrder(Model model, @PathVariable long id) {
+	public String viewSalesOrder(Model model, 
+			@PathVariable long id) {
 		model.addAttribute(salesOrderRepository.findById(id).orElseGet(() ->new SalesOrder()));
 		model.addAttribute(stockRepository.findAll());
 		return "sales/order";
