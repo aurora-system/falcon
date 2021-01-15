@@ -24,7 +24,7 @@
 						<input type="hidden" th:field="*{id}" />
 							<!-- Product Selection -->
 							<div class="heading-order-items">
-							    <div id="productRow" class="row form-group">
+							    <div id="labelRow" class="row form-group">
 									
 									<!-- Remove -->
 									<div class="col-sm-1">
@@ -346,15 +346,15 @@
 		
 		var i = 0;
 	
-	 	$(document).ready(function() {
+		$(document).ready(function() {
 			 
 			 // Add Product
 			 $("#addProduct").click(function() {
 				 
-				 let categories = /*[[${categories}]]*/[];
+				 let stocks = /*[[${stockList}]]*/[];
 				 
-				 var options = categories.reduce(
-					(a,c) => a+=`<option value="${c.id}">${c.name}</option>`
+				 var options = stocks.reduce(
+					(a,s) => a+=`<option value="${s.id}">${s.product.name} (${s.quantity})</option>`
 	                	, ''
 				 )
 				 
@@ -366,21 +366,11 @@
 								<button id="removeButton" onclick="removeProduct(`+i+`)" type="button" class="form-control btn btn-danger float-right">x</button>
 							</div>
 							
-							<!-- Category -->
-							<div class="col-sm-2">
-								<div class="form-group">
-									<select name="orderItems[`+i+`].categoryId" id="category`+i+`" class="form-control category" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Category">
-										<option selected>Category...</option>
-										${options}
-									</select>
-								</div>
-							</div>
-							
 							<!-- Product -->
 							<div class="col-sm-3">
 								<div class="form-group">
 									<select name="orderItems[`+i+`].product" id="product`+i+`" class="form-control product" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Product">
-										<option disabled="disabled" selected>Product...</option>
+										<option disabled="disabled" selected>- Select Product -</option>
 										
 									</select>
 								</div>
