@@ -64,22 +64,26 @@
 				   		<a class="nav-link" th:href="@{/stocks}">Available Stocks</a>
 				   </li>
 				    
-				   <li class="nav-item">
-				   		<a class="nav-link" th:href="@{/purchases}">Purchases</a>
-				   	</li>
-				   	
-				   	<li class="nav-item">
-				   		<a class="nav-link" th:href="@{/purchasereturns}">Purchase Returns</a>
+				   <li class="nav-item dropdown">
+				   		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          Purchases
+				        </a>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a class="dropdown-item" th:href="@{/purchases}">Purchase Orders</a>
+				          <a class="dropdown-item" th:href="@{/purchasereturns}">Purchase Returns</a>
+				        </div>
 				   	</li>
 				    
-				    <li class="nav-item">
-				    	<a class="nav-link" th:href="@{/salesorders}">Sales Orders</a>
+				    <li class="nav-item dropdown">
+				    	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          Sales
+				        </a>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a class="dropdown-item" th:href="@{/salesorders}">Sales Orders</a>
+				          <a class="dropdown-item" th:href="@{/salesreturns}">Sales Returns</a>
+				        </div>
 				    </li>
 				    
-				    <li class="nav-item">
-				    	<a class="nav-link" th:href="@{/salesreturns}">Sales Returns</a>
-				    </li>
-				   
 				    <li class="nav-item">
 				    	<a class="nav-link" th:href="@{/expenses}">Expenses</a>
 				    </li>

@@ -31,14 +31,14 @@ public class SalesReturnController {
 	@GetMapping("/salesreturns")
 	public String listSalesReturns(Model model) {
 		model.addAttribute(salesReturnRepository.findAll());
-		return "returns/salesorderlist";
+		return "returns/salesreturnlist";
 	}
 	
 	@GetMapping("/salesreturns/new")
 	public String newSalesReturnForm(Model model) {
 		model.addAttribute(stockRepository.findAll());
 		model.addAttribute(new SalesReturn());
-		return "returns/salesorderform";
+		return "returns/salesreturnform";
 	}
 	
 	@GetMapping("/salesreturns/{id}/edit")
