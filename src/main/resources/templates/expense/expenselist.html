@@ -22,6 +22,18 @@
 					
 				<!-- Expense List -->
 				<h2>EXPENSES</h2>
+				<div class="row">
+			        <div class="col-lg-12">
+			            <th:block th:if="${message != null}">
+			                <div class="alert alert-success alert-dismissible" role="alert">
+			                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			                        X
+			                    </button>
+			                    <strong th:text="${message}"></strong>
+			                </div>
+			            </th:block>
+			        </div>
+			    </div>
 				<table id="dataTables-expenseList" class="table table-hover table-bordered" style="width: 100%">
 					<thead class="datatable-thead thead-dark">
 						<tr>
@@ -29,6 +41,7 @@
 							<th class="th-sm">Amount</th>
 							<th class="th-sm">Expense Date</th>
 							<th class="th-sm">Remarks</th>
+							<th class="th-sm">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,6 +51,9 @@
 								<td th:text="${expense.amount}"></td>
 								<td th:text="${expense.expenseDate}"></td>
 								<td th:text="${expense.remarks}"></td>
+								<td>
+						  			<a type="button" th:href="|@{/expenses}/${expense.id}/edit|" class="btn btn-dark float-center">Edit</a>
+						  		</td>
 							</tr>
 						</th:block>
 					</tbody>

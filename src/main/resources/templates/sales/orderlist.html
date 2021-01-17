@@ -22,6 +22,18 @@
 					
 				<!-- Order List -->
 				<h2>SALES ORDERS</h2>
+				<div class="row">
+			        <div class="col-lg-12">
+			            <th:block th:if="${message != null}">
+			                <div class="alert alert-success alert-dismissible" role="alert">
+			                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			                        X
+			                    </button>
+			                    <strong th:text="${message}"></strong>
+			                </div>
+			            </th:block>
+			        </div>
+			    </div>
 				<table id="dataTables-orderList" class="table table-hover table-bordered " style="width: 100%">
 					<thead class="datatable-thead thead-dark">
 						<tr>
@@ -33,6 +45,7 @@
 							<th class="th-sm">Type</th>
 							<th class="th-sm">Payment Type</th>
 							<th class="th-sm">Remarks</th>
+							<th class="th-sm">Status</th>
 							<th class="th-sm">Actions</th>
 						</tr>
 					</thead>

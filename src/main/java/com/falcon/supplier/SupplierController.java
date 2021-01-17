@@ -29,14 +29,12 @@ private SupplierRepository supplierRepository;
 	
 	@GetMapping("/suppliers/new")
 	public String newSupplierForm(Model model) {
-		model.addAttribute(supplierRepository.findAll());
 		model.addAttribute(new Supplier());
 		return "supplier/supplierform";
 	}
 	
 	@GetMapping("/suppliers/{id}/edit")
 	public String editSupplierForm(Model model, @PathVariable long id) {
-		model.addAttribute(supplierRepository.findAll());
 		model.addAttribute(supplierRepository.findById(id).orElseGet(() -> new Supplier()));
 		return "supplier/supplierform";
 	}
