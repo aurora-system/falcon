@@ -67,13 +67,25 @@ public class SalesOrderController {
 				.map(SalesOrderItem::getNetSellingPrice)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		salesOrder.setTotalAmount(totalAmount);
+		
+		// get items, remove those with null stock
+		for (SalesOrderItem item : salesOrder.getItems()) {
+		    if (item == null) {
+		        salesOrder.getItems().remove(item);
+		    }
+		}
+		
 		salesOrderRepository.save(salesOrder);
 		List<SalesOrderItem> items = salesOrder.getItems();
 		for (SalesOrderItem soi : items) {
-			Optional<Stock> stock = stockRepository.findByProductIdAndUnitCost(soi.getStock().getProduct().getId()
-					, soi.getStock().getUnitCost());
-			if (stock.isPresent()) {
-				Stock s = stock.get();
+			// retrieve Stock, get product
+		    Optional<Stock> oStock = stockRepository.findById(soi.getStock().getId());
+		    Stock stock = oStock.get();
+		    
+		    oStock = stockRepository.findByProductIdAndUnitCost(stock.getProduct().getId()
+					, stock.getUnitCost());
+			if (oStock.isPresent()) {
+				Stock s = oStock.get();
 				s.setQuantity(s.getQuantity() - soi.getQuantity());
 				stockRepository.save(s);
 			} else {
@@ -81,6 +93,7 @@ public class SalesOrderController {
 				return "redirect:/salesorders";
 			}
 		}
+		redirect.addFlashAttribute("message", "Sales order added successfully.");
 		return "redirect:/salesorders";
 	}
 }

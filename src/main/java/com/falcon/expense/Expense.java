@@ -31,5 +31,5 @@ public class Expense {
 	@NotNull(message="is mandatory")
 	@PastOrPresent
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate expenseDate;
+	private LocalDate expenseDate = LocalDate.now();
 }
