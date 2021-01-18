@@ -141,17 +141,24 @@ public class ProductController {
 	}
 	
 	@PostMapping({"/products"})
-	public String saveProduct(
-			@Valid Product product, Errors errors
-			, final RedirectAttributes redirect
-			, Model model
-			) {
+	public String saveProduct(@Valid Product product
+	        , Model model
+	        , Errors errors
+			, final RedirectAttributes redirect) {
+	    
+	    String successMsg = "";
+        if (product.getId() != 0) {
+           successMsg = "Product edited successfully.";
+        } else {
+           successMsg = "New product added successfully.";
+        }
+        
 		if (errors.hasErrors()) {
 			model.addAttribute("categories", productCategoryRepository.findAll());
 			return "product/productform";
 		}
 		productRepository.save(product);
-		redirect.addFlashAttribute("message", "New Product added successfully.");
+		redirect.addFlashAttribute("message", successMsg);
 		return "redirect:/products";
 	}
 	

@@ -63,12 +63,19 @@ public class PurchaseController {
 	
 	@PostMapping({"/purchases"})
 	@Transactional
-	public String savePurchase(
-			@Valid Purchase purchase, Errors errors
-			, final RedirectAttributes redirect
+	public String savePurchase(@Valid Purchase purchase
 			, Model model
-			) {
-		if (errors.hasErrors()) {
+			, Errors errors
+			, final RedirectAttributes redirect) {
+		
+	    String successMsg = "";
+        if (purchase.getId() != 0) {
+           successMsg = "Purchase edited successfully.";
+        } else {
+           successMsg = "New purchase added successfully.";
+        }
+        
+	    if (errors.hasErrors()) {
 			model.addAttribute(productRepository.findAll());
 			model.addAttribute(supplierRepository.findAll());
 			return "purchases/purchaseform";
@@ -88,7 +95,7 @@ public class PurchaseController {
 			s.setUnitCost(purchase.getUnitCost());
 			stockRepository.save(s);
 		}
-		redirect.addFlashAttribute("message", "New Purchase added successfully.");
+		redirect.addFlashAttribute("message", successMsg);
 		return "redirect:/purchases";
 	}
 }

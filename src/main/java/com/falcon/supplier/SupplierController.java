@@ -40,17 +40,24 @@ private SupplierRepository supplierRepository;
 	}
 	
 	@PostMapping({"/suppliers"})
-	public String saveSupplier(
-			@Valid Supplier supplier, Errors errors
+	public String saveSupplier(@Valid Supplier supplier
+	        , Errors errors
 			, final RedirectAttributes redirect
 			, Model model
 			) {
-		if (errors.hasErrors()) {
-			model.addAttribute(supplierRepository.findAll());
+	    String successMsg = "";
+	    if (supplier.getId() != 0) {
+           successMsg = "Supplier edited successfully.";
+        } else {
+           successMsg = "New supplier added successfully.";
+        }
+	    
+	    if (errors.hasErrors()) {
+	        model.addAttribute(new Supplier());
 			return "supplier/supplierform";
 		}
 		supplierRepository.save(supplier);
-		redirect.addFlashAttribute("message", "New Supplier added successfully.");
+		redirect.addFlashAttribute("message", successMsg);
 		return "redirect:/suppliers";
 	}
 }

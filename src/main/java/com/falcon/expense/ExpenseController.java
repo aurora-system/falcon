@@ -46,13 +46,20 @@ public class ExpenseController {
             , Model model
             , Errors errors
             , final RedirectAttributes redirect) {
-
+        
+        String successMsg = "";
+        if (expense.getId() != 0) {
+           successMsg = "Expense edited successfully.";
+        } else {
+           successMsg = "New expense added successfully.";
+        }
+        
         if (errors.hasErrors()) {
             model.addAttribute("expenseForm", new Expense());
             return "expense/expenseform";
         }
         expenseRepository.save(expense);
-        redirect.addFlashAttribute("message", "New Expense added successfully.");
+        redirect.addFlashAttribute("message", successMsg);
         return "redirect:/expenses";
     }
 }
