@@ -45,7 +45,7 @@
 					        <th class="th-sm">Quantity</th>
 					        <th class="th-sm">Unit Cost</th>
 							<th class="th-sm">Total Cost</th>
-					        <th class="th-sm">Actions</th>
+<!-- 					        <th class="th-sm">Actions</th> -->
 					      </tr>
 					    </thead>
 					    <tbody>
@@ -59,9 +59,9 @@
 					        <td th:text="${purchase.quantity}"></td>
 					        <td th:text="${purchase.unitCost}"></td>
 					        <td th:text="${purchase.totalAmount}"></td>
-					        <td>
-								<a type="button" th:href="|@{/purchases}/${purchase.id}/edit|" class="btn btn-dark float-center">Edit</a>
-							</td>
+<!-- 					        <td> -->
+<!-- 								<a type="button" th:href="|@{/purchases}/${purchase.id}/edit|" class="btn btn-dark float-center">Edit</a> -->
+<!-- 							</td> -->
 					      </tr>
 					      </th:block>
 					    </tbody>
