@@ -24,12 +24,11 @@ public class ExpenseController {
     public String listExpenses(Model model) {
         Iterable<Expense> expenseList = expenseRepository.findAll();
         model.addAttribute("expenses", expenseList);
-        model.addAttribute("message", "Hello from @GetMapping.");
         return "expense/expenselist";
     }
     
     @GetMapping({"/expenses/new"})
-        public String newExpenseForm(Model model) {
+    public String newExpenseForm(Model model) {
     	model.addAttribute("expenseForm", new Expense());
     	return "expense/expenseform";
     }
@@ -37,8 +36,7 @@ public class ExpenseController {
     @GetMapping("/expenses/{id}/edit")
     public String editExpenseForm(Model model
             , @PathVariable long id) {
-        model.addAttribute(expenseRepository.findAll());
-        model.addAttribute(expenseRepository.findById(id).orElseGet(() -> new Expense()));
+        model.addAttribute("expenseForm", expenseRepository.findById(id).orElseGet(() -> new Expense()));
         return "expense/expenseform";
     }
     
