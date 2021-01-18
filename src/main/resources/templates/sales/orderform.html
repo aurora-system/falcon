@@ -80,7 +80,7 @@
 											<select class="form-control stock" id="stock0" th:field="*{items[0].stock.id}" data-toggle="tooltip" data-placement="bottom" title="Product">
 												<option disabled="disabled" value="0" selected>- Select Product -</option>
 												<option th:each="stock : ${stockList}" th:value="${stock.id}" th:text="${stock.product.name} + ' (' + ${stock.quantity} + ')'"
-												    th:data-row-srp="${stock.unitCost + stock.markup}"></option>
+												    th:data-row-srp="${stock.unitCost + stock.markup}" th:data-row-max="${stock.quantity}"></option>
 											</select>
 										</div>
 									</div>
@@ -300,6 +300,9 @@
 				$("#quantity"+rowNum).val(0);
 				$("#totalAmount"+rowNum).val(0);
 				updateTotalAmount();
+				
+				var maxCount = $("option:selected", this).attr("data-row-max");
+				$("#quantity"+rowNum).attr("max", maxCount);
 	      	});
 		
 		// When selling price is updated
