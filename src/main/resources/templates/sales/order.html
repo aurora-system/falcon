@@ -75,13 +75,13 @@
 							</tr>
 						</thead>
 						<tbody>
-							<th:block th:each="orderItem : ${salesOrder.salesOrderItems}">
+							<th:block th:each="item : ${salesOrder.items}">
 								<tr>
-									<td th:text="${orderItem.stock.product.name}"></td>
-									<td th:text="${orderItem.quantity}"></td>
-									<td th:text="${orderItem.sellingPrice}"></td>
-									<td th:text="${orderItem.discountPrice}"></td>
-									<td th:text="${orderItem.netSellingPrice}"></td>
+									<td th:text="${item.stock.product.name}"></td>
+									<td th:text="${item.quantity}"></td>
+									<td th:text="${item.sellingPrice}"></td>
+									<td th:text="${item.discountPrice}"></td>
+									<td th:text="${item.netSellingPrice}"></td>
 								</tr>
 							</th:block>
 							<tr>
