@@ -48,7 +48,7 @@
 						<th:block th:each="expense : ${expenses}">
 							<tr>
 								<td th:text="${expense.type}"></td>
-								<td th:text="${expense.amount}"></td>
+								<td th:text="${#numbers.formatDecimal(expense.amount,1,'COMMA',2,'POINT')}"></td>
 								<td th:text="${expense.expenseDate}"></td>
 								<td th:text="${expense.remarks}"></td>
 								<td>

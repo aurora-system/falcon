@@ -57,8 +57,8 @@
 					        <td th:text="${purchasereturn.supplier.name}"></td>
 					        <td th:text="${purchasereturn.product.name}"></td>
 					        <td th:text="${purchasereturn.quantity}"></td>
-					        <td th:text="${purchasereturn.unitCost}"></td>
-					        <td th:text="${purchasereturn.totalAmount}"></td>
+					        <td th:text="${#numbers.formatDecimal(purchasereturn.unitCost,1,'COMMA',2,'POINT')}"></td>
+					        <td th:text="${#numbers.formatDecimal(purchasereturn.totalAmount,1,'COMMA',2,'POINT')}"></td>
 <!-- 					        <td> -->
 <!-- 								<a type="button" th:href="|@{/purchasereturns}/${purchasereturn.id}/edit|" class="btn btn-dark float-center">Edit</a> -->
 <!-- 							</td> -->

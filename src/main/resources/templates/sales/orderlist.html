@@ -57,7 +57,7 @@
 								<td th:text="${order.customer.name}"></td>
 								<td th:text="${order.transDate}"></td>
 								<td th:text="${order.invoiceNumber}"></td>
-								<td th:text="${order.totalAmount}"></td>
+								<td th:text="${#numbers.formatDecimal(order.totalAmount,1,'COMMA',2,'POINT')}"></td>
 								<td th:text="${order.type}"></td>
 								<td th:text="${order.paymentType}"></td>
 								<td th:text="${order.remarks}"></td>
