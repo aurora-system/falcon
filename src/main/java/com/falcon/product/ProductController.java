@@ -2,6 +2,7 @@ package com.falcon.product;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.PageRequest;
@@ -127,6 +128,7 @@ public class ProductController {
     }
 
     @PostMapping({"/products"})
+    @Transactional
     public String saveProduct(@Valid Product product
             , Errors errors
             , final RedirectAttributes redirect
