@@ -10,7 +10,6 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -25,44 +24,43 @@ import org.springframework.web.util.UriComponentsBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Lazy
 @Service
 public class FileStorageStrategy implements StorageStrategy {
 
-	private final Path fileStorageLocation;
-	
-	@Autowired
-	public FileStorageStrategy(FileStorageProperties fileStorageProperties) throws IOException {
-		this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
-				.toAbsolutePath().normalize();
-		Files.createDirectories(fileStorageLocation);
-	}
-	
-	@Override
-	public String[] uploadFile(MultipartFile multipartFile) throws Exception {
-		log.info("FileStorageStrategy ==> uploading file");
-		String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-		if (fileName.contains("..")) {
-			throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-		}
-		Path targetLocation = this.fileStorageLocation.resolve(fileName);
+    private final Path fileStorageLocation;
+
+    @Autowired
+    public FileStorageStrategy(FileStorageProperties fileStorageProperties) throws IOException {
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+                .toAbsolutePath().normalize();
+        Files.createDirectories(this.fileStorageLocation);
+    }
+
+    @Override
+    public String[] uploadFile(MultipartFile multipartFile, String filename) throws Exception {
+        log.info("FileStorageStrategy ==> uploading file");
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(filename));
+        if (fileName.contains("..")) {
+            throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+        }
+        Path targetLocation = this.fileStorageLocation.resolve(fileName);
         Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
         /*String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/api/download/")
+                .path("/file/download/")
                 .path(fileName)
                 .toUriString();*/
-        
+
         String downloadUrl = UriComponentsBuilder.newInstance()
-        		//.scheme("http").host("localhost").port(8080)
-        		.path("/api/download/")
-        		.path(fileName)
-        		.build().toUriString();
+                //.scheme("http").host("localhost").port(8080)
+                .path("/file/download/")
+                .path(fileName)
+                .build().toUriString();
         return new String[]{downloadUrl, fileName};
-	}
-	
-	@Override
-	public ResponseEntity<Object> downloadFile(String fileUrl, HttpServletRequest request) throws Exception {
+    }
+
+    @Override
+    public ResponseEntity<Object> downloadFile(String fileUrl, HttpServletRequest request) throws Exception {
         log.info("FileStorageStrategy==> downloading file");
         // String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         Path filePath = this.fileStorageLocation.resolve(fileUrl).normalize();
