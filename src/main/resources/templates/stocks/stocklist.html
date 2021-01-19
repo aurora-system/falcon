@@ -53,6 +53,7 @@
 					        <td th:text="${stock.quantity < stock.lowCountIndicator ? 'YES' : 'NO'}"></td>
 					        <td>
 								<a type="button" th:href="|@{/stocks}/${stock.id}/edit|" class="btn btn-dark float-center">Update Mark Up</a>
+                                <a type="button" th:href="|@{/stockhistory}/${stock.id}|" class="btn btn-dark float-center">Stock History</a>
 							</td>
 					      </tr>
 					      </th:block>
