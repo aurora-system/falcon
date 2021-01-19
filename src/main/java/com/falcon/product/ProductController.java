@@ -23,58 +23,14 @@ import com.falcon.fileupload.StorageService;
 public class ProductController {
 
     private ProductRepository productRepository;
-    private ProductCategoryRepository productCategoryRepository;
     private StorageService storageService;
 
     public ProductController(
             ProductRepository productRepository
-            ,ProductCategoryRepository productCategoryRepository
             ,StorageService storageService
             ) {
         this.productRepository = productRepository;
-        this.productCategoryRepository = productCategoryRepository;
         this.storageService = storageService;
-    }
-
-    @GetMapping({"/productcategories"})
-    public String listAllProductCategories(Model model) {
-        Iterable<ProductCategory> categories = this.productCategoryRepository.findAll();
-        model.addAttribute("categories", categories);
-        return "product/categorylist";
-    }
-
-    @GetMapping({"/productcategories/{categoryId}"})
-    public String categoryDetails(@PathVariable long categoryId, Model model) {
-        ProductCategory cat = this.productCategoryRepository.findById(categoryId)
-                .orElse(new ProductCategory(""));
-        model.addAttribute("category", cat);
-        return "product/category";
-    }
-
-    @GetMapping({"/productcategories/{categoryId}/edit"})
-    public String editCategoryDetails(@PathVariable long categoryId, Model model) {
-        ProductCategory cat = this.productCategoryRepository.findById(categoryId)
-                .orElse(new ProductCategory(""));
-        model.addAttribute("productCategory", cat);
-        return "product/categoryform";
-    }
-
-    @GetMapping({"/productcategories/new"})
-    public String newProductCategoryForm(Model model) {
-        model.addAttribute("productCategory", new ProductCategory());
-        return "product/categoryform";
-    }
-
-    @PostMapping({"/productcategories"})
-    public String saveProductCategory(
-            @Valid ProductCategory product, Errors errors
-            , final RedirectAttributes redirect) {
-        if (errors.hasErrors()) {
-            return "product/categoryform";
-        }
-        this.productCategoryRepository.save(product);
-        redirect.addFlashAttribute("message", "New Product Category saved successfully.");
-        return "redirect:/productcategories";
     }
 
     @GetMapping({"/products"})
@@ -99,7 +55,6 @@ public class ProductController {
         model.addAttribute("products", products);
         Product p = new Product();
         model.addAttribute("product", p);
-        model.addAttribute("categories", this.productCategoryRepository.findAll());
         return "product/productform";
     }
 
@@ -116,14 +71,12 @@ public class ProductController {
         Optional<Product> product = this.productRepository.findById(productId);
         Product p = product.orElseGet(Product::new);
         model.addAttribute("product", p);
-        model.addAttribute("categories", this.productCategoryRepository.findAll());
         return "product/productform";
     }
 
     @GetMapping({"/products/new"})
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", this.productCategoryRepository.findAll());
         return "product/productform";
     }
 
@@ -135,7 +88,6 @@ public class ProductController {
             , Model model
             ) {
         if (errors.hasErrors()) {
-            model.addAttribute("categories", this.productCategoryRepository.findAll());
             return "product/productform";
         }
 

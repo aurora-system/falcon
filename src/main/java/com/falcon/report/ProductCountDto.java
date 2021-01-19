@@ -9,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProductCountDto {
     private Product product;
-    private int count = 0;
+    private long count = 0;
 }
