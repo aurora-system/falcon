@@ -48,46 +48,46 @@ public class FirebaseStorageStrategy implements StorageStrategy {
 
     @PostConstruct
     private void initializeFirebase() throws Exception {
-        bucketName = environment.getRequiredProperty("FIREBASE_BUCKET_NAME");
-        projectId = environment.getRequiredProperty("FIREBASE_PROJECT_ID");
+        this.bucketName = this.environment.getRequiredProperty("FIREBASE_BUCKET_NAME");
+        this.projectId = this.environment.getRequiredProperty("FIREBASE_PROJECT_ID");
 
-        InputStream firebaseCredential = createFirebaseCredential();
+        InputStream firebaseCredential = this.createFirebaseCredential();
         this.storageOptions = StorageOptions.newBuilder()
-                .setProjectId(projectId)
+                .setProjectId(this.projectId)
                 //.setCredentials(GoogleCredentials.getApplicationDefault())
                 .setCredentials(GoogleCredentials.fromStream(firebaseCredential))
                 .build();
     }
 
     @Override
-	public String[] uploadFile(MultipartFile multipartFile) throws IOException {
-        log.debug("bucket name ==== " + bucketName);
+    public String[] uploadFile(MultipartFile multipartFile, String filename) throws IOException {
+        log.debug("bucket name ==== " + this.bucketName);
         //File file = convertMultiPartToFile(multipartFile);
         //Path filePath = file.toPath();
-        String objectName = generateFileName(multipartFile);
+        String objectName = this.generateFileName(filename);
 
-        Storage storage = storageOptions.getService();
+        Storage storage = this.storageOptions.getService();
 
-        BlobId blobId = BlobId.of(bucketName, objectName);
+        BlobId blobId = BlobId.of(this.bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         //Blob blob = storage.create(blobInfo, Files.readAllBytes(filePath));
         storage.create(blobInfo, multipartFile.getBytes());
-        log.info("File " + multipartFile.getOriginalFilename() + " uploaded to bucket " + bucketName + " as " + objectName);
-        
+        log.info("File " + multipartFile.getOriginalFilename() + " uploaded to bucket " + this.bucketName + " as " + objectName);
+
         String downloadUrl = UriComponentsBuilder.newInstance()
-        		//.scheme("http").host("localhost").port(8080)
-        		.path("/api/download/")
-        		.path(objectName)
-        		.build().toUriString();
+                //.scheme("http").host("localhost").port(8080)
+                .path("/api/download/")
+                .path(objectName)
+                .build().toUriString();
         return new String[]{downloadUrl, objectName};
     }
 
 
     @Override
     public ResponseEntity<Object> downloadFile(String fileName, HttpServletRequest request) throws Exception {
-        Storage storage = storageOptions.getService();
+        Storage storage = this.storageOptions.getService();
 
-        Blob blob = storage.get(BlobId.of(bucketName, fileName));
+        Blob blob = storage.get(BlobId.of(this.bucketName, fileName));
         ReadChannel reader = blob.reader();
         InputStream inputStream = Channels.newInputStream(reader);
 
@@ -117,25 +117,25 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         return convertedFile;
     }*/
 
-    private String generateFileName(MultipartFile multiPart) {
-        return new Date().getTime() + "-" + Objects.requireNonNull(multiPart.getOriginalFilename()).replace(" ", "_");
+    private String generateFileName(String filename) {
+        return new Date().getTime() + "-" + Objects.requireNonNull(filename).replace(" ", "_");
     }
 
     private InputStream createFirebaseCredential() throws Exception {
         //private key
-        String privateKey = environment.getRequiredProperty("FIREBASE_PRIVATE_KEY").replace("\\n", "\n");
+        String privateKey = this.environment.getRequiredProperty("FIREBASE_PRIVATE_KEY").replace("\\n", "\n");
 
         FirebaseCredential firebaseCredential = new FirebaseCredential();
-        firebaseCredential.setType(environment.getRequiredProperty("FIREBASE_TYPE"));
-        firebaseCredential.setProject_id(projectId);
-        firebaseCredential.setPrivate_key_id(environment.getRequiredProperty("FIREBASE_PRIVATE_KEY_ID"));
+        firebaseCredential.setType(this.environment.getRequiredProperty("FIREBASE_TYPE"));
+        firebaseCredential.setProject_id(this.projectId);
+        firebaseCredential.setPrivate_key_id(this.environment.getRequiredProperty("FIREBASE_PRIVATE_KEY_ID"));
         firebaseCredential.setPrivate_key(privateKey);
-        firebaseCredential.setClient_email(environment.getRequiredProperty("FIREBASE_CLIENT_EMAIL"));
-        firebaseCredential.setClient_id(environment.getRequiredProperty("FIREBASE_CLIENT_ID"));
-        firebaseCredential.setAuth_uri(environment.getRequiredProperty("FIREBASE_AUTH_URI"));
-        firebaseCredential.setToken_uri(environment.getRequiredProperty("FIREBASE_TOKEN_URI"));
-        firebaseCredential.setAuth_provider_x509_cert_url(environment.getRequiredProperty("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"));
-        firebaseCredential.setClient_x509_cert_url(environment.getRequiredProperty("FIREBASE_CLIENT_X509_CERT_URL"));
+        firebaseCredential.setClient_email(this.environment.getRequiredProperty("FIREBASE_CLIENT_EMAIL"));
+        firebaseCredential.setClient_id(this.environment.getRequiredProperty("FIREBASE_CLIENT_ID"));
+        firebaseCredential.setAuth_uri(this.environment.getRequiredProperty("FIREBASE_AUTH_URI"));
+        firebaseCredential.setToken_uri(this.environment.getRequiredProperty("FIREBASE_TOKEN_URI"));
+        firebaseCredential.setAuth_provider_x509_cert_url(this.environment.getRequiredProperty("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"));
+        firebaseCredential.setClient_x509_cert_url(this.environment.getRequiredProperty("FIREBASE_CLIENT_X509_CERT_URL"));
 
         //serialize with Jackson
         ObjectMapper mapper = new ObjectMapper();

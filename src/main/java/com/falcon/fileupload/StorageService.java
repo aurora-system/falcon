@@ -17,19 +17,19 @@ public class StorageService {
         this.storageStrategy = storageFactory.createStrategy();
     }
 
-    public FileDTO uploadFile(MultipartFile file) throws Exception {
-        String[] uploadedFile = this.storageStrategy.uploadFile(file);
+    public FileDTO uploadFile(MultipartFile file, String filename) throws Exception {
+        String[] uploadedFile = this.storageStrategy.uploadFile(file, filename);
         String fileDownloadUri = uploadedFile[0];
-        String fileName = uploadedFile[1];
+        // String filename = uploadedFile[1];
         log.info("fileDownloadUri, {0}" + fileDownloadUri);
-        log.info("filename, {0}" + fileName);
+        log.info("filename, {0}" + filename);
 
         return new FileDTO(
-                fileName,
+                filename,
                 file.getContentType(),
                 fileDownloadUri, file.getSize());
     }
-    
+
     public ResponseEntity<Object> downloadFile(String fileUrl, HttpServletRequest request) throws Exception {
         return this.storageStrategy.downloadFile(fileUrl, request);
     }

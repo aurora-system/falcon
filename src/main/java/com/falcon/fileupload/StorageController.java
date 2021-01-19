@@ -1,7 +1,5 @@
 package com.falcon.fileupload;
 
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -19,50 +17,33 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/file")
 public class StorageController {
 
     private StorageService storageService;
-    private FileInfoRepository fileInfoRepository;
 
-    public StorageController(StorageService storageService,
-    		FileInfoRepository fileInfoRepository
-    		) {
+    public StorageController(StorageService storageService
+            ) {
         this.storageService = storageService;
-        this.fileInfoRepository = fileInfoRepository;
     }
 
 
     @PostMapping("/upload")
     @Transactional
     public ResponseEntity<FileDTO> uploadFile(@RequestParam("file") MultipartFile file,
-    		@PathVariable long productId
-    		, HttpServletRequest request
-    		) throws Exception {
+            @PathVariable long productId
+            , HttpServletRequest request
+            ) throws Exception {
         log.info("REST request to upload file");
         //upload files
-        FileDTO fileDTO = storageService.uploadFile(file);
-        String username = request.getUserPrincipal().getName();
-        fileInfoRepository.save(toFileInfo(fileDTO, username, productId));
+        FileDTO fileDTO = this.storageService.uploadFile(file, file.getOriginalFilename());
+        request.getUserPrincipal().getName();
         return new ResponseEntity<>(fileDTO, null, HttpStatus.OK);
     }
 
 
-    private FileInfo toFileInfo(FileDTO fileDTO, String username, long productId) {
-		return new FileInfo(0L,
-				fileDTO.getFilename(),
-				fileDTO.getContentType(),
-				fileDTO.getDownloadUri(),
-				fileDTO.getFileSize(),
-				LocalDate.now(),
-				username,
-				productId
-				);
-	}
-
-
-	@GetMapping("/download/{fileName:.+}")
+    @GetMapping("/download/{fileName:.+}")
     public ResponseEntity<Object> downloadFile(@PathVariable String fileName, HttpServletRequest request) throws Exception {
-        return storageService.downloadFile(fileName, request);
+        return this.storageService.downloadFile(fileName, request);
     }
 }
