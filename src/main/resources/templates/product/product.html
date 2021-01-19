@@ -45,35 +45,6 @@
 			</div>
 		</div>
 		
-		<div class="row">
-			<div class="col">
-				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
-					<section>
-					  <div class="container">
-					    <div class="row">
-					      <div class="col-12">
-					        <form th:action="@{|/products/upload-photo/${product.id}|}" method="post" enctype="multipart/form-data">
-					        <input type="file" name="file" accept="image/*">
-					        <button class="btn btn-dark">Upload Photo</button>
-					        </form>
-					      </div>
-					    </div>
-					  </div>
-					</section>
-					<hr/>
-					<div class="alert alert-dark" role="alert">
-						<section>
-						  <div class="container">
-						    <div class="row">
-						      <img alt="ALT" th:each="image: ${imageList}" th:src="${image.downloadUri}" width="300" height="300">
-						    </div>
-						  </div>
-						</section>
-					</div>
-				</div>
-			</div>
-		</div>
-		
 		<th:block th:replace="fragments/common::footer"></th:block>
 	</div>
 	
