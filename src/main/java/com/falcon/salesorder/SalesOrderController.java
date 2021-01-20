@@ -46,17 +46,31 @@ public class SalesOrderController {
 	}
 	
 	@GetMapping("/salesorders/{id}")
-	public String viewSalesOrder(Model model, 
-			@PathVariable long id) {
+	public String viewSalesOrder(Model model 
+			, @PathVariable long id) {
 		model.addAttribute(salesOrderRepository.findById(id).orElseGet(() ->new SalesOrder()));
 		model.addAttribute(stockRepository.findAll());
 		return "sales/order";
 	}
 	
+	@GetMapping("/salesorders/cancel/{id}")
+    public String cancelSalesOrder(Model model
+            , @PathVariable long id
+            , final RedirectAttributes redirect) {
+        model.addAttribute(salesOrderRepository.findAll());
+        SalesOrder order = salesOrderRepository.findById(id).get();
+        order.setStatus("CANCELLED");
+        salesOrderRepository.save(order);
+        
+        redirect.addFlashAttribute("message", "Sales order cancelled successfully.");
+        return "redirect:/salesorders";
+    }
+	
 	@PostMapping("/salesorders")
 	@Transactional
 	public String saveSalesOrder(
-			@Valid SalesOrder salesOrder, Errors errors
+			@Valid SalesOrder salesOrder
+			, Errors errors
 			, final RedirectAttributes redirect
 			, Model model
 			) {

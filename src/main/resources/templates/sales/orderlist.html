@@ -4,6 +4,32 @@
 <th:block th:replace="fragments/common::header('Orders')"></th:block>
 <body>
 	<div class="container-fluid">
+	  	
+	  	<!-- Cancel Order Modal -->
+	  	<div class="modal fade" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <input type="hidden" id="orderId" />
+		        <h5 class="modal-title" id="cancelModalLabel">Cancel Order #<span id="invoiceNumber"></span></h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group">
+		        	<label for="message-reason" class="col-form-label">Reason: (optional)</label>
+		            <input type="text" class="form-control" id="message-reason"></input>
+		      	</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-danger" id="cancelOrderConfirm">Cancel Order</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	  	
 	  	<!-- Navigation Bar -->
 		<div class="row">
 			<div class="col">
@@ -64,7 +90,10 @@
 								<td th:text="${order.status}"></td>
 								<td>
 									<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
-									<button type="button" class="showOrderDetails btn btn-danger" th:disabled="${order.status == 'CANCELLED'}">Cancel</button>
+									<button type="button" class="cancelOrder btn btn-danger" th:disabled="${order.status == 'CANCELLED'}" 
+										data-toggle="modal" data-target="#cancelOrderModal"
+										th:data-row-orderId="${order.id}"
+										th:data-row-invoice="${order.invoiceNumber}">Cancel</button>
 								</td>
 							</tr>
 						</th:block>
@@ -135,12 +164,10 @@
 		    $(".modal-body #createdDate").html("<b>Date: </b>" + $(this).attr('data-row-createdDate'));
 		    $(".modal-body #remarks").html("<b>Remarks: </b>" + $(this).attr('data-row-remarks'));
 		    
-// 		    $(".modal-body #orderItems").html($(this).attr('data-row-orderItems'));
 		    var str = $(this).attr('data-row-orderItems');
 		    var orderItems = str.replaceAll("=", ":").replaceAll("OrderItem(", "{").replaceAll(")", "}").replaceAll("},", "};").replaceAll("[", "").replaceAll("]", "");
 			var itemSplit = orderItems.split(";");
 			
-// 			$(".modal-body #orderItems").empty();
 			for (var item of itemSplit) {
 				var itemFields = item.split(",");
 				
@@ -160,12 +187,23 @@
 				}
 				$(".modal-body #itemQuantity").html("Quantity: " + qtyVal);
 				$(".modal-body #itemAmount").html("Amount: " + amtVal);
-				
-// 				$(".modal-body #orderItems").append(item);
 			} 
-			
-			
-// 		    var obj = JSON.parse(orderItems);
 		});
+		
+		$(document).on("click", ".cancelOrder", function () {
+			var orderId = $(this).attr('data-row-orderId');
+			var invoice = $(this).attr('data-row-invoice');
+			console.log(orderId);
+			console.log(invoice);
+			$("#cancelOrderModal").find("#orderId").val(orderId);
+			$("#cancelOrderModal").find("#invoiceNumber").html(invoice);
+        });
+		
+		$(document).on("click", "#cancelOrderConfirm", function () {
+			var orderId = $("#cancelOrderModal").find("#orderId").val();
+			let contextRoot = /*[[${#httpServletRequest.getContextPath()}]]*/ '';
+        	let cancelUrl = contextRoot + '/salesorders/cancel/' + orderId;
+			window.location.href = cancelUrl;
+        });
 	</script>
 </body>
