@@ -50,7 +50,7 @@ public class ReportController {
     public String listAllProductsSoldToday(Model model) {
 
         HashMap<Long, ProductCountDto> productCountMap = new HashMap<>();
-        Iterable<SalesOrder> orders = this.salesOrderRepository.findByTransDate(LocalDate.now());
+        Iterable<SalesOrder> orders = this.salesOrderRepository.findByTransDateAndStatus(LocalDate.now(), "PROCESSED");
 
         for (SalesOrder o : orders) {
             for (SalesOrderItem item : o.getItems()) {

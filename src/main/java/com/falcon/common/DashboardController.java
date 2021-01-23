@@ -3,6 +3,7 @@ package com.falcon.common;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.toList;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,17 +47,34 @@ public class DashboardController {
         weeklySalesData.put("9/25", 8950);
         weeklySalesData.put("9/26", 88300);
 
-        List<SalesOrder> ordersPastSevenDays = this.salesOrderRepository.findByTransDateGreaterThan(LocalDate.now().minusDays(7));
-        List<SalesOrderItem> orderItemsSevenDays = ordersPastSevenDays.stream()
-                .map(SalesOrder::getItems)
-                .flatMap(List::stream)
-                .collect(toList());
-        Map<Object, Long> ordersSevenDaysMap = orderItemsSevenDays.stream()
-                .collect(Collectors.groupingBy(item -> item.getStock().getProduct().getName()
-                        , counting()));
+        List<SalesOrder> ordersPastSevenDays = this.salesOrderRepository.findByTransDateGreaterThanAndStatus(LocalDate.now().minusDays(7), "PROCESSED");
+        Map<String, Double> ordersSevenDaysMap = new LinkedHashMap<>();
+        for (SalesOrder order : ordersPastSevenDays) {
+            double totalSalesAmount = 0;
+            for (SalesOrderItem item : order.getItems()) {
+                totalSalesAmount = totalSalesAmount + item.getNetSellingPrice().doubleValue();
+            }
+            
+            if (ordersSevenDaysMap.get(order.getTransDate().toString()) != null) {
+                double oldAmount = ordersSevenDaysMap.get(order.getTransDate().toString());
+                double newAmount = oldAmount + totalSalesAmount;
+                ordersSevenDaysMap.put(order.getTransDate().toString(), newAmount);
+            } else {
+                ordersSevenDaysMap.put(order.getTransDate().toString(), totalSalesAmount);
+            }
+        }
         
-        List<SalesOrder> ordersToday = this.salesOrderRepository.findByTransDate(LocalDate.now());
-        // Daily Product Sales
+//        List<SalesOrderItem> orderItemsSevenDays = ordersPastSevenDays.stream()
+//                .map(SalesOrder::getItems)
+//                .flatMap(List::stream)
+//                .collect(toList());
+//        Map<Object, Long> ordersSevenDaysMap = orderItemsSevenDays.stream()
+//                .collect(Collectors.groupingBy(item -> item.getStock().getProduct().getName()
+//                        , counting()));
+        
+        List<SalesOrder> ordersToday = this.salesOrderRepository.findByTransDateAndStatus(LocalDate.now(), "PROCESSED");
+        
+        // Daily Product Sales Count
         List<SalesOrderItem> orderItems = ordersToday.stream()
                 .map(SalesOrder::getItems)
                 .flatMap(List::stream)

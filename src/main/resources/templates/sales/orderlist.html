@@ -93,7 +93,7 @@
 								<td th:text="${order.remarks}"></td>
 								<td th:text="${order.status}"></td>
 								<td>
-									<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
+									<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark mb-1">Details</a>
 									<button type="button" class="cancelOrder btn btn-danger" th:disabled="${order.status == 'CANCELLED'}" 
 										data-toggle="modal" data-target="#cancelOrderModal"
 										th:data-row-orderId="${order.id}"
