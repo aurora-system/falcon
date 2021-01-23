@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.stock.Stock;
@@ -35,6 +36,7 @@ public class SalesOrderController {
 	@GetMapping("/salesorders")
 	public String listSalesOrders(Model model) {
 		model.addAttribute(salesOrderRepository.findAll());
+		model.addAttribute(new SalesOrder());
 		return "sales/orderlist";
 	}
 	
@@ -53,13 +55,23 @@ public class SalesOrderController {
 		return "sales/order";
 	}
 	
-	@GetMapping("/salesorders/cancel/{id}")
+	@PostMapping("/salesorders/cancel")
     public String cancelSalesOrder(Model model
-            , @PathVariable long id
+            , SalesOrder salesOrder
             , final RedirectAttributes redirect) {
         model.addAttribute(salesOrderRepository.findAll());
-        SalesOrder order = salesOrderRepository.findById(id).get();
+        SalesOrder order = salesOrderRepository.findById(salesOrder.getId()).get();
         order.setStatus("CANCELLED");
+        
+        String reason = salesOrder.getRemarks();
+        if (reason == null || reason.equalsIgnoreCase("")) {
+            reason = "Not specified.";
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append(order.getRemarks());
+        sb.append(" This order has been cancelled. Reason: " + reason);
+        order.setRemarks(sb.toString());
         salesOrderRepository.save(order);
         
         redirect.addFlashAttribute("message", "Sales order cancelled successfully.");
@@ -75,7 +87,8 @@ public class SalesOrderController {
 			, Model model
 			) {
 		if (errors.hasErrors()) {
-			return "sales/orderform";
+			// Populate model
+		    return "sales/orderform";
 		}
 		BigDecimal totalAmount = salesOrder.getItems().stream()
 				.map(SalesOrderItem::getNetSellingPrice)

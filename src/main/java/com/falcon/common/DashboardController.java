@@ -46,21 +46,16 @@ public class DashboardController {
         weeklySalesData.put("9/25", 8950);
         weeklySalesData.put("9/26", 88300);
 
-        // Daily Product Sales - dummy
-        Map<String, Integer> dailyProductSalesData = new LinkedHashMap<>();
-        dailyProductSalesData.put("Toyota Corolla bumper", 5);
-        dailyProductSalesData.put("Honda Civic windshield", 2);
-        dailyProductSalesData.put("Clifford's Diffuser", 3);
-        dailyProductSalesData.put("Vossen VIP Rims", 8);
-        dailyProductSalesData.put("Wild Trak Exhaust", 3);
-
-        model.addAttribute("weeklySalesData", weeklySalesData);
-        model.addAttribute("dailyProductSalesData", dailyProductSalesData);
-        model.addAttribute("message", "Hello from @GetMapping.");
-
+        List<SalesOrder> ordersPastSevenDays = this.salesOrderRepository.findByTransDateGreaterThan(LocalDate.now().minusDays(7));
+        List<SalesOrderItem> orderItemsSevenDays = ordersPastSevenDays.stream()
+                .map(SalesOrder::getItems)
+                .flatMap(List::stream)
+                .collect(toList());
+        Map<Object, Long> ordersSevenDaysMap = orderItemsSevenDays.stream()
+                .collect(Collectors.groupingBy(item -> item.getStock().getProduct().getName()
+                        , counting()));
+        
         List<SalesOrder> ordersToday = this.salesOrderRepository.findByTransDate(LocalDate.now());
-        List<Expense> expensesToday = this.expenseRepository.findByExpenseDate(LocalDate.now());
-
         // Daily Product Sales
         List<SalesOrderItem> orderItems = ordersToday.stream()
                 .map(SalesOrder::getItems)
@@ -77,12 +72,15 @@ public class DashboardController {
         }
 
         // Todal Order Sales Amount
+        List<Expense> expensesToday = this.expenseRepository.findByExpenseDate(LocalDate.now());
         long totalExpenseAmount = 0;
         for (Expense expense : expensesToday) {
             totalExpenseAmount = totalExpenseAmount + expense.getAmount().longValue();
         }
 
+        model.addAttribute("weeklySalesData", ordersSevenDaysMap);
         model.addAttribute("dailyProductSales", ordersTodayMap);
+        
         model.addAttribute("totalSalesAmount", totalSalesAmount);
         model.addAttribute("totalExpenseAmount", totalExpenseAmount);
         model.addAttribute("orderCountToday", ordersToday.size());

@@ -12,4 +12,6 @@ public interface SalesOrderRepository extends CrudRepository<SalesOrder, Long>{
     List<SalesOrder> findAllByInvoiceNumberOrRemarks(String keyword);
 
     List<SalesOrder> findByTransDate(LocalDate transDate);
+    
+    List<SalesOrder> findByTransDateGreaterThan(LocalDate transDate);
 }
