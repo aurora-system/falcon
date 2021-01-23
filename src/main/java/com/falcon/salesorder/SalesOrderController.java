@@ -72,6 +72,13 @@ public class SalesOrderController {
         sb.append(order.getRemarks());
         sb.append(" This order has been cancelled. Reason: " + reason);
         order.setRemarks(sb.toString());
+        
+        for (SalesOrderItem item : order.getItems()) {
+            long qt = item.getQuantity();
+            long stockQt = item.getStock().getQuantity();
+            item.getStock().setQuantity(stockQt + qt);
+        }
+        
         salesOrderRepository.save(order);
         
         redirect.addFlashAttribute("message", "Sales order cancelled successfully.");
