@@ -37,7 +37,6 @@
                   <th class="th-sm">Unit Price</th>
                   <th class="th-sm">Quantity</th>
                   <th class="th-sm">Type</th>
-                  <th class="th-sm">Updated Count</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,12 +47,16 @@
                   <td th:text="${stock.product.brand}"></td>
                   <td th:text="${#numbers.formatDecimal(stock.unitCost,1,'COMMA',2,'POINT')}"></td>
                   <td th:text="${stock.quantity}"></td>
-                  <td th:text="${'IN or OUT'}"></td>
-                  <td th:text="${100}"></td>
+                  <td th:text="${stock.type}"></td>
                 </tr>
                 </th:block>
               </tbody>
             </table>
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong th:text="|Updated Count: ${updatedCount}|"></strong>
+                </div>
+            </div>
           </div>
         </div>
       </div>
