@@ -1,9 +1,11 @@
 package com.falcon.stock;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,7 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
+import com.falcon.purchase.Purchase;
 import com.falcon.purchase.PurchaseRepository;
+import com.falcon.purchasereturn.PurchaseReturn;
+import com.falcon.purchasereturn.PurchaseReturnRepository;
+import com.falcon.salesorder.SalesOrderRepository;
+import com.falcon.salesreturn.SalesReturnRepository;
 import com.falcon.supplier.SupplierRepository;
 
 @Controller
@@ -25,19 +32,27 @@ public class StockController {
 
     private StockRepository stockRepository;
     private PurchaseRepository purchaseRepository;
+    private PurchaseReturnRepository purchaseReturnRepository;
     private ProductRepository productRepository;
     private SupplierRepository supplierRepository;
+    private SalesOrderRepository salesOrderRepository;
+    private SalesReturnRepository salesReturnRepository;
 
-    public StockController(
-            StockRepository stockRepository
+    public StockController(StockRepository stockRepository
             , PurchaseRepository purchaseRepository
+            , PurchaseReturnRepository purchaseReturnRepository
             , ProductRepository productRepository
             , SupplierRepository supplierRepository
+            , SalesOrderRepository salesOrderRepository
+            , SalesReturnRepository salesReturnRepository
             ) {
         this.stockRepository = stockRepository;
         this.purchaseRepository = purchaseRepository;
+        this.purchaseReturnRepository = purchaseReturnRepository;
         this.productRepository = productRepository;
         this.supplierRepository = supplierRepository;
+        this.salesOrderRepository =salesOrderRepository;
+        this.salesReturnRepository = salesReturnRepository;
     }
 
     @GetMapping("/stocks")
@@ -69,23 +84,68 @@ public class StockController {
 
     @GetMapping("/stockhistory/{id}")
     public String stockHistory(Model model, @PathVariable long id) {
+        List<StockHistory> stockHistoryList = new ArrayList<>();
 
         // query Purchase, Purchase return, SalesOrder, SalesReturn by stockId
         // extract trans/return date, Stock, unitCost, quantity, compute for updatedCount
         // add to List<StockHistory>
         // sort by transDate/returnDate
         // set to ModelAttribute
+        Stock stock = this.stockRepository.findById(id).orElseGet(Stock::new);
+        Product product = stock.getProduct();
+        List<Purchase> purchases = this.purchaseRepository.findAllByProductIdAndUnitCost(product.getId(), stock.getUnitCost());
+        List<PurchaseReturn> purchaseReturns = this.purchaseReturnRepository.findAllByProductIdAndUnitCost(product.getId(), stock.getUnitCost());
+        List<SalesOrderProjection> salesOrdersProjection = this.salesOrderRepository.findHistoryByStockId(stock.getId());
+        //List<SalesOrder> salesOrders = this.salesOrderRepository.findAllByStockId(stock.getId());
+        //List<SalesReturn> salesReturns = salesReturnRepository.findAllBy();
 
-        List<StockHistory> stockHistoryList = new ArrayList<>();
-        stockHistoryList.add(new StockHistory(
-                LocalDate.now(),
-                new Product(1, "Name", "Brand", "Descriptioin", "Category",null,null),
-                new BigDecimal("100.00"),
-                100,
+        List<StockHistory> purchasesHistory = purchases.stream().map(p -> new StockHistory(
+                p.getTransDate(),
+                p.getProduct(),
+                p.getUnitCost(),
+                p.getQuantity(),
                 "IN",
-                100
-                ));
+                0
+                )).collect(toList());
+
+        List<StockHistory> purchaseReturnsHistory = purchaseReturns.stream().map(pr -> new StockHistory(
+                pr.getReturnDate(),
+                pr.getProduct(),
+                pr.getUnitCost(),
+                pr.getQuantity()*-1,
+                "OUT",
+                0
+                )).collect(toList());
+
+        //List<StockHistory> salesOrderHistory = salesOrders.stream().map(so -> new StockHistory(
+        //        LocalDate.now(),
+        //        so.getStock().getProduct(),
+        //        so.getNetSellingPrice(),
+        //        so.getQuantity(),
+        //        "OUT",
+        //        0
+        //        )).collect(toList());
+
+        List<StockHistory> salesOrdersHistory = salesOrdersProjection.stream().map(sop -> new StockHistory(
+                sop.getTransDate(),
+                product,
+                sop.getUnitCost(),
+                sop.getQuantity()*-1,
+                "OUT",
+                0
+                )).collect(toList());
+
+        stockHistoryList.addAll(purchasesHistory);
+        stockHistoryList.addAll(purchaseReturnsHistory);
+        stockHistoryList.addAll(salesOrdersHistory);
+
+        // TODO: sort by date and compute for updated count
+        Collections.sort(stockHistoryList,
+                (a,b) -> a.getTransDate().isBefore(b.getTransDate()) ? -1 : a.getTransDate().isAfter(b.getTransDate()) ? 1 : 0);
+
+        long updatedCount = stockHistoryList.stream().collect(Collectors.summingLong(StockHistory::getQuantity));
         model.addAttribute(stockHistoryList);
+        model.addAttribute("updatedCount",updatedCount);
         return "stocks/history";
     }
 }
