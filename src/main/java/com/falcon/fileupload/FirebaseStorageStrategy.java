@@ -76,7 +76,7 @@ public class FirebaseStorageStrategy implements StorageStrategy {
 
         String downloadUrl = UriComponentsBuilder.newInstance()
                 //.scheme("http").host("localhost").port(8080)
-                .path("/api/download/")
+                .path("/file/download/")
                 .path(objectName)
                 .build().toUriString();
         return new String[]{downloadUrl, objectName};
