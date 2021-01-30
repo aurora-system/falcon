@@ -51,8 +51,11 @@
 							<div class="col-sm">
 								<!-- Color -->
 								<div class="form-group">
+                                    <datalist id="categories">
+                                        <option th:each="c : ${categories}" th:value="${c}" th:text="${c}"></option>
+                                    </datalist>
 									<label for="category">Category:</label> 
-									<input type="text" class="form-control" th:field="*{category}" />
+									<input type="text" class="form-control" th:field="*{category}" list="categories"/>
 								</div>
 							</div>
 						</div>	

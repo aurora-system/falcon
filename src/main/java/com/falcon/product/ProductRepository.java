@@ -10,7 +10,10 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long>{
 
     Page<Product> findAllByCategory(String category, Pageable page);
-	
+
+    @Query("SELECT DISTINCT(category) FROM Product")
+    List<String> findAllCategories();
+
     @Query("select p from Product p where p.name like %:key% or p.brand like %:key%")
     List<Product> findByNameOrBrand(String key);
 }

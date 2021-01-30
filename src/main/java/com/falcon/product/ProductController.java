@@ -71,12 +71,14 @@ public class ProductController {
         Optional<Product> product = this.productRepository.findById(productId);
         Product p = product.orElseGet(Product::new);
         model.addAttribute("product", p);
+        model.addAttribute("categories", this.productRepository.findAllCategories());
         return "product/productform";
     }
 
     @GetMapping({"/products/new"})
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("categories", this.productRepository.findAllCategories());
         return "product/productform";
     }
 
