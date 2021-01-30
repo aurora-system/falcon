@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PurchaseRepository extends CrudRepository<Purchase, Long>{
 
+    List<Purchase> findAllByIsDeleted(boolean isDeleted);
     List<Purchase> findAllByProductIdAndUnitCost(long productId, BigDecimal unitCost);
     List<Purchase> findAllByProductIdAndSupplierIdAndUnitCost(long productId, long supplierId, BigDecimal unitCost);
 }

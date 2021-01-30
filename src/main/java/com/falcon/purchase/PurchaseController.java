@@ -41,7 +41,7 @@ public class PurchaseController {
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
-        model.addAttribute(this.purchaseRepository.findAll());
+        model.addAttribute(this.purchaseRepository.findAllByIsDeleted(false));
         return "purchases/purchaselist";
     }
 
@@ -59,6 +59,31 @@ public class PurchaseController {
         model.addAttribute(this.supplierRepository.findAll());
         model.addAttribute(this.purchaseRepository.findById(id).orElseGet(Purchase::new));
         return "purchases/purchaseform";
+    }
+
+    @GetMapping("/purchases/{id}/delete")
+    @Transactional
+    public String deletePurchase(Model model, @PathVariable long id, final RedirectAttributes redirect) {
+        Purchase purchase = this.purchaseRepository.findById(id).orElseGet(Purchase::new);
+        purchase.setDeleted(true);
+        this.purchaseRepository.save(purchase);
+        Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(purchase.getProduct().getId(),
+                purchase.getSupplier().getId(), purchase.getUnitCost());
+        if (stock.isPresent()) {
+            Stock s = stock.get();
+            s.setQuantity(s.getQuantity()+purchase.getQuantity());
+            this.stockRepository.save(s);
+        } else {
+            Product product = this.productRepository.findById(purchase.getProduct().getId())
+                    .orElseGet(Product::new);
+            Stock s = new Stock();
+            s.setProduct(product);
+            s.setQuantity(purchase.getQuantity());
+            s.setUnitCost(purchase.getUnitCost());
+            this.stockRepository.save(s);
+        }
+        redirect.addFlashAttribute("message", "Purchase record deleted successfully.");
+        return "redirect:/purchases";
     }
 
     @PostMapping({"/purchases"})
