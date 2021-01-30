@@ -25,6 +25,7 @@ import com.falcon.purchasereturn.PurchaseReturn;
 import com.falcon.purchasereturn.PurchaseReturnRepository;
 import com.falcon.salesorder.SalesOrderRepository;
 import com.falcon.salesreturn.SalesReturnRepository;
+import com.falcon.supplier.Supplier;
 import com.falcon.supplier.SupplierRepository;
 
 @Controller
@@ -93,8 +94,11 @@ public class StockController {
         // set to ModelAttribute
         Stock stock = this.stockRepository.findById(id).orElseGet(Stock::new);
         Product product = stock.getProduct();
-        List<Purchase> purchases = this.purchaseRepository.findAllByProductIdAndUnitCost(product.getId(), stock.getUnitCost());
-        List<PurchaseReturn> purchaseReturns = this.purchaseReturnRepository.findAllByProductIdAndUnitCost(product.getId(), stock.getUnitCost());
+        Supplier supplier = stock.getSupplier();
+        List<Purchase> purchases = this.purchaseRepository.findAllByProductIdAndSupplierIdAndUnitCost(product.getId(),
+                supplier.getId(), stock.getUnitCost());
+        List<PurchaseReturn> purchaseReturns = this.purchaseReturnRepository.findAllByProductIdAndSupplierIdAndUnitCost(product.getId(),
+                supplier.getId(), stock.getUnitCost());
         List<SalesOrderProjection> salesOrdersProjection = this.salesOrderRepository.findHistoryByStockId(stock.getId());
         //List<SalesOrder> salesOrders = this.salesOrderRepository.findAllByStockId(stock.getId());
         //List<SalesReturn> salesReturns = salesReturnRepository.findAllBy();

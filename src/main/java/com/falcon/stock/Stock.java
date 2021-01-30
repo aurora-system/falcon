@@ -13,6 +13,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 import com.falcon.config.data.Auditable;
 import com.falcon.product.Product;
+import com.falcon.supplier.Supplier;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,18 +25,21 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @Data public class Stock extends Auditable {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
-	@PositiveOrZero
-	private long quantity;
-	@NotNull @PositiveOrZero
-	private BigDecimal unitCost = BigDecimal.ZERO;
-	@NotNull @PositiveOrZero
-	private BigDecimal markup = BigDecimal.ZERO;
-	@PositiveOrZero
-	private long lowCountIndicator;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+    @PositiveOrZero
+    private long quantity;
+    @NotNull @PositiveOrZero
+    private BigDecimal unitCost = BigDecimal.ZERO;
+    @NotNull @PositiveOrZero
+    private BigDecimal markup = BigDecimal.ZERO;
+    @PositiveOrZero
+    private long lowCountIndicator;
 }
