@@ -1,5 +1,7 @@
 package com.falcon.salesreturn;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -11,21 +13,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.product.ProductRepository;
+import com.falcon.stock.Stock;
 import com.falcon.stock.StockRepository;
+import com.falcon.supplier.SupplierRepository;
 
 @Controller
 public class SalesReturnController {
 
 	private SalesReturnRepository salesReturnRepository;
 	private StockRepository stockRepository;
+	private ProductRepository productRepository;
+    private SupplierRepository supplierRepository;
 	
 	public SalesReturnController(
 			SalesReturnRepository salesReturnRepository
 			, StockRepository stockRepository
+			, ProductRepository productRepository
+			, SupplierRepository supplierRepository
 			) {
 		
 		this.salesReturnRepository = salesReturnRepository;
 		this.stockRepository = stockRepository;
+		this.productRepository = productRepository;
+		this.supplierRepository = supplierRepository;
 	}
 	
 	@GetMapping("/salesreturns")
@@ -36,7 +47,8 @@ public class SalesReturnController {
 	
 	@GetMapping("/salesreturns/new")
 	public String newSalesReturnForm(Model model) {
-		model.addAttribute(stockRepository.findAll());
+		model.addAttribute(this.productRepository.findAll());
+        model.addAttribute(this.supplierRepository.findAll());
 		model.addAttribute(new SalesReturn());
 		return "returns/salesreturnform";
 	}
@@ -51,14 +63,29 @@ public class SalesReturnController {
 	@PostMapping("/salesreturns")
 	@Transactional
 	public String saveSalesReturn(
-			@Valid SalesReturn salesReturn, Errors errors
+			@Valid SalesReturn salesReturn
+			, Errors errors
 			, final RedirectAttributes redirect
 			, Model model
 			) {
 		if (errors.hasErrors()) {
-			return "returns/salesorderform";
+		    model.addAttribute(this.productRepository.findAll());
+            model.addAttribute(this.supplierRepository.findAll());
+		    return "returns/salesorderform";
 		}
 		
+		this.salesReturnRepository.save(salesReturn);
+		Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(salesReturn.getProduct().getId(),
+		        salesReturn.getSupplier().getId(), salesReturn.getUnitCost());
+		if (stock.isPresent()) {
+            Stock s = stock.get();
+            s.setQuantity(s.getQuantity() + salesReturn.getQuantity());
+            this.stockRepository.save(s);
+        } else {
+            redirect.addFlashAttribute("message", "Stock is not found in system.");
+            return "redirect:/salesreturns";
+        }
+		redirect.addFlashAttribute("message", "New Sales Return added successfully.");
 		return "redirect:/salesreturns";
 	}
 }

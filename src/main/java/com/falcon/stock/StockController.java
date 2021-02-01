@@ -24,6 +24,7 @@ import com.falcon.purchase.PurchaseRepository;
 import com.falcon.purchasereturn.PurchaseReturn;
 import com.falcon.purchasereturn.PurchaseReturnRepository;
 import com.falcon.salesorder.SalesOrderRepository;
+import com.falcon.salesreturn.SalesReturn;
 import com.falcon.salesreturn.SalesReturnRepository;
 import com.falcon.supplier.Supplier;
 import com.falcon.supplier.SupplierRepository;
@@ -101,7 +102,8 @@ public class StockController {
                 supplier.getId(), stock.getUnitCost());
         List<SalesOrderProjection> salesOrdersProjection = this.salesOrderRepository.findHistoryByStockId(stock.getId());
         //List<SalesOrder> salesOrders = this.salesOrderRepository.findAllByStockId(stock.getId());
-        //List<SalesReturn> salesReturns = salesReturnRepository.findAllBy();
+        List<SalesReturn> salesReturns = salesReturnRepository.findAllByProductIdAndSupplierIdAndUnitCost(product.getId(),
+                supplier.getId(), stock.getUnitCost());
 
         List<StockHistory> purchasesHistory = purchases.stream().map(p -> new StockHistory(
                 p.getTransDate(),
@@ -121,15 +123,6 @@ public class StockController {
                 0
                 )).collect(toList());
 
-        //List<StockHistory> salesOrderHistory = salesOrders.stream().map(so -> new StockHistory(
-        //        LocalDate.now(),
-        //        so.getStock().getProduct(),
-        //        so.getNetSellingPrice(),
-        //        so.getQuantity(),
-        //        "OUT",
-        //        0
-        //        )).collect(toList());
-
         List<StockHistory> salesOrdersHistory = salesOrdersProjection.stream().map(sop -> new StockHistory(
                 sop.getTransDate(),
                 product,
@@ -138,10 +131,20 @@ public class StockController {
                 "OUT",
                 0
                 )).collect(toList());
+        
+        List<StockHistory> salesReturnHistory = salesReturns.stream().map(sr -> new StockHistory(
+                sr.getReturnDate(),
+                sr.getProduct(),
+                sr.getUnitCost(),
+                sr.getQuantity(),
+                "IN",
+                0
+                )).collect(toList());
 
         stockHistoryList.addAll(purchasesHistory);
         stockHistoryList.addAll(purchaseReturnsHistory);
         stockHistoryList.addAll(salesOrdersHistory);
+        stockHistoryList.addAll(salesReturnHistory);
 
         // TODO: sort by date and compute for updated count
         Collections.sort(stockHistoryList,

@@ -11,253 +11,93 @@
 			</div>
 		</div>
 		
-		<form th:action="@{/salesorders}" th:object="${salesOrder}" method="post">
-			<div class="row">
-				<div class="col">
-					<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
-						<!-- New Product  Form -->
-						<h2>NEW SALES RETURN</h2>
-						<div class="clearfix">
-					    	<button type="button" id="addProduct" class="btn btn-dark float-right">Add Product</button>
-					    </div>
-					    <hr/>
-						<input type="hidden" th:field="*{id}" />
-							<!-- Product Selection -->
-							<div class="heading-order-items">
-							    <div id="labelRow" class="row form-group">
-									
-									<!-- Remove -->
-									<div class="col-sm-1">
-									</div>
-									
-									<!-- Product -->
-									<div class="col-sm-3">
-										<div class="form-group">
-											<span>Product</span>
-										</div>
-									</div>
-									
-									<!-- Quantity -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<span>Quantity</span>
-										</div>
-									</div>
-									
-									<!-- Selling Price -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<span>Selling Price</span>
-										</div>
-									</div>
-									
-									<!-- Discount Price -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<span>Discount Price</span>
-										</div>
-									</div>
-									
-									<!-- Net Selling Price -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<span>Net Selling Price</span>
-										</div>
-									</div>
-								</div>
+	<div class="row">
+		<div class="col">
+			<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+				<!-- New In/Out Transaction Form -->
+				<h2>NEW SALES RETURN</h2>
+				
+				<form th:action="@{/salesreturns}" th:object="${salesReturn}" method="post">
+				    <input type="hidden" th:field="*{id}" />
+				    
+				    <div class="row">
+				    	<div class="col-sm">
+				    		<!-- Date -->
+				    		<div class="form-group">
+						      <label for="returnDate">Date:</label>
+						      <span class="validationError text-danger" th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}"></span>
+      						  <input class="form-control" type="date" th:field="*{returnDate}"/>
+					      	</div>
+				    	</div>
+				    	<div class="col-sm">
+				    		<!-- Transaction Type -->
+				    		<div class="form-group">
+				    			<label for="invoiceNumber">Invoice No.:</label> 
+			    				<span class="validationError text-danger" th:if="${#fields.hasErrors('invoiceNumber')}" th:errors="*{invoiceNumber}"></span>
+      						    <input class="form-control" type="text" th:field="*{invoiceNumber}"/>
 							</div>
-							<div id="productContainer">
-								<div id="productRow" class="row form-group">
-									
-									<!-- Remove -->
-									<div class="col-sm-1">
-										<button id="removeButton" onclick="removeProduct(0)" type="button" class="form-control btn btn-danger float-right">x</button>
-									</div>
-									
-									<!-- Product -->
-									<div class="col-sm-3">
-										<div class="form-group">
-											<select class="form-control product" id="product0" th:field="*{salesOrderItems[0].stock.id}" data-toggle="tooltip" data-placement="bottom" title="Product">
-												<option disabled="disabled" value="0" selected>Product...</option>
-												<option th:each="stock : ${stockList}" th:value="${stock.id}" th:text="${stock.product.name}"
-												    th:data-row-srp="${stock.unitCost + stock.markup}"></option>
-											</select>
-										</div>
-									</div>
-									
-									<!-- Quantity -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<input class="form-control quantity" type="number" id="quantity0" th:field="*{salesOrderItems[0].quantity}" min=0 data-toggle="tooltip" data-placement="bottom" title="Quantity"/>
-										</div>
-									</div>
-									
-									<!-- Selling Price -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<input class="form-control sellingPrice" type="number" id="sellingPrice0" th:field="*{salesOrderItems[0].sellingPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Selling Price"/>
-										</div>
-									</div>
-									
-									<!-- Discount Price -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<input class="form-control discountPrice" type="number" id="discountPrice0" th:field="*{salesOrderItems[0].discountPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Discount Price"/>
-										</div>
-									</div>
-									
-									<!-- Net Selling Price -->
-									<div class="col-sm-2">
-										<div class="form-group">
-											<input class="form-control subTotal" type="number" id="totalAmount0" readonly min=0  data-toggle="tooltip" data-placement="bottom" title="Net Selling Price" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<hr/>
-							
-							<!-- Total Amount Computed -->
-							<div class="row">
-								<div class="col-sm-8">
-								</div>
-								<div class="col-sm-2">
-									<p>TOTAL AMOUNT</p>
-								</div>
-								<div class="col-sm-2">
-									<div class="form-group">
-										<input name="totalAmountComputed" id="totalAmountComputed" class="form-control" type="number" readonly/>
-									</div>
-								</div>
-							</div>
-						
-						<!-- Order Details -->	
-						<div class="row">
-							<!-- Customer-->
-							<div class="col-sm-9">
-								<div class="form-group">
-									<label for="customer.name">Customer Name:</label>
-									<input type="text" class="form-control" th:field="*{customer.name}" />
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="customer.tin">TIN:</label>
-									<input type="text" class="form-control" th:field="*{customer.tin}" />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-9">
-								<div class="form-group">
-									<label for="customer.address">Address:</label>
-									<input type="text" class="form-control" th:field="*{customer.address}" />
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="customer.contactNumber">Contact Number:</label>
-									<input type="text" class="form-control" th:field="*{customer.contactNumber}" />
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="transDate">Order Date</label>
-									<input type="date" class="datepick form-control" th:field="*{transDate}" placeholder="enter order date" title="enter order date">
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="invoiceNumber">Invoice No.</label>
-									<input type="text" class="form-control" th:field="*{invoiceNumber}" placeholder="enter invoice number" title="enter invoice number">
-								</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<!-- Order Type -->
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="type">Order Type:</label> 
-									<select id="type" class="form-control" th:field="*{type}" >
-										<option value="sale">Sale</option>
-										<option value="service">Service</option>
-										<option value="sale and service">Sale and Service</option>
-									</select>
-								</div>
-							</div>
-							
-							<!-- Payment Type -->
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="paymentType">Payment Type:</label> 
-									<select class="form-control" th:field="*{paymentType}">
-										<option value="cash">Cash</option>
-										<option value="check">Check</option>
-									</select>
-								</div>
-							</div>
-							
-							<!-- Monthly Due Date -->
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="monthlyDueDate">Monthly Due Date:</label> 
-									<select class="form-control" type="date" th:field="*{monthlyDueDate}" id="monthlyDue" disabled=true>
-										<option value="0">N/A</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-										<option value="9">9</option>
-										<option value="10">10</option>
-										<option value="11">11</option>
-										<option value="12">12</option>
-										<option value="13">13</option>
-										<option value="14">14</option>
-										<option value="15">15</option>
-										<option value="16">16</option>
-										<option value="17">17</option>
-										<option value="18">18</option>
-										<option value="19">19</option>
-										<option value="20">20</option>
-										<option value="21">21</option>
-										<option value="22">22</option>
-										<option value="23">23</option>
-										<option value="24">24</option>
-										<option value="25">25</option>
-										<option value="26">26</option>
-										<option value="27">27</option>
-										<option value="28">28</option>
-										<option value="29">29</option>
-										<option value="30">30</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Remarks -->
-						<div class="row">
-							<div class="col-sm">
-								<div class="form-group">
-									<label for="remarks">Remarks:</label>
-									<textarea class="form-control" th:field="*{remarks}"></textarea>
-								</div>
-							</div>
-						</div>
-						
-						<div class="clearfix">
-							<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
-							<a th:href="@{/salesorders}" class="btn btn-dark float-right">Cancel</a>
-						</div>
-					</div>
-				</div>
+				    	</div>
+				    </div>
+				    
+				    <!-- Supplier -->
+				    <div class="row">
+				    	<div class="col-sm">
+					      <div class="form-group">
+						      <label for="supplier.id">Supplier:</label>
+						      <select class="form-control"  id="supplier.id" name="supplier.id">
+						        <option value="0">- Select supplier -</option>
+						        <option th:each="supplier : ${supplierList}" 
+						          th:value="${supplier.id}" 
+						          th:text="${supplier.name}"
+						          th:selected="${salesReturn.supplier != null ? supplier.id == salesReturn.supplier.id : false}"
+						          ></option>
+						      </select>
+					      </div>
+				      	</div>
+				    </div>
+				    
+				    <!-- Product -->
+				    <div class="row">
+				    	<div class="col-sm">
+					      <div class="form-group">
+						      <label for="product.id">Product:</label>
+						      <select class="form-control"  id="product.id" name="product.id">
+						        <option value="0">- Select a product -</option>
+						        <option th:each="product : ${productList}" 
+						          th:value="${product.id}" 
+						          th:text="${product.name}"
+						          th:selected="${salesReturn.product != null ? product.id == salesReturn.product.id : false}"
+						          ></option>
+						      </select>
+					      </div>
+				      	</div>
+				    </div>
+				    
+				    <div class="row">
+				    	<div class="col-sm">
+				    		<div class="form-group">
+					    		<label for="quantity">Quantity:</label>
+					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+      						    <input class="form-control" type="number" th:field="*{quantity}"/>
+				      		</div>
+				    	</div>
+						<div class="col-sm">
+							<div class="form-group">
+					    		<label for="unitCost">Unit Cost:</label>
+					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('unitCost')}" th:errors="*{unitCost}"></span>
+      						    <input class="form-control" type="number" th:field="*{unitCost}"/>
+				      		</div>
+				    	</div>			    	
+				    </div>
+				    
+				    <div class="clearfix">
+				    	<button type="submit" class="btn btn-dark float-right ml-1">Save</button>
+				    	<a th:href="@{/salesreturns}" class="btn btn-dark float-right">Cancel</a>
+				    </div>
+				</form>
 			</div>
-		</form>
+		</div>
+	</div>
 		<!-- Footer -->
 		<th:block th:replace="fragments/common::footer"></th:block>
 	</div>

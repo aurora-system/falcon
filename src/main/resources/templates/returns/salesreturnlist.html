@@ -22,18 +22,28 @@
 					
 				<!-- Order List -->
 				<h2>SALES RETURNS</h2>
+				<div class="row">
+			        <div class="col-lg-12">
+			            <th:block th:if="${message != null}">
+			                <div class="alert alert-success alert-dismissible" role="alert">
+			                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			                        X
+			                    </button>
+			                    <strong th:text="${message}"></strong>
+			                </div>
+			            </th:block>
+			        </div>
+			    </div>
 				<table id="dataTables-salesReturnList" class="table table-hover table-bordered " style="width: 100%">
 					<thead class="datatable-thead thead-dark">
 						<tr>
-							<!-- <th class="th-sm">Order Id</th> -->
-							<th class="th-sm">Customer</th>
-							<th class="th-sm">Order Date</th>
+							<th class="th-sm">Id</th>
+							<th class="th-sm">Transaction Date</th>
 							<th class="th-sm">Invoice No.</th>
-							<th class="th-sm">Total Amount</th>
-							<th class="th-sm">Type</th>
-							<th class="th-sm">Payment Type</th>
-							<th class="th-sm">Remarks</th>
-							<th class="th-sm">Actions</th>
+					        <th class="th-sm">Product</th>
+					        <th class="th-sm">Quantity</th>
+					        <th class="th-sm">Unit Cost</th>
+							<th class="th-sm">Total Cost</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -41,18 +51,17 @@
 							<input id="orderRow" type="hidden" th:value="${salesReturn}">
 							<tr>
 								<!-- <td th:text="${salesReturn.id}"></td> -->
-								<td th:text="${salesReturn.customer.name}"></td>
-								<td th:text="${salesReturn.transDate}"></td>
+								<td th:text="${salesReturn.id}"></td>
+								<td th:text="${salesReturn.returnDate}"></td>
 								<td th:text="${salesReturn.invoiceNumber}"></td>
-								<td th:text="${#numbers.formatDecimal(salesReturn.totalAmount,1,'COMMA',2,'POINT')}"></td>
-								<td th:text="${salesReturn.type}"></td>
-								<td th:text="${salesReturn.paymentType}"></td>
-								<td th:text="${salesReturn.remarks}"></td>
-								<td th:text="${salesReturn.status}"></td>
-								<td>
-									<a type="button" th:href="|@{/salessalesReturns}/${salesReturn.id}|" class="showOrderDetails btn btn-dark">Details</a>
-									<button type="button" class="showOrderDetails btn btn-danger" th:disabled="${salesReturn.status == 'CANCELLED'}">Cancel</button>
-								</td>
+					        	<td th:text="${salesReturn.product.name}"></td>
+								<td th:text="${salesReturn.quantity}"></td>
+					        	<td th:text="${#numbers.formatDecimal(salesReturn.unitCost,1,'COMMA',2,'POINT')}"></td>
+					        	<td th:text="${#numbers.formatDecimal(salesReturn.totalAmount,1,'COMMA',2,'POINT')}"></td>
+<!-- 								<td> -->
+<!-- 									<a type="button" th:href="|@{/salessalesReturns}/${salesReturn.id}|" class="showOrderDetails btn btn-dark">Details</a> -->
+<!-- 									<button type="button" class="showOrderDetails btn btn-danger" th:disabled="${salesReturn.status == 'CANCELLED'}">Cancel</button> -->
+<!-- 								</td> -->
 							</tr>
 						</th:block>
 					</tbody>

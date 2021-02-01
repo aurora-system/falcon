@@ -23,6 +23,10 @@
 					<th:block th:object="${salesOrder}">
 						<table class="table table-hover table-bordered detailsPage" style="width: 100%">
 							<tr class="d-flex">
+								<td class="table-secondary detailsField text-right col-4">Invoice Number</td>
+								<td class="col-8" th:text="*{invoiceNumber}"></td>
+							</tr>
+							<tr class="d-flex">
 								<td class="table-secondary detailsField text-right col-4">Customer</td>
 								<td class="col-8" th:text="*{customer.name}"></td>
 							</tr>
