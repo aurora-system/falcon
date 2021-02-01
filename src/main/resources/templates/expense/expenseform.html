@@ -35,7 +35,9 @@
 										<label for="brand">Expense Type:</label> 
 										<select class="form-control" th:field="*{type}" >
 											<option value="salary">salary</option>
+											<option value="allowance">allowance</option>
 											<option value="rent">rent</option>
+											<option value="bills">bills</option>
 											<option value="miscellaneous">miscellaneous</option>
 										</select>
 									</div>
@@ -71,5 +73,6 @@
 		<!-- Footer -->
 		<th:block th:replace="fragments/common::footer"></th:block>
 	</div>
+	<th:block th:replace="fragments/common::javascript"></th:block>
 </body>
 </html>
