@@ -55,7 +55,11 @@
 			
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
+					<li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                      <a class="nav-link" th:href="@{/users}">Users Admin</a>
+                    </li>
+                    <th:block sec:authorize="hasAnyRole('ADMIN','INVENTORY')">
+                    <li class="nav-item">
 			        	<a class="nav-link" th:href="@{/products}">Products</a>
 			      	</li>
 			      	
@@ -76,7 +80,8 @@
 	                <li class="nav-item">
                        <a class="nav-link" th:href="@{/stocks}">Available Stocks</a>
                     </li>
-                    
+                    </th:block>
+                    <th:block sec:authorize="hasAnyRole('ADMIN','SALES')">
                     <li class="nav-item dropdown">
 				    	<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				          Sales
@@ -86,7 +91,8 @@
 				          <a class="dropdown-item" th:href="@{/salesreturns}">Sales Returns</a>
 				        </div>
 				    </li>
-				    
+				    </th:block>
+                    <th:block sec:authorize="hasRole('ADMIN')">
 				    <li class="nav-item">
 				    	<a class="nav-link" th:href="@{/expenses}">Expenses</a>
 				    </li>
@@ -94,6 +100,7 @@
 				    <li class="nav-item">
 				    	<a class="nav-link" th:href="@{/reports}">Reports</a>
 				    </li>
+                    </th:block>
 				</ul>
 				
 				<form class="form-inline my-2 my-lg-0" th:action="@{/search}">
@@ -152,3 +159,4 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 	</th:block>
 </body>
+</html>

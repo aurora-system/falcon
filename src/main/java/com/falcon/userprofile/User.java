@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -34,10 +35,11 @@ import lombok.Data;
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank
     @Size(min = 3, max = 32, message = "Username must have 3 to 32 characters")
     @Column(unique = true, length = 32)
     private String username;
@@ -45,6 +47,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
     @Column(unique = true)
+    @Email @NotBlank
     private String email;
     private String firstName;
     private String lastName;
@@ -56,8 +59,8 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
-        		.map(SimpleGrantedAuthority::new)
-        		.collect(toSet());
+                .map(SimpleGrantedAuthority::new)
+                .collect(toSet());
     }
     @Override
     public boolean isAccountNonExpired() {
