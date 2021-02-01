@@ -18,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.falcon.config.data.Auditable;
 import com.falcon.product.Product;
+import com.falcon.stock.Stock;
 import com.falcon.supplier.Supplier;
 
 import lombok.AllArgsConstructor;
@@ -39,16 +40,11 @@ import lombok.NoArgsConstructor;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate returnDate = LocalDate.now();
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
     private long quantity;
-    @NotNull @Positive
-    private BigDecimal unitCost;
     
     public BigDecimal getTotalAmount() {
-        return new BigDecimal(quantity).multiply(unitCost);
+        return new BigDecimal(quantity).multiply(stock.getUnitCost());
     }
 }

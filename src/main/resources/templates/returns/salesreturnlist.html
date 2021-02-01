@@ -40,6 +40,7 @@
 							<th class="th-sm">Id</th>
 							<th class="th-sm">Transaction Date</th>
 							<th class="th-sm">Invoice No.</th>
+							<th class="th-sm">Supplier</th>
 					        <th class="th-sm">Product</th>
 					        <th class="th-sm">Quantity</th>
 					        <th class="th-sm">Unit Cost</th>
@@ -54,9 +55,10 @@
 								<td th:text="${salesReturn.id}"></td>
 								<td th:text="${salesReturn.returnDate}"></td>
 								<td th:text="${salesReturn.invoiceNumber}"></td>
-					        	<td th:text="${salesReturn.product.name}"></td>
+								<td th:text="${salesReturn.stock.supplier.name}"></td>
+					        	<td th:text="${salesReturn.stock.product.name}"></td>
 								<td th:text="${salesReturn.quantity}"></td>
-					        	<td th:text="${#numbers.formatDecimal(salesReturn.unitCost,1,'COMMA',2,'POINT')}"></td>
+					        	<td th:text="${#numbers.formatDecimal(salesReturn.stock.unitCost,1,'COMMA',2,'POINT')}"></td>
 					        	<td th:text="${#numbers.formatDecimal(salesReturn.totalAmount,1,'COMMA',2,'POINT')}"></td>
 <!-- 								<td> -->
 <!-- 									<a type="button" th:href="|@{/salessalesReturns}/${salesReturn.id}|" class="showOrderDetails btn btn-dark">Details</a> -->

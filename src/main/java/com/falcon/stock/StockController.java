@@ -102,8 +102,7 @@ public class StockController {
                 supplier.getId(), stock.getUnitCost());
         List<SalesOrderProjection> salesOrdersProjection = this.salesOrderRepository.findHistoryByStockId(stock.getId());
         //List<SalesOrder> salesOrders = this.salesOrderRepository.findAllByStockId(stock.getId());
-        List<SalesReturn> salesReturns = salesReturnRepository.findAllByProductIdAndSupplierIdAndUnitCost(product.getId(),
-                supplier.getId(), stock.getUnitCost());
+        List<SalesReturn> salesReturns = salesReturnRepository.findAllByStockId(stock.getId());
 
         List<StockHistory> purchasesHistory = purchases.stream().map(p -> new StockHistory(
                 p.getTransDate(),
@@ -134,8 +133,8 @@ public class StockController {
         
         List<StockHistory> salesReturnHistory = salesReturns.stream().map(sr -> new StockHistory(
                 sr.getReturnDate(),
-                sr.getProduct(),
-                sr.getUnitCost(),
+                sr.getStock().getProduct(),
+                sr.getStock().getUnitCost(),
                 sr.getQuantity(),
                 "IN",
                 0

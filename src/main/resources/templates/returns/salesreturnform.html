@@ -39,55 +39,28 @@
 				    	</div>
 				    </div>
 				    
-				    <!-- Supplier -->
+				    <!-- Stock -->
 				    <div class="row">
 				    	<div class="col-sm">
 					      <div class="form-group">
-						      <label for="supplier.id">Supplier:</label>
-						      <select class="form-control"  id="supplier.id" name="supplier.id">
-						        <option value="0">- Select supplier -</option>
-						        <option th:each="supplier : ${supplierList}" 
-						          th:value="${supplier.id}" 
-						          th:text="${supplier.name}"
-						          th:selected="${salesReturn.supplier != null ? supplier.id == salesReturn.supplier.id : false}"
+						      <label for="stock.id">Product:</label>
+						      <select class="form-control"  id="stock.id" name="stock.id">
+						        <option value="0">- Select Product -</option>
+						        <option th:each="stock : ${stockList}" 
+						          th:value="${stock.id}" 
+						          th:text="${stock.product.name} + ' (' + ${stock.unitCost} + ')'"
+						          th:selected="${salesReturn.stock != null ? stock.id == salesReturn.stock.id : false}"
 						          ></option>
 						      </select>
 					      </div>
 				      	</div>
-				    </div>
-				    
-				    <!-- Product -->
-				    <div class="row">
-				    	<div class="col-sm">
-					      <div class="form-group">
-						      <label for="product.id">Product:</label>
-						      <select class="form-control"  id="product.id" name="product.id">
-						        <option value="0">- Select a product -</option>
-						        <option th:each="product : ${productList}" 
-						          th:value="${product.id}" 
-						          th:text="${product.name}"
-						          th:selected="${salesReturn.product != null ? product.id == salesReturn.product.id : false}"
-						          ></option>
-						      </select>
-					      </div>
-				      	</div>
-				    </div>
-				    
-				    <div class="row">
-				    	<div class="col-sm">
+				      	<div class="col-sm">
 				    		<div class="form-group">
 					    		<label for="quantity">Quantity:</label>
 					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
       						    <input class="form-control" type="number" th:field="*{quantity}"/>
 				      		</div>
 				    	</div>
-						<div class="col-sm">
-							<div class="form-group">
-					    		<label for="unitCost">Unit Cost:</label>
-					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('unitCost')}" th:errors="*{unitCost}"></span>
-      						    <input class="form-control" type="number" th:field="*{unitCost}"/>
-				      		</div>
-				    	</div>			    	
 				    </div>
 				    
 				    <div class="clearfix">

@@ -47,8 +47,7 @@ public class SalesReturnController {
 	
 	@GetMapping("/salesreturns/new")
 	public String newSalesReturnForm(Model model) {
-		model.addAttribute(this.productRepository.findAll());
-        model.addAttribute(this.supplierRepository.findAll());
+        model.addAttribute(this.stockRepository.findAll());
 		model.addAttribute(new SalesReturn());
 		return "returns/salesreturnform";
 	}
@@ -73,17 +72,15 @@ public class SalesReturnController {
             model.addAttribute(this.supplierRepository.findAll());
 		    return "returns/salesorderform";
 		}
-		
 		this.salesReturnRepository.save(salesReturn);
-		Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(salesReturn.getProduct().getId(),
-		        salesReturn.getSupplier().getId(), salesReturn.getUnitCost());
-		if (stock.isPresent()) {
+		Optional<Stock> stock = this.stockRepository.findById(salesReturn.getStock().getId());
+        if (stock.isPresent()) {
             Stock s = stock.get();
             s.setQuantity(s.getQuantity() + salesReturn.getQuantity());
             this.stockRepository.save(s);
         } else {
             redirect.addFlashAttribute("message", "Stock is not found in system.");
-            return "redirect:/salesreturns";
+            return "redirect:/purchasereturns";
         }
 		redirect.addFlashAttribute("message", "New Sales Return added successfully.");
 		return "redirect:/salesreturns";
