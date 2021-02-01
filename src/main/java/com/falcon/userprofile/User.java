@@ -2,16 +2,14 @@ package com.falcon.userprofile;
 
 import static java.util.stream.Collectors.toSet;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -51,14 +49,12 @@ public class User implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @OrderColumn(name = "idx", nullable = false)
-    private Collection<String> roles;
+    @NotBlank
+    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
+        return Arrays.asList(this.role).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(toSet());
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="fragments/common::header('Suppliers')"></th:block>
+<th:block th:replace="fragments/common::header('Users')"></th:block>
 
 <body>
 	<div class="container-fluid">
@@ -42,6 +42,7 @@
 								<th class="th-sm">First Name</th>
 								<th class="th-sm">Email</th>
                                 <th class="th-sm">Username</th>
+                                <th class="th-sm">Role</th>
 								<th class="th-sm">Actions</th>
 							</tr>
 						</thead>
@@ -53,6 +54,7 @@
 						  		<td th:text="${user.firstName}"></td>
 						  		<td th:text="${user.email}"></td>
                                 <td th:text="${user.username}"></td>
+                                <td th:text="${#strings.substringAfter(user.role,'_')}"></td>
 						  		<td>
 						  			<a type="button" th:href="|@{/users}/${user.id}/edit|" class="btn btn-dark float-center">Edit</a>
 						  		</td>
