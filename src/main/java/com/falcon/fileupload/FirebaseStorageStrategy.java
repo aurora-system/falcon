@@ -39,7 +39,7 @@ public class FirebaseStorageStrategy implements StorageStrategy {
     private final Environment environment;
 
     private StorageOptions storageOptions;
-    private String bucketName;
+    private String bucketName = "falcon-1a156.appspot.com";
     private String projectId;
 
     public FirebaseStorageStrategy(Environment environment) {
@@ -48,14 +48,14 @@ public class FirebaseStorageStrategy implements StorageStrategy {
 
     @PostConstruct
     private void initializeFirebase() throws Exception {
-        this.bucketName = this.environment.getRequiredProperty("FIREBASE_BUCKET_NAME");
-        this.projectId = this.environment.getRequiredProperty("FIREBASE_PROJECT_ID");
+        //this.bucketName = this.environment.getRequiredProperty("FIREBASE_BUCKET_NAME");
+        //this.projectId = this.environment.getRequiredProperty("FIREBASE_PROJECT_ID");
 
-        InputStream firebaseCredential = this.createFirebaseCredential();
+        //InputStream firebaseCredential = this.createFirebaseCredential();
         this.storageOptions = StorageOptions.newBuilder()
-                .setProjectId(this.projectId)
-                //.setCredentials(GoogleCredentials.getApplicationDefault())
-                .setCredentials(GoogleCredentials.fromStream(firebaseCredential))
+                //.setProjectId(this.projectId)
+                .setCredentials(GoogleCredentials.getApplicationDefault())
+                //.setCredentials(GoogleCredentials.fromStream(firebaseCredential))
                 .build();
     }
 
