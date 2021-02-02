@@ -1,5 +1,8 @@
 package com.falcon.purchasereturn;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -40,7 +43,11 @@ public class PurchaseReturnController {
 
     @GetMapping("/purchasereturns")
     public String listPurchaseReturns(Model model) {
-        model.addAttribute(this.purchaseReturnRepository.findAll());
+        List<PurchaseReturn> purchaseReturnList = new ArrayList<>();
+        this.purchaseReturnRepository.findAll().forEach(purchaseReturnList::add);
+        Collections.sort(purchaseReturnList,
+                (a,b) -> a.getReturnDate().isBefore(b.getReturnDate()) ? 1 : a.getReturnDate().isAfter(b.getReturnDate()) ? -1 : 0);
+        model.addAttribute(purchaseReturnList);
         return "returns/purchasereturnlist";
     }
 

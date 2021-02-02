@@ -59,8 +59,9 @@ public class StockController {
 
     @GetMapping("/stocks")
     public String availableStocks(Model model) {
-
-        model.addAttribute(this.stockRepository.findAll());
+        List<Stock> stockList = new ArrayList<>();
+        this.stockRepository.findAll().forEach(stockList::add);
+        model.addAttribute(stockList);
         return "stocks/stocklist";
     }
 
@@ -102,7 +103,7 @@ public class StockController {
                 supplier.getId(), stock.getUnitCost());
         List<SalesOrderProjection> salesOrdersProjection = this.salesOrderRepository.findHistoryByStockId(stock.getId());
         //List<SalesOrder> salesOrders = this.salesOrderRepository.findAllByStockId(stock.getId());
-        List<SalesReturn> salesReturns = salesReturnRepository.findAllByStockId(stock.getId());
+        List<SalesReturn> salesReturns = this.salesReturnRepository.findAllByStockId(stock.getId());
 
         List<StockHistory> purchasesHistory = purchases.stream().map(p -> new StockHistory(
                 p.getTransDate(),
@@ -130,7 +131,7 @@ public class StockController {
                 "OUT",
                 0
                 )).collect(toList());
-        
+
         List<StockHistory> salesReturnHistory = salesReturns.stream().map(sr -> new StockHistory(
                 sr.getReturnDate(),
                 sr.getStock().getProduct(),

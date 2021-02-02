@@ -1,6 +1,8 @@
 package com.falcon.salesorder;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,11 @@ public class SalesOrderController {
 
     @GetMapping("/salesorders")
     public String listSalesOrders(Model model) {
-        model.addAttribute(this.salesOrderRepository.findAll());
+        List<SalesOrder> salesOrderList = new ArrayList<>();
+        this.salesOrderRepository.findAll().forEach(salesOrderList::add);
+        Collections.sort(salesOrderList,
+                (a,b) -> a.getTransDate().isBefore(b.getTransDate()) ? 1 : a.getTransDate().isAfter(b.getTransDate()) ? -1 : 0);
+        model.addAttribute(salesOrderList);
         model.addAttribute(new SalesOrder());
         return "sales/orderlist";
     }

@@ -1,5 +1,7 @@
 package com.falcon.purchase;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -41,7 +43,13 @@ public class PurchaseController {
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
-        model.addAttribute(this.purchaseRepository.findAllByIsDeleted(false));
+        List<Purchase> purchaseList = this.purchaseRepository.findAllByIsDeleted(false);
+        Collections.sort(purchaseList,
+                (a,b) -> a.getTransDate().isBefore(b.getTransDate()) ? 1 : a.getTransDate().isAfter(b.getTransDate()) ? -1 : 0);
+        for (int i = 0; i < purchaseList.size(); i++) {
+            System.out.println(purchaseList.get(i).getTransDate());
+        }
+        model.addAttribute(purchaseList);
         return "purchases/purchaselist";
     }
 
