@@ -36,7 +36,7 @@ public class StorageFactory {
             return this.fileStorageStrategy;
         } else if (Arrays.stream(environment.getActiveProfiles()).anyMatch(
                 env -> (env.equalsIgnoreCase("prod")))) {
-            return this.firebaseStorageStrategy;
+            return this.fileStorageStrategy;
         } else {
             return this.firebaseStorageStrategy;
         }
