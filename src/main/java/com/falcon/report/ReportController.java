@@ -64,7 +64,7 @@ public class ReportController {
             for (SalesOrderItem soi : so.getItems()) {
                 Double profit = soi.getNetSellingPrice().doubleValue() - (soi.getStock().getUnitCost().multiply(new BigDecimal(soi.getQuantity())).doubleValue());
                 dailySales.add(new DailyDto(so.getInvoiceNumber()
-                        , so.getTransDate(), soi.getStock(), "Sales", soi.getQuantity()
+                        , so.getTransDate(), soi.getStock(), null, "Sales", soi.getQuantity()
                         , soi.getNetSellingPrice(), new BigDecimal(profit)));
             }
         }
@@ -73,28 +73,41 @@ public class ReportController {
         return "report/dailysales";
     }
     
-    @GetMapping("/reports/dailyTotals")
+    @GetMapping("/reports/dailytotals")
     public String listTotalsToday(Model model, @RequestParam(value="d", defaultValue="today", required=false) String d) {
         LocalDate datePicked = ("today".equalsIgnoreCase(d)) ? LocalDate.now() : LocalDate.parse(d);
         
         List<DailyDto> dailyTotals = new ArrayList<DailyDto>();
-        Iterable<SalesOrder> salesOrders = this.salesOrderRepository.findByTransDate(datePicked);
+        Iterable<SalesOrder> salesOrders = this.salesOrderRepository.findByTransDateAndStatus(datePicked, "PROCESSED");
         Iterable<SalesReturn> salesReturns = this.salesReturnRepository.findByReturnDate(datePicked);
         Iterable<Purchase> purchases = this.purchaseRepository.findByTransDate(datePicked);
         Iterable<PurchaseReturn> purchaseReturns = this.purchaseReturnRepository.findByReturnDate(datePicked);
         
         for (SalesOrder so : salesOrders) {
             for (SalesOrderItem soi : so.getItems()) {
-                Double profit = soi.getNetSellingPrice().doubleValue() - soi.getStock().getUnitCost().doubleValue();
                 dailyTotals.add(new DailyDto(so.getInvoiceNumber()
-                        , so.getTransDate(), soi.getStock(), "Sales", soi.getQuantity()
-                        , soi.getNetSellingPrice(), new BigDecimal(profit)));
+                        , so.getTransDate(), soi.getStock(), soi.getStock().getProduct(), "Sales", soi.getQuantity()
+                        , soi.getNetSellingPrice(), null));
             }
         }
         
-//      for (SalesReturn sr : salesReturns) {
-//      dailySales.add(new DailyDto(sr.getInvoiceNumber(), sr.getReturnDate(), sr.getStock(), "Sales Return", new BigDecimal(0)));
-//  }
+        for (SalesReturn sr : salesReturns) {
+                dailyTotals.add(new DailyDto(sr.getInvoiceNumber()
+                        , sr.getReturnDate(), sr.getStock(), sr.getStock().getProduct(), "Returns (Sales)", sr.getQuantity()
+                        , sr.getTotalAmount(), null));
+        }
+        
+        for (Purchase p : purchases) {
+            dailyTotals.add(new DailyDto(p.getPurchaseNumber()
+                    , p.getTransDate(), null, p.getProduct(), "Purchase", p.getQuantity()
+                    , p.getTotalAmount(), null));
+        }
+        
+        for (PurchaseReturn pr : purchaseReturns) {
+            dailyTotals.add(new DailyDto(pr.getPurchaseNumber()
+                    , pr.getReturnDate(), null, pr.getProduct(), "Returns (Purchase)", pr.getQuantity()
+                    , pr.getTotalAmount(), null));
+        }
         
         model.addAttribute("dailyTotals", dailyTotals);
         return "report/dailytotals";

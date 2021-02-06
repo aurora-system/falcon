@@ -33,11 +33,8 @@
 									<td th:text="${dt.number}"></td>
 									<td th:text="${dt.transDate}"></td>
 									<td th:text="${dt.type}"></td>
-									<td th:text="${dt.stock.product.name}"></td>
-									<td th:text="${order.totalAmount}"></td>
-									<td>
-										<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark">Details</a>
-									</td>
+									<td th:text="${dt.purchasedProduct.name}"></td>
+									<td th:text="${dt.totalAmount}"></td>
 								</tr>
 							</th:block>
 						</tbody>
