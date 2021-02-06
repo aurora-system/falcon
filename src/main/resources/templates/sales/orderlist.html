@@ -72,9 +72,8 @@
 							<th class="th-sm">Order Date</th>
 							<th class="th-sm">Invoice No.</th>
 							<th class="th-sm">Total Amount</th>
-							<th class="th-sm">Type</th>
 							<th class="th-sm">Payment Type</th>
-							<th class="th-sm">Remarks</th>
+							<th class="th-sm">Products</th>
 							<th class="th-sm">Status</th>
 							<th class="th-sm">Actions</th>
 						</tr>
@@ -88,13 +87,16 @@
 								<td th:text="${order.transDate}"></td>
 								<td th:text="${order.invoiceNumber}"></td>
 								<td th:text="${#numbers.formatDecimal(order.totalAmount,1,'COMMA',2,'POINT')}"></td>
-								<td th:text="${order.type}"></td>
 								<td th:text="${order.paymentType}"></td>
-								<td th:text="${order.remarks}"></td>
+								<td>
+									<th:block th:each="item : ${order.items}">
+										<li th:text="${item.stock.product.name} + ' (' + ${item.quantity} + ')'"></li>
+									</th:block>
+								</td>
 								<td th:text="${order.status}"></td>
 								<td>
 									<a type="button" th:href="|@{/salesorders}/${order.id}|" class="showOrderDetails btn btn-dark mb-1">Details</a>
-									<button type="button" class="cancelOrder btn btn-danger" th:disabled="${order.status == 'CANCELLED'}" 
+									<button type="button" class="cancelOrder btn btn-danger mb-1" th:disabled="${order.status == 'CANCELLED'}" 
 										data-toggle="modal" data-target="#cancelOrderModal"
 										th:data-row-orderId="${order.id}"
 										th:data-row-invoice="${order.invoiceNumber}">Cancel</button>
