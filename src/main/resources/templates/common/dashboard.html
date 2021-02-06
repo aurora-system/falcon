@@ -137,14 +137,16 @@
 		        datasets: [{
 		            label: 'Daily Product Sales',
 		            data: Object.keys(dailyProductSalesData).map(function(key) {return dailyProductSalesData[key];}),
-		            backgroundColor: [
+		            backgroundColor: Object.keys(dailyProductSalesData).map(() => 'rgba(75, 192, 192, 1)'), 
+		            bgc: [
 		            	'rgba(75, 192, 192, 1)',
 		            	'rgba(75, 192, 192, 1)',
 		            	'rgba(75, 192, 192, 1)',
 		            	'rgba(75, 192, 192, 1)',
 		            	'rgba(75, 192, 192, 1)'
 		            ],
-		            borderColor: [
+		            borderColor: Object.keys(dailyProductSalesData).map(() => 'rgba(75, 192, 192, 1)'),
+		            bc: [
 		            	'rgba(75, 192, 192, 1)',
 		            	'rgba(75, 192, 192, 1)',
 		            	'rgba(75, 192, 192, 1)',

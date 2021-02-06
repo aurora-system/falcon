@@ -30,26 +30,27 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @Data public class PurchaseReturn extends Auditable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@NotBlank
-	private String purchaseNumber;
-	@PastOrPresent
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate returnDate = LocalDate.now();
-	@ManyToOne
-	@JoinColumn(name = "supplier_id")
-	private Supplier supplier;
-	@ManyToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
-	@Positive
-	private long quantity;
-	@NotNull @Positive
-	private BigDecimal unitCost;
-	
-	public BigDecimal getTotalAmount() {
-		return new BigDecimal(quantity).multiply(unitCost);
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @NotBlank
+    private String purchaseNumber;
+    @PastOrPresent
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate returnDate = LocalDate.now();
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @Positive
+    private long quantity;
+    @NotNull @Positive
+    private BigDecimal unitCost = BigDecimal.ZERO;
+    private boolean isDeleted = false;
+
+    public BigDecimal getTotalAmount() {
+        return new BigDecimal(this.quantity).multiply(this.unitCost);
+    }
 }

@@ -45,7 +45,7 @@
 					        <th class="th-sm">Quantity</th>
 					        <th class="th-sm">Unit Cost</th>
 							<th class="th-sm">Total Cost</th>
-<!-- 					        <th class="th-sm">Actions</th> -->
+					        <th class="th-sm">Actions</th>
 					      </tr>
 					    </thead>
 					    <tbody>
@@ -59,9 +59,9 @@
 					        <td th:text="${purchase.quantity}"></td>
 					        <td th:text="${#numbers.formatDecimal(purchase.unitCost,1,'COMMA',2,'POINT')}"></td>
 					        <td th:text="${#numbers.formatDecimal(purchase.totalAmount,1,'COMMA',2,'POINT')}"></td>
-<!-- 					        <td> -->
-<!-- 								<a type="button" th:href="|@{/purchases}/${purchase.id}/edit|" class="btn btn-dark float-center">Edit</a> -->
-<!-- 							</td> -->
+					        <td>
+								<a type="button" th:href="|@{/purchases}/${purchase.id}/delete|" class="btn btn-dark float-center">Cancel</a>
+							</td>
 					      </tr>
 					      </th:block>
 					    </tbody>
@@ -79,7 +79,7 @@
 	<script>
 		$(document).ready(function() {
 		    $('#dataTables-purchase').DataTable({
-
+		        "ordering": false,
 		    });
 		} );
 	</script>

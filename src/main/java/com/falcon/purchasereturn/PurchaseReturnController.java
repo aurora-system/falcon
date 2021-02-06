@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
 import com.falcon.stock.Stock;
 import com.falcon.stock.StockRepository;
@@ -65,6 +66,32 @@ public class PurchaseReturnController {
         model.addAttribute(this.supplierRepository.findAll());
         model.addAttribute(this.purchaseReturnRepository.findById(id).orElseGet(PurchaseReturn::new));
         return "returns/purchasereturnform";
+    }
+
+    @GetMapping("/purchasereturns/{id}/delete")
+    @Transactional
+    public String deletePurchaseReturn(Model model, @PathVariable long id, final RedirectAttributes redirect) {
+        PurchaseReturn purchaseReturn = this.purchaseReturnRepository.findById(id).orElseGet(PurchaseReturn::new);
+        purchaseReturn.setDeleted(true);
+        this.purchaseReturnRepository.save(purchaseReturn);
+        Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(purchaseReturn.getProduct().getId(),
+                purchaseReturn.getSupplier().getId(), purchaseReturn.getUnitCost());
+        if (stock.isPresent()) {
+            Stock s = stock.get();
+            s.setQuantity(s.getQuantity()+purchaseReturn.getQuantity());
+            this.stockRepository.save(s);
+        } else {
+            //TODO: Is this else block needed?
+            Product product = this.productRepository.findById(purchaseReturn.getProduct().getId())
+                    .orElseGet(Product::new);
+            Stock s = new Stock();
+            s.setProduct(product);
+            s.setQuantity(purchaseReturn.getQuantity());
+            s.setUnitCost(purchaseReturn.getUnitCost());
+            this.stockRepository.save(s);
+        }
+        redirect.addFlashAttribute("message", "Purchase Return record deleted successfully.");
+        return "redirect:/purchases";
     }
 
     @PostMapping({"/purchasereturns"})
