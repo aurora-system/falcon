@@ -1,13 +1,17 @@
 package com.falcon.purchasereturn;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
+import com.falcon.purchase.Purchase;
+import com.falcon.purchase.PurchaseRepository;
 import com.falcon.stock.Stock;
 import com.falcon.stock.StockRepository;
 import com.falcon.supplier.SupplierRepository;
@@ -29,17 +35,20 @@ public class PurchaseReturnController {
     private ProductRepository productRepository;
     private SupplierRepository supplierRepository;
     private StockRepository stockRepository;
+    private PurchaseRepository purchaseRepository;
 
     public PurchaseReturnController(
             PurchaseReturnRepository purchaseReturnRepository
             , ProductRepository productRepository
             , SupplierRepository supplierRepository
             , StockRepository stockRepository
+            , PurchaseRepository purchaseRepository
             ) {
         this.purchaseReturnRepository = purchaseReturnRepository;
         this.productRepository = productRepository;
         this.supplierRepository = supplierRepository;
         this.stockRepository = stockRepository;
+        this.purchaseRepository = purchaseRepository;
     }
 
     @GetMapping("/purchasereturns")
@@ -119,5 +128,12 @@ public class PurchaseReturnController {
         }
         redirect.addFlashAttribute("message", "New Purchase Return added successfully.");
         return "redirect:/purchasereturns";
+    }
+
+    @GetMapping("/purchasereturns/by-supplier/{id}")
+    public ResponseEntity<Set<Product>> findAllPurchasesBySupplierId(@PathVariable long id) {
+        List<Purchase> purchases = this.purchaseRepository.findAllBySupplierId(id);
+        Set<Product> products = purchases.stream().map(Purchase::getProduct).collect(toSet());
+        return ResponseEntity.ok(products);
     }
 }

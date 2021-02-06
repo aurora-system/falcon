@@ -80,7 +80,7 @@ public class ReportController {
         List<DailyDto> dailyTotals = new ArrayList<DailyDto>();
         Iterable<SalesOrder> salesOrders = this.salesOrderRepository.findByTransDateAndStatus(datePicked, "PROCESSED");
         Iterable<SalesReturn> salesReturns = this.salesReturnRepository.findByReturnDate(datePicked);
-        Iterable<Purchase> purchases = this.purchaseRepository.findByTransDate(datePicked);
+        Iterable<Purchase> purchases = this.purchaseRepository.findAllByTransDate(datePicked);
         Iterable<PurchaseReturn> purchaseReturns = this.purchaseReturnRepository.findByReturnDate(datePicked);
         
         for (SalesOrder so : salesOrders) {
