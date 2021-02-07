@@ -26,7 +26,7 @@
 			<div class="col">
 				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
 					<div class="card mb-3">
-					  <div class="card-header"><h1>0</h1><a class="btn btn-dark float-right">View</a></div>
+					  <div class="card-header"><h1 th:text="${lowProductCount}">0</h1><a th:href="@{/reports/lowproducts}" class="btn btn-dark float-right">View</a></div>
 					  <div class="card-body text-dark">
 					    <p class="card-text">Products with Low Count</p>
 					  </div>

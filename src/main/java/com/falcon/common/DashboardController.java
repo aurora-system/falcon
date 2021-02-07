@@ -20,6 +20,8 @@ import com.falcon.product.ProductRepository;
 import com.falcon.salesorder.SalesOrder;
 import com.falcon.salesorder.SalesOrderItem;
 import com.falcon.salesorder.SalesOrderRepository;
+import com.falcon.stock.Stock;
+import com.falcon.stock.StockRepository;
 
 @Controller
 public class DashboardController {
@@ -27,25 +29,20 @@ public class DashboardController {
     private SalesOrderRepository salesOrderRepository;
     private ExpenseRepository expenseRepository;
     private ProductRepository productRepository;
+    private StockRepository stockRepository;
 
-    public DashboardController(SalesOrderRepository orderRepository, ExpenseRepository expenseRepository, ProductRepository productRepository) {
+    public DashboardController(SalesOrderRepository orderRepository
+            , ExpenseRepository expenseRepository
+            , ProductRepository productRepository
+            , StockRepository stockRepository) {
         this.salesOrderRepository = orderRepository;
         this.expenseRepository = expenseRepository;
         this.productRepository = productRepository;
+        this.stockRepository = stockRepository;
     }
 
     @GetMapping({"/", "/dashboard"})
     public String dashboard(Model model) {
-
-        // Weekly Sales Data - dummy
-        Map<String, Integer> weeklySalesData = new LinkedHashMap<>();
-        weeklySalesData.put("9/20", 57500);
-        weeklySalesData.put("9/21", 20400);
-        weeklySalesData.put("9/22", 30500);
-        weeklySalesData.put("9/23", 35760);
-        weeklySalesData.put("9/24", 14211);
-        weeklySalesData.put("9/25", 8950);
-        weeklySalesData.put("9/26", 88300);
 
         List<SalesOrder> ordersPastSevenDays = this.salesOrderRepository.findByTransDateGreaterThanAndStatus(LocalDate.now().minusDays(7), "PROCESSED");
         Map<String, Double> ordersSevenDaysMap = new LinkedHashMap<>();
@@ -95,11 +92,21 @@ public class DashboardController {
         for (Expense expense : expensesToday) {
             totalExpenseAmount = totalExpenseAmount + expense.getAmount().longValue();
         }
+        
+        int lowProductCount = 0;
+        Iterable<Stock> stocks = this.stockRepository.findAll();
+        
+        for (Stock st : stocks) {
+            if (st.getLowCountIndicator() >= st.getQuantity()) {
+                lowProductCount++;
+            }
+        }
 
         model.addAttribute("weeklySalesData", ordersSevenDaysMap);
         model.addAttribute("dailyProductSales", ordersTodayMap);
         
         model.addAttribute("totalSalesAmount", totalSalesAmount);
+        model.addAttribute("lowProductCount", lowProductCount);
         model.addAttribute("totalExpenseAmount", totalExpenseAmount);
         model.addAttribute("orderCountToday", ordersToday.size());
         return "common/dashboard";

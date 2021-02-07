@@ -23,6 +23,8 @@ import com.falcon.salesorder.SalesOrderItem;
 import com.falcon.salesorder.SalesOrderRepository;
 import com.falcon.salesreturn.SalesReturn;
 import com.falcon.salesreturn.SalesReturnRepository;
+import com.falcon.stock.Stock;
+import com.falcon.stock.StockRepository;
 
 @Controller
 public class ReportController {
@@ -32,6 +34,7 @@ public class ReportController {
     private SalesReturnRepository salesReturnRepository;
     private PurchaseRepository purchaseRepository;
     private PurchaseReturnRepository purchaseReturnRepository;
+    private StockRepository stockRepository;
 
     public ReportController(
             ProductRepository productRepository
@@ -39,12 +42,14 @@ public class ReportController {
             ,SalesReturnRepository salesReturnRepository
             ,PurchaseRepository purchaseRepository
             ,PurchaseReturnRepository purchaseReturnRepository
+            ,StockRepository stockRepository
             ) {
         this.productRepository = productRepository;
         this.salesOrderRepository = salesOrderRepository;
         this.salesReturnRepository = salesReturnRepository;
         this.purchaseRepository = purchaseRepository;
         this.purchaseReturnRepository = purchaseReturnRepository;
+        this.stockRepository = stockRepository;
     }
 
     @GetMapping({"/reports"})
@@ -151,5 +156,22 @@ public class ReportController {
 
         model.addAttribute("productCountMap", productCountMap);
         return "report/productstoday";
+    }
+    
+    @GetMapping("/reports/lowproducts")
+    public String listAllLowProducts(Model model) {
+        
+        HashMap<Long, ProductCountDto> productCountMap = new HashMap<>();
+        
+        Iterable<Stock> stocks = this.stockRepository.findAll();
+        
+        for (Stock st : stocks) {
+            if (st.getLowCountIndicator() >= st.getQuantity()) {
+                productCountMap.put(st.getId(), new ProductCountDto(st.getProduct(), st.getQuantity()));
+            }
+        }
+        
+        model.addAttribute("lowProducts", productCountMap);
+        return "report/lowproducts";
     }
 }
