@@ -1,9 +1,7 @@
 package com.falcon.common;
 
-import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.toList;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,7 +49,7 @@ public class DashboardController {
             for (SalesOrderItem item : order.getItems()) {
                 totalSalesAmount = totalSalesAmount + item.getNetSellingPrice().doubleValue();
             }
-            
+
             if (ordersSevenDaysMap.get(order.getTransDate().toString()) != null) {
                 double oldAmount = ordersSevenDaysMap.get(order.getTransDate().toString());
                 double newAmount = oldAmount + totalSalesAmount;
@@ -60,17 +58,17 @@ public class DashboardController {
                 ordersSevenDaysMap.put(order.getTransDate().toString(), totalSalesAmount);
             }
         }
-        
-//        List<SalesOrderItem> orderItemsSevenDays = ordersPastSevenDays.stream()
-//                .map(SalesOrder::getItems)
-//                .flatMap(List::stream)
-//                .collect(toList());
-//        Map<Object, Long> ordersSevenDaysMap = orderItemsSevenDays.stream()
-//                .collect(Collectors.groupingBy(item -> item.getStock().getProduct().getName()
-//                        , counting()));
-        
+
+        //        List<SalesOrderItem> orderItemsSevenDays = ordersPastSevenDays.stream()
+        //                .map(SalesOrder::getItems)
+        //                .flatMap(List::stream)
+        //                .collect(toList());
+        //        Map<Object, Long> ordersSevenDaysMap = orderItemsSevenDays.stream()
+        //                .collect(Collectors.groupingBy(item -> item.getStock().getProduct().getName()
+        //                        , counting()));
+
         List<SalesOrder> ordersToday = this.salesOrderRepository.findByTransDateAndStatus(LocalDate.now(), "PROCESSED");
-        
+
         // Daily Product Sales Count
         List<SalesOrderItem> orderItems = ordersToday.stream()
                 .map(SalesOrder::getItems)
@@ -78,7 +76,7 @@ public class DashboardController {
                 .collect(toList());
         Map<Object, Long> ordersTodayMap = orderItems.stream()
                 .collect(Collectors.groupingBy(item -> item.getStock().getProduct().getName()
-                        , counting()));
+                        , Collectors.reducing(0L, SalesOrderItem::getQuantity, Long::sum)));
 
         // Todal Order Sales Amount
         long totalSalesAmount = 0;
@@ -92,10 +90,10 @@ public class DashboardController {
         for (Expense expense : expensesToday) {
             totalExpenseAmount = totalExpenseAmount + expense.getAmount().longValue();
         }
-        
+
         int lowProductCount = 0;
         Iterable<Stock> stocks = this.stockRepository.findAll();
-        
+
         for (Stock st : stocks) {
             if (st.getLowCountIndicator() >= st.getQuantity()) {
                 lowProductCount++;
@@ -104,7 +102,7 @@ public class DashboardController {
 
         model.addAttribute("weeklySalesData", ordersSevenDaysMap);
         model.addAttribute("dailyProductSales", ordersTodayMap);
-        
+
         model.addAttribute("totalSalesAmount", totalSalesAmount);
         model.addAttribute("lowProductCount", lowProductCount);
         model.addAttribute("totalExpenseAmount", totalExpenseAmount);
