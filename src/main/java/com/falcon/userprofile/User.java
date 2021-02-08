@@ -22,13 +22,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(name = "unique_username_user", columnNames = "username"),
         @UniqueConstraint(name = "unique_email_user", columnNames = "email")
 })
+@NoArgsConstructor @AllArgsConstructor
 @Data
 public class User implements UserDetails {
 

@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping({"/users"})
-    public String saveUser(@Valid User user
+    public String saveUser(@Valid UserDto user
             , Errors errors
             , final RedirectAttributes redirect
             , Model model
@@ -57,14 +57,38 @@ public class UserController {
         String successMsg = "";
         if (user.getId() != 0) {
             User fromDb = this.userRepository.findById(user.getId()).orElseGet(User::new);
-            user.setPassword(fromDb.getPassword());
-            successMsg = "User edited successfully.";
+            user.setUsername(fromDb.getUsername());
+            if (user.getOldPassword() != null && !user.getOldPassword().isEmpty()
+                    && user.getNewPassword() != null && !user.getNewPassword().isEmpty()) {
+                if (this.passwordEncoder.matches(user.getOldPassword(), fromDb.getPassword())) {
+                    String encodedNewPassword = this.passwordEncoder.encode(user.getNewPassword());
+                    user.setPassword(encodedNewPassword);
+                } else {
+                    user.setPassword(fromDb.getPassword());
+                    successMsg = "Incorrect Old Password. Password is not changed.\n\n";
+                }
+            } else {
+                user.setPassword(fromDb.getPassword());
+            }
+            successMsg += "User edited successfully.";
         } else {
             user.setPassword(this.passwordEncoder.encode(user.getPassword()));
             successMsg = "New user added successfully.";
         }
-        this.userRepository.save(user);
+        this.userRepository.save(this.dtoToEntity(user));
         redirect.addFlashAttribute("message", successMsg);
         return "redirect:/users";
+    }
+
+    private User dtoToEntity(UserDto dto) {
+        return new User(
+                dto.getId(),
+                dto.getUsername(),
+                dto.getPassword(),
+                dto.getEmail(),
+                dto.getFirstName(),
+                dto.getLastName(),
+                dto.getRole()
+                );
     }
 }
