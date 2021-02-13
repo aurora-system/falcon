@@ -51,22 +51,16 @@ public class UserController {
             , Model model
             ) {
         if (errors.hasErrors()) {
-            //model.addAttribute(new User());
             return "users/userform";
         }
         String successMsg = "";
         if (user.getId() != 0) {
             User fromDb = this.userRepository.findById(user.getId()).orElseGet(User::new);
             user.setUsername(fromDb.getUsername());
-            if (user.getOldPassword() != null && !user.getOldPassword().isEmpty()
-                    && user.getNewPassword() != null && !user.getNewPassword().isEmpty()) {
-                if (this.passwordEncoder.matches(user.getOldPassword(), fromDb.getPassword())) {
-                    String encodedNewPassword = this.passwordEncoder.encode(user.getNewPassword());
-                    user.setPassword(encodedNewPassword);
-                } else {
-                    user.setPassword(fromDb.getPassword());
-                    successMsg = "Incorrect Old Password. Password is not changed.\n\n";
-                }
+            if (user.getNewPassword() != null && !user.getNewPassword().isEmpty()) {
+                String encodedNewPassword = this.passwordEncoder.encode(user.getNewPassword());
+                user.setPassword(encodedNewPassword);
+                successMsg = "User's Old Password is now reset.\n\n";
             } else {
                 user.setPassword(fromDb.getPassword());
             }
