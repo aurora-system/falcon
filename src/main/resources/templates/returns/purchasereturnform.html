@@ -63,11 +63,6 @@
 						      <label for="product.id">Product:</label>
 						      <select class="form-control"  id="product.id" name="product.id">
 						        <option value="0">- Select a product -</option>
-						        <option th:each="product : ${productList}" 
-						          th:value="${product.id}" 
-						          th:text="${product.name}"
-						          th:selected="${purchaseReturn.product != null ? product.id == purchaseReturn.product.id : false}"
-						          ></option>
 						      </select>
 					      </div>
 				      	</div>
@@ -85,7 +80,7 @@
 							<div class="form-group">
 					    		<label for="unitCost">Unit Cost:</label>
 					      		<span class="validationError text-danger" th:if="${#fields.hasErrors('unitCost')}" th:errors="*{unitCost}"></span>
-      						    <input class="form-control" type="number" th:field="*{unitCost}"/>
+      						    <input class="form-control" type="number" th:field="*{unitCost}" readonly="readonly"/>
 				      		</div>
 				    	</div>			    	
 				    </div>
@@ -112,7 +107,7 @@
          .then((data) => {
              console.log(data)
              let options = data.reduce((acc,item) => {
-                 return acc+=`<option value="${item.id}">${item.name} - ${item.brand}</option>`
+                 return acc+=`<option value="${item.product.id}">${item.product.name} - ${item.product.brand} - PHP${item.unitCost}</option>`
              },'');
              productDropdown.innerHTML = options;
          })

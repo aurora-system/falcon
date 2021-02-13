@@ -1,12 +1,9 @@
 package com.falcon.purchasereturn;
 
-import static java.util.stream.Collectors.toSet;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
 import com.falcon.purchase.Purchase;
 import com.falcon.purchase.PurchaseRepository;
@@ -54,7 +50,7 @@ public class PurchaseReturnController {
     @GetMapping("/purchasereturns")
     public String listPurchaseReturns(Model model) {
         List<PurchaseReturn> purchaseReturnList = new ArrayList<>();
-        this.purchaseReturnRepository.findAll().forEach(purchaseReturnList::add);
+        this.purchaseReturnRepository.findAllByIsDeleted(false).forEach(purchaseReturnList::add);
         Collections.sort(purchaseReturnList,
                 (a,b) -> a.getReturnDate().isBefore(b.getReturnDate()) ? 1 : a.getReturnDate().isAfter(b.getReturnDate()) ? -1 : 0);
         model.addAttribute(purchaseReturnList);
@@ -89,17 +85,18 @@ public class PurchaseReturnController {
             Stock s = stock.get();
             s.setQuantity(s.getQuantity()+purchaseReturn.getQuantity());
             this.stockRepository.save(s);
+            redirect.addFlashAttribute("message", "Purchase Return record deleted successfully.");
         } else {
+            redirect.addFlashAttribute("message", "No purchase record found.");
             //TODO: Is this else block needed?
-            Product product = this.productRepository.findById(purchaseReturn.getProduct().getId())
-                    .orElseGet(Product::new);
-            Stock s = new Stock();
-            s.setProduct(product);
-            s.setQuantity(purchaseReturn.getQuantity());
-            s.setUnitCost(purchaseReturn.getUnitCost());
-            this.stockRepository.save(s);
+            // Product product = this.productRepository.findById(purchaseReturn.getProduct().getId())
+            //         .orElseGet(Product::new);
+            // Stock s = new Stock();
+            // s.setProduct(product);
+            // s.setQuantity(purchaseReturn.getQuantity());
+            // s.setUnitCost(purchaseReturn.getUnitCost());
+            // this.stockRepository.save(s);
         }
-        redirect.addFlashAttribute("message", "Purchase Return record deleted successfully.");
         return "redirect:/purchases";
     }
 
@@ -131,9 +128,8 @@ public class PurchaseReturnController {
     }
 
     @GetMapping("/purchasereturns/by-supplier/{id}")
-    public ResponseEntity<Set<Product>> findAllPurchasesBySupplierId(@PathVariable long id) {
+    public ResponseEntity<List<Purchase>> findAllPurchasesBySupplierId(@PathVariable long id) {
         List<Purchase> purchases = this.purchaseRepository.findAllBySupplierId(id);
-        Set<Product> products = purchases.stream().map(Purchase::getProduct).collect(toSet());
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(purchases);
     }
 }
