@@ -74,6 +74,7 @@ public class ReportController {
             }
         }
         
+        model.addAttribute("datePicked", datePicked);
         model.addAttribute("dailySales", dailySales);
         return "report/dailysales";
     }
