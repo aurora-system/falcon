@@ -115,6 +115,7 @@ public class ReportController {
                     , pr.getTotalAmount(), null));
         }
         
+        model.addAttribute("datePicked", datePicked);
         model.addAttribute("dailyTotals", dailyTotals);
         return "report/dailytotals";
     }
