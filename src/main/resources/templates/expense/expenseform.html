@@ -32,14 +32,11 @@
 									<!-- Expense Type -->
 									<div class="form-group">
 										<span class="validationError text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
-										<label for="brand">Expense Type:</label> 
-										<select class="form-control" th:field="*{type}" >
-											<option value="salary">salary</option>
-											<option value="allowance">allowance</option>
-											<option value="rent">rent</option>
-											<option value="bills">bills</option>
-											<option value="miscellaneous">miscellaneous</option>
-										</select>
+										<datalist id="types">
+	                                        <option th:each="t : ${types}" th:value="${t}" th:text="${t}"></option>
+	                                    </datalist>
+										<label for="type">Expense Type:</label> 
+										<input type="text" class="form-control" th:field="*{type}" list="types">
 									</div>
 								</div>
 								

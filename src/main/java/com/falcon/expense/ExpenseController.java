@@ -38,6 +38,7 @@ public class ExpenseController {
 
     @GetMapping({"/expenses/new"})
     public String newExpenseForm(Model model) {
+        model.addAttribute("types", this.expenseRepository.findAllTypes());
         model.addAttribute("expenseForm", new Expense());
         return "expense/expenseform";
     }
@@ -45,6 +46,7 @@ public class ExpenseController {
     @GetMapping("/expenses/{id}/edit")
     public String editExpenseForm(Model model
             , @PathVariable long id) {
+        model.addAttribute("types", this.expenseRepository.findAllTypes());
         model.addAttribute("expenseForm", this.expenseRepository.findById(id).orElseGet(Expense::new));
         return "expense/expenseform";
     }
