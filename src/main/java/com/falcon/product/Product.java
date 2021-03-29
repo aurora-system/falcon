@@ -41,6 +41,8 @@ import lombok.NoArgsConstructor;
     private String description;
     private String category;
     private long categoryId;
+    @NotBlank
+    private String sku;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> photos = new ArrayList<>();
     @Transient

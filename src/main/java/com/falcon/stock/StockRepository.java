@@ -8,7 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface StockRepository extends CrudRepository<Stock, Long> {
 
+    Optional<Stock> findBySkuAndUnitCost(String sku, BigDecimal unitCost);
     Optional<Stock> findByProductIdAndUnitCost(long productId, BigDecimal unitCost);
-    Optional<Stock> findByProductIdAndSupplierIdAndUnitCost(long productId, long supplierId, BigDecimal unitCost);
+    //Optional<Stock> findByProductIdAndSupplierIdAndUnitCost(long productId, long supplierId, BigDecimal unitCost);
     List<Stock> findAllBySupplierId(long supplierId);
 }

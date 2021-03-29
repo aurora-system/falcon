@@ -21,25 +21,15 @@ import com.falcon.stock.Stock;
 import com.falcon.stock.StockRepository;
 import com.falcon.supplier.SupplierRepository;
 
-@Controller
+import lombok.AllArgsConstructor;
+
+@Controller @AllArgsConstructor
 public class PurchaseController {
 
     private PurchaseRepository purchaseRepository;
     private ProductRepository productRepository;
     private SupplierRepository supplierRepository;
     private StockRepository stockRepository;
-
-    public PurchaseController(
-            PurchaseRepository purchaseRepository
-            , ProductRepository productRepository
-            , SupplierRepository supplierRepository
-            , StockRepository stockRepository
-            ) {
-        this.purchaseRepository = purchaseRepository;
-        this.productRepository = productRepository;
-        this.supplierRepository = supplierRepository;
-        this.stockRepository = stockRepository;
-    }
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
@@ -75,22 +65,15 @@ public class PurchaseController {
         Purchase purchase = this.purchaseRepository.findById(id).orElseGet(Purchase::new);
         purchase.setDeleted(true);
         this.purchaseRepository.save(purchase);
-        Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(purchase.getProduct().getId(),
-                purchase.getSupplier().getId(), purchase.getUnitCost());
+        Optional<Stock> stock = this.stockRepository.findBySkuAndUnitCost(purchase.getProduct().getSku(), purchase.getUnitCost());
         if (stock.isPresent()) {
             Stock s = stock.get();
-            s.setQuantity(s.getQuantity()+purchase.getQuantity());
+            s.setQuantity(s.getQuantity() - purchase.getQuantity());
             this.stockRepository.save(s);
+            redirect.addFlashAttribute("message", "Purchase record deleted successfully.");
         } else {
-            Product product = this.productRepository.findById(purchase.getProduct().getId())
-                    .orElseGet(Product::new);
-            Stock s = new Stock();
-            s.setProduct(product);
-            s.setQuantity(purchase.getQuantity());
-            s.setUnitCost(purchase.getUnitCost());
-            this.stockRepository.save(s);
+            redirect.addFlashAttribute("message", "Purchase record not found in stocks.");
         }
-        redirect.addFlashAttribute("message", "Purchase record deleted successfully.");
         return "redirect:/purchases";
     }
 
@@ -114,17 +97,18 @@ public class PurchaseController {
             return "purchases/purchaseform";
         }
         this.purchaseRepository.save(purchase);
-        Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(purchase.getProduct().getId(),
-                purchase.getSupplier().getId(), purchase.getUnitCost());
+        Optional<Stock> stock = this.stockRepository.findBySkuAndUnitCost(purchase.getProduct().getSku(), purchase.getUnitCost());
         if (stock.isPresent()) {
             Stock s = stock.get();
-            s.setQuantity(s.getQuantity()+purchase.getQuantity());
+            s.setQuantity(s.getQuantity() + purchase.getQuantity());
             this.stockRepository.save(s);
         } else {
             Product product = this.productRepository.findById(purchase.getProduct().getId())
                     .orElseGet(Product::new);
             Stock s = new Stock();
             s.setProduct(product);
+            s.setSupplier(purchase.getSupplier());
+            s.setSku(product.getSku());
             s.setQuantity(purchase.getQuantity());
             s.setUnitCost(purchase.getUnitCost());
             this.stockRepository.save(s);

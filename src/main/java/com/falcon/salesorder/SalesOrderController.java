@@ -121,8 +121,7 @@ public class SalesOrderController {
             Optional<Stock> oStock = this.stockRepository.findById(soi.getStock().getId());
             Stock stock = oStock.get();
 
-            oStock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(stock.getProduct().getId()
-                    , stock.getSupplier().getId()
+            oStock = this.stockRepository.findBySkuAndUnitCost(stock.getProduct().getSku()
                     , stock.getUnitCost());
             if (oStock.isPresent()) {
                 Stock s = oStock.get();

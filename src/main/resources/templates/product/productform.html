@@ -33,35 +33,14 @@
 						
 						<div class="row">
 							<div class="col-sm">
-								<!-- Name -->
-								<div class="form-group">
-									<label for="name">Name:</label> 
-									<span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-									<input class="form-control" type="text" th:field="*{name}" />
-								</div>
-							</div>
-							
-							<div class="col-sm">
-								<!-- Brand -->
-							<div class="form-group">
-								<label for="brand">Brand:</label> 
-								<span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
-								<input class="form-control" type="text" th:field="*{brand}" />
-							</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="col-sm">
-								<!-- Vehicle -->
-								<div class="form-group">
-									<label for="description">Description:</label> 
-									<textarea type="text" class="form-control" th:field="*{description}" rows="4"></textarea>
-								</div>
-							</div>
-							
-							<div class="col-sm">
-								<!-- Color -->
+                                <div class="form-group">
+                                  <label for="sku">SKU:</label> 
+                                  <span class="validationError text-danger" th:if="${#fields.hasErrors('sku')}" th:errors="*{sku}"></span>
+                                  <input class="form-control" type="text" th:field="*{sku}" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm">
 								<div class="form-group">
                                     <datalist id="categories">
                                         <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
@@ -76,6 +55,35 @@
 								</div>
 							</div>
 						</div>	
+						
+						<div class="row">
+                            <div class="col-sm">
+                                <!-- Name -->
+                                <div class="form-group">
+                                    <label for="name">Name:</label> 
+                                    <span class="validationError text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                                    <input class="form-control" type="text" th:field="*{name}" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm">
+                                <!-- Brand -->
+                                <div class="form-group">
+                                    <label for="brand">Brand:</label> 
+                                    <span class="validationError text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></span>
+                                    <input class="form-control" type="text" th:field="*{brand}" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+							<div class="col-sm">
+								<div class="form-group">
+									<label for="description">Description:</label> 
+									<textarea class="form-control" th:field="*{description}" rows="4"></textarea>
+								</div>
+							</div>
+                        </div>
             
                         <div class="row">
                             <div class="col-sm">

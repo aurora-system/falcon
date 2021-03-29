@@ -79,8 +79,7 @@ public class PurchaseReturnController {
         PurchaseReturn purchaseReturn = this.purchaseReturnRepository.findById(id).orElseGet(PurchaseReturn::new);
         purchaseReturn.setDeleted(true);
         this.purchaseReturnRepository.save(purchaseReturn);
-        Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(purchaseReturn.getProduct().getId(),
-                purchaseReturn.getSupplier().getId(), purchaseReturn.getUnitCost());
+        Optional<Stock> stock = this.stockRepository.findBySkuAndUnitCost(purchaseReturn.getProduct().getSku(), purchaseReturn.getUnitCost());
         if (stock.isPresent()) {
             Stock s = stock.get();
             s.setQuantity(s.getQuantity()+purchaseReturn.getQuantity());
@@ -113,8 +112,7 @@ public class PurchaseReturnController {
             return "returns/purchasereturnform";
         }
         this.purchaseReturnRepository.save(purchaseReturn);
-        Optional<Stock> stock = this.stockRepository.findByProductIdAndSupplierIdAndUnitCost(purchaseReturn.getProduct().getId(),
-                purchaseReturn.getSupplier().getId(), purchaseReturn.getUnitCost());
+        Optional<Stock> stock = this.stockRepository.findBySkuAndUnitCost(purchaseReturn.getProduct().getSku(), purchaseReturn.getUnitCost());
         if (stock.isPresent()) {
             Stock s = stock.get();
             s.setQuantity(s.getQuantity() - purchaseReturn.getQuantity());

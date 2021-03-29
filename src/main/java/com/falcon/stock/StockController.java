@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.product.Product;
-import com.falcon.product.ProductRepository;
 import com.falcon.purchase.Purchase;
 import com.falcon.purchase.PurchaseRepository;
 import com.falcon.purchasereturn.PurchaseReturn;
@@ -27,35 +26,17 @@ import com.falcon.salesorder.SalesOrderRepository;
 import com.falcon.salesreturn.SalesReturn;
 import com.falcon.salesreturn.SalesReturnRepository;
 import com.falcon.supplier.Supplier;
-import com.falcon.supplier.SupplierRepository;
 
-@Controller
+import lombok.AllArgsConstructor;
+
+@Controller @AllArgsConstructor
 public class StockController {
 
     private StockRepository stockRepository;
     private PurchaseRepository purchaseRepository;
     private PurchaseReturnRepository purchaseReturnRepository;
-    private ProductRepository productRepository;
-    private SupplierRepository supplierRepository;
     private SalesOrderRepository salesOrderRepository;
     private SalesReturnRepository salesReturnRepository;
-
-    public StockController(StockRepository stockRepository
-            , PurchaseRepository purchaseRepository
-            , PurchaseReturnRepository purchaseReturnRepository
-            , ProductRepository productRepository
-            , SupplierRepository supplierRepository
-            , SalesOrderRepository salesOrderRepository
-            , SalesReturnRepository salesReturnRepository
-            ) {
-        this.stockRepository = stockRepository;
-        this.purchaseRepository = purchaseRepository;
-        this.purchaseReturnRepository = purchaseReturnRepository;
-        this.productRepository = productRepository;
-        this.supplierRepository = supplierRepository;
-        this.salesOrderRepository =salesOrderRepository;
-        this.salesReturnRepository = salesReturnRepository;
-    }
 
     @GetMapping("/stocks")
     public String availableStocks(Model model) {
