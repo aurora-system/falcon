@@ -11,8 +11,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 
     Page<Product> findAllByCategory(String category, Pageable page);
 
-    @Query("SELECT DISTINCT(category) FROM Product")
-    List<String> findAllCategories();
+    List<Product> findAllByCategoryId(long categoryId);
 
     @Query("select p from Product p where p.name like %:key% or p.brand like %:key%")
     List<Product> findByNameOrBrand(String key);

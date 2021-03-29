@@ -19,25 +19,49 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.falcon.fileupload.FileDTO;
 import com.falcon.fileupload.StorageService;
 
-@Controller
+import lombok.AllArgsConstructor;
+
+@Controller @AllArgsConstructor
 public class ProductController {
 
     private ProductRepository productRepository;
     private StorageService storageService;
-
-    public ProductController(
-            ProductRepository productRepository
-            ,StorageService storageService
-            ) {
-        this.productRepository = productRepository;
-        this.storageService = storageService;
-    }
+    private CategoryRepository categoryRepository;
 
     @GetMapping({"/products"})
     public String listAllProducts(Model model) {
         Iterable<Product> products = this.productRepository.findAll();
         model.addAttribute("products", products);
         return "product/productlist";
+    }
+
+    @GetMapping("/categories/new")
+    public String newCategoryForm(Model model) {
+        model.addAttribute(new Category());
+        return "product/categoryform";
+    }
+
+    @PostMapping({"/categories"})
+    @Transactional
+    public String saveCategory(@Valid Category category
+            , Errors errors
+            , final RedirectAttributes redirect
+            , Model model
+            ) {
+        if (errors.hasErrors()) {
+            return "product/categoryform";
+        }
+
+        String successMsg = "";
+        if (category.getId() != 0) {
+            successMsg = "Category edited successfully.";
+        } else {
+            successMsg = "New category added successfully.";
+        }
+
+        this.categoryRepository.save(category);
+        redirect.addFlashAttribute("message", successMsg);
+        return "redirect:/products/new";
     }
 
     @GetMapping({"/products/category/{categoryId}"})
@@ -71,14 +95,14 @@ public class ProductController {
         Optional<Product> product = this.productRepository.findById(productId);
         Product p = product.orElseGet(Product::new);
         model.addAttribute("product", p);
-        model.addAttribute("categories", this.productRepository.findAllCategories());
+        model.addAttribute("categories", this.categoryRepository.findAll());
         return "product/productform";
     }
 
     @GetMapping({"/products/new"})
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("categories", this.productRepository.findAllCategories());
+        model.addAttribute("categories", this.categoryRepository.findAll());
         return "product/productform";
     }
 
