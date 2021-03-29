@@ -60,7 +60,7 @@ public class StockController {
             , Model model
             ) {
         if (errors.hasErrors()) {
-            return "stocks/stocklist";
+            return "stocks/stockform";
         }
         this.stockRepository.save(stock);
         return "redirect:/stocks";

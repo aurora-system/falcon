@@ -2,7 +2,6 @@ package com.falcon.stock;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +35,6 @@ import lombok.NoArgsConstructor;
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-    @Column(unique = true)
     @NotBlank
     private String sku;
     @PositiveOrZero

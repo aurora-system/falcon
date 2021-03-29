@@ -15,28 +15,14 @@
 		<div class="col">
 			<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
 				<!-- New In/Out Transaction Form -->
-				<h2>UPDATE MARKUP</h2>
+				<h2>UPDATE LOW COUNT INDICATOR</h2>
 				
 				<form th:action="@{/stocks}" th:object="${stock}" method="post">
 				    <input type="hidden" th:field="*{id}" />
 				    <input type="hidden" th:field="*{product.id}" />
+                    <input type="hidden" th:field="*{sku}" />
 				    <input type="hidden" th:field="*{quantity}" />
 				    <input type="hidden" th:field="*{unitCost}" />
-				    <div class="row">
-				    	<div class="col-sm">
-				    		<div class="form-group">
-						      <label for="markup">Mark Up:</label>
-						      <span class="validationError text-danger" th:if="${#fields.hasErrors('markup')}" th:errors="*{markup}"></span>
-      						  <input class="form-control" type="text" th:field="*{markup}"/>
-					      	</div>
-				    	</div>
-				    	<div class="col-sm">
-					      <div class="form-group">
-						      <label for="product.id">Low Count Indicator:</label>
-						      <input type="text" class="form-control"  th:field="*{lowCountIndicator}" />
-					      </div>
-				      	</div>
-				    </div>
 				    
 				    <div class="row">
 				    	<div class="col-sm">
@@ -45,6 +31,10 @@
 									<td class="table-secondary detailsField text-right col-4">Product</td>
 									<td class="col-8" th:text="*{product.name}"></td>
 								</tr>
+                                <tr class="d-flex">
+                                  <td class="table-secondary detailsField text-right col-4">SKU</td>
+                                  <td class="col-8" th:text="*{sku}"></td>
+                                </tr>
 								<tr class="d-flex">
 									<td class="table-secondary detailsField text-right col-4">Quantity</td>
 									<td class="col-8" th:text="*{quantity}"></td>
@@ -55,7 +45,9 @@
 								</tr>
 								<tr class="d-flex">
 									<td class="table-secondary detailsField text-right col-4">Low Count Indicator</td>
-									<td class="col-8" th:text="*{lowCountIndicator}"></td>
+									<td class="col-8">
+                                        <input type="text" class="form-control" th:field="*{lowCountIndicator}" />
+                                    </td>
 								</tr>
 							</table>
 				    	</div>			    	

@@ -38,10 +38,10 @@
 						<thead class="datatable-thead thead-dark">
 							<tr>
 								<th class="th-sm">Id</th>
+                                <th class="th-sm">Category</th>
 								<th class="th-sm">Name</th>
 								<th class="th-sm">Brand</th>
 								<th class="th-sm">Description</th>
-								<th class="th-sm">Category</th>
 								<th class="th-sm">Actions</th>
 							</tr>
 						</thead>
@@ -49,10 +49,10 @@
 					  	<th:block th:each="product : ${products}">
 						  	<tr>
 						  		<td th:text="${product.id}"></td>
-						  		<td th:text="${product.name}"></td>
+						  		<td th:text="${product.category.name}"></td>
+                                <td th:text="${product.name}"></td>
 						  		<td th:text="${product.brand}"></td>
 						  		<td th:text="${product.description}"></td>
-						  		<td th:text="${product.category}"></td>
 						  		<td>
 						  			<a type="button" th:href="|@{/products}/${product.id}/edit|" class="btn btn-dark float-center">View/Edit</a>
 						  		</td>

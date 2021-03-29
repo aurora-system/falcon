@@ -42,16 +42,17 @@
                             
                             <div class="col-sm">
 								<div class="form-group">
-                                    <datalist id="categories">
+                                    <!-- <datalist id="categories">
                                         <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
                                     </datalist>
-									<label for="category">Category:</label> 
-									<!-- <input type="text" class="form-control" th:field="*{category}" list="categories"/> -->
+									<input type="text" class="form-control" th:field="*{category}" list="categories"/> -->
+									<label for="categoryId">Category:</label> 
                                     <select name="categoryId" id="categoryId" class="form-control">
                                         <option>- Select Category -</option>
                                         <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
                                     </select>
                                     <a th:href="@{/categories/new}" class="btn btn-primary">Add New Category</a> 
+                                    <input type="hidden" name="category" id="category" />
 								</div>
 							</div>
 						</div>	
@@ -88,7 +89,7 @@
                         <div class="row">
                             <div class="col-sm">
                             <div class="form-group">
-                              <label for="category">Photos:</label> 
+                              <label for="photoFiles">Photos:</label> 
                               <input type="file" name="photoFiles" class="form-control fileinput" accept="image/*" multiple="multiple"
                                   />
                             </div>
@@ -138,7 +139,12 @@
                     $container.find('.kv-zoom-cache').hide();
                     return $container.html();
                 },
-            })
+            });
+            
+            $('#categoryId').on('change', (e) => {
+                console.log(e.target,$('#categoryId option:selected').text());
+                $('#category').val($('#categoryId option:selected').text());
+            });
         })
     </script>
 </body>

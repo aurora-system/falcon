@@ -3,6 +3,7 @@ package com.falcon.product;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,10 +42,15 @@ import lombok.NoArgsConstructor;
     private String description;
     private String category;
     private long categoryId;
+    @Column(unique = true)
     @NotBlank
     private String sku;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> photos = new ArrayList<>();
     @Transient
     private MultipartFile[] photoFiles;
+
+    public Category getCategory() {
+        return new Category(this.categoryId, this.category, this.category);
+    }
 }
