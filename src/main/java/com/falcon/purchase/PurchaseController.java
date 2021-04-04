@@ -100,14 +100,14 @@ public class PurchaseController {
             return "purchases/purchaseform";
         }
         this.purchaseRepository.save(purchase);
-        Optional<Stock> stock = this.stockRepository.findBySkuAndUnitCost(purchase.getProduct().getSku(), purchase.getUnitCost());
+        Product product = this.productRepository.findById(purchase.getProduct().getId())
+                .orElseGet(Product::new);
+        Optional<Stock> stock = this.stockRepository.findBySkuAndUnitCost(product.getSku(), purchase.getUnitCost());
         if (stock.isPresent()) {
             Stock s = stock.get();
             s.setQuantity(s.getQuantity() + purchase.getQuantity());
             this.stockRepository.save(s);
         } else {
-            Product product = this.productRepository.findById(purchase.getProduct().getId())
-                    .orElseGet(Product::new);
             Stock s = new Stock();
             s.setProduct(product);
             s.setSupplier(purchase.getSupplier());
