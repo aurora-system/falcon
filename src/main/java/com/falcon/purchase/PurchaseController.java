@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.product.CategoryRepository;
 import com.falcon.product.Product;
 import com.falcon.product.ProductRepository;
 import com.falcon.stock.Stock;
@@ -30,6 +31,7 @@ public class PurchaseController {
     private ProductRepository productRepository;
     private SupplierRepository supplierRepository;
     private StockRepository stockRepository;
+    private CategoryRepository categoryRepository;
 
     @GetMapping("/purchases")
     public String listPurchases(Model model) {
@@ -45,6 +47,7 @@ public class PurchaseController {
 
     @GetMapping("/purchases/new")
     public String newPurchaseForm(Model model) {
+        model.addAttribute(this.categoryRepository.findAll());
         model.addAttribute(this.productRepository.findAll());
         model.addAttribute(this.supplierRepository.findAll());
         model.addAttribute(new Purchase());

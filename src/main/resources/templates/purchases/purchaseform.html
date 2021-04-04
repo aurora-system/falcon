@@ -20,17 +20,17 @@
 				<form th:action="@{/purchases}" th:object="${purchase}" method="post">
 				    <input type="hidden" th:field="*{id}" />
 				    
-				    <!-- Supplier -->
+				    <!-- Category -->
 				    <div class="row">
 				    	<div class="col-sm">
 					      <div class="form-group">
-						      <label for="supplier.id">Supplier:</label>
-						      <select class="form-control"  id="supplier.id" name="supplier.id">
-						        <option value="0">- Select supplier -</option>
-						        <option th:each="supplier : ${supplierList}" 
-						          th:value="${supplier.id}" 
-						          th:text="${supplier.name}"
-						          th:selected="${purchase.supplier != null ? supplier.id == purchase.supplier.id : false}"
+						      <label for="supplier.id">Category:</label>
+						      <select class="form-control"  id="categoryId" name="categoryId">
+						        <option value="0">- Select category -</option>
+						        <option th:each="category : ${categoryList}" 
+						          th:value="${category.id}" 
+						          th:text="${category.name}"
+						          th:selected="${purchase.product != null ? category.id == purchase.product.categoryId : false}"
 						          ></option>
 						      </select>
 					      </div>
@@ -42,7 +42,7 @@
 				    	<div class="col-sm">
 					      <div class="form-group">
 						      <label for="product.id">Product:</label>
-						      <select class="form-control"  id="product.id" name="product.id">
+						      <select class="form-control"  id="product.id" name="product.id" disabled="disabled">
 						        <option value="0">- Select a product -</option>
 						        <option th:each="product : ${productList}" 
 						          th:value="${product.id}" 
@@ -54,8 +54,24 @@
 				      	</div>
 				    </div>
 				    
-				    
-				     <div class="row">
+				    <!-- Supplier -->
+                    <div class="row">
+                      <div class="col-sm">
+                        <div class="form-group">
+                          <label for="supplier.id">Supplier:</label>
+                          <select class="form-control"  id="supplier.id" name="supplier.id" disabled="disabled">
+                            <option value="0">- Select supplier -</option>
+                            <option th:each="supplier : ${supplierList}" 
+                              th:value="${supplier.id}" 
+                              th:text="${supplier.name}"
+                              th:selected="${purchase.supplier != null ? supplier.id == purchase.supplier.id : false}"
+                              ></option>
+                          </select>
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
 				    	<div class="col-sm">
 				    		<!-- Date -->
 				    		<div class="form-group">
@@ -101,7 +117,33 @@
 	</div>
 	<!-- Footer -->
 	<th:block th:replace="fragments/common::footer"></th:block>
- </div>
- <th:block th:replace="fragments/common::javascript"></th:block>
+  </div>
+  
+  <th:block th:replace="fragments/common::javascript"></th:block>
+  <script th:inline="javascript">
+    $(() => {
+        $('#categoryId').on('change', (e) => {
+            let categoryId = e.target.value; console.log('categoryId:', categoryId);
+            /*[+ 
+            let url = [[${#request.getContextPath()}]] + '/products/category/' + categoryId; 
+            +]*/
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                let buildOptions = function(acc, elem) {
+                    return acc += `<option value="${elem.id}">${elem.name} - ${elem.sku}</option>`;
+                }
+                $('#product\\.id').prop('disabled', false);
+                $('#product\\.id').html(data.length ? 
+                        data.reduce(buildOptions,`<option value="">- Select a product -</option>`)
+                        : `<option value="">- No products found for selected category -</option>`);
+            })
+        });
+        
+        $('#product\\.id').on('change', (e) => {
+            $('#supplier\\.id').prop('disabled', false);
+        });
+    });
+  </script>
 </body>
 </html>

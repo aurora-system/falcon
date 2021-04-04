@@ -1,5 +1,6 @@
 package com.falcon.product;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -65,11 +67,9 @@ public class ProductController {
     }
 
     @GetMapping({"/products/category/{categoryId}"})
-    public String listAllProductsByCategory(@PathVariable String categoryId, Model model) {
-        Pageable pageOne = PageRequest.of(0, 20);
-        Iterable<Product> products = this.productRepository.findAllByCategory(categoryId, pageOne);
-        model.addAttribute("products", products);
-        return "product/productlist";
+    public @ResponseBody List<Product> listAllProductsByCategory(@PathVariable Long categoryId) {
+        List<Product> products = this.productRepository.findAllByCategoryId(categoryId);
+        return products;
     }
 
     @GetMapping({"/products/category/{categoryId}/new"})
