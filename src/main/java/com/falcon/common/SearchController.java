@@ -30,7 +30,7 @@ public class SearchController {
 	    List<SalesOrder> orderSearchResults = orderRepository.findAllByInvoiceNumberOrRemarks(keyword);
 	    
 	    // Search in products
-	    List<Product> productSearchResults = productRepository.findByNameOrBrand(keyword);
+	    List<Product> productSearchResults = productRepository.findByNameOrBrandOrSku(keyword);
 	    
 	    model.addAttribute("orderSearchResults", orderSearchResults);
 	    model.addAttribute("productSearchResults", productSearchResults);

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Dashboard')"></th:block>
+<body>
+	<div class="container-fluid">
+	  	<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<!-- Search Results for Orders -->
+		<div class="row" th:unless="${#lists.isEmpty(orderSearchResults)}">
+			<div class="col-sm">
+				<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<h2>Help Page</h2>
+					
+				</div>
+			</div>
+		</div>
+		
+	  	<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	</div>
+	
+	<th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<!-- Script for Weekly Sales Chart -->
+	<script th:inline = javascript>
+		
+		
+	</script>
+			
+</body>

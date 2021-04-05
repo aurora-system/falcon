@@ -13,6 +13,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 
     List<Product> findAllByCategoryId(long categoryId);
 
-    @Query("select p from Product p where p.name like %:key% or p.brand like %:key%")
-    List<Product> findByNameOrBrand(String key);
+    @Query("select p from Product p where p.name like %:key% or p.brand like %:key% or p.sku like %:key%")
+    List<Product> findByNameOrBrandOrSku(String key);
 }

@@ -19,6 +19,7 @@
 					<table id="dataTables-orderList" class="table table-hover table-bordered " style="width: 100%">
 						<thead class="datatable-thead thead-dark">
 							<tr>
+								<th class="th-sm">Invoice No.</th>
 								<th class="th-sm">Customer</th>
 								<th class="th-sm">Type</th>
 								<th class="th-sm">Order Date</th>
@@ -32,6 +33,7 @@
 							<th:block th:each="order : ${orderSearchResults}">
 								<input id="orderRow" type="hidden" th:value="${order}">
 								<tr>
+									<td th:text="${order.invoiceNumber}"></td>
 									<td th:text="${order.customer.name}"></td>
 									<td th:text="${order.type}"></td>
 									<td th:text="${order.transDate}"></td>
@@ -59,6 +61,7 @@
 							<tr>
 								<th class="th-sm">Category</th>
 								<th class="th-sm">Name</th>
+								<th class="th-sm">SKU</th>
 								<th class="th-sm">Brand</th>
 								<th class="th-sm">Description</th>
 								
@@ -68,8 +71,9 @@
 						<tbody>
 					  	<th:block th:each="product : ${productSearchResults}">
 						  	<tr>
-						  		<td th:text="${product.category}"></td>
+						  		<td th:text="${product.category.name}"></td>
 						  		<td th:text="${product.name}"></td>
+						  		<td th:text="${product.sku}"></td>
 						  		<td th:text="${product.brand}"></td>
 						  		<td th:text="${product.description}"></td>
 						  		<td><a th:href="|@{/products}/${product.id}|" type="button" class="btn btn-dark float-center">Details</a></td>
