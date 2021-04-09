@@ -72,6 +72,7 @@
 						<thead class="datatable-thead thead-dark">
 							<tr>
 								<th class="th-sm">Product</th>
+								<th class="th-sm">SKU</th>
 								<th class="th-sm">Quantity</th>
 								<th class="th-sm">Unit Price</th>
 								<th class="th-sm">Price Override</th>
@@ -82,6 +83,7 @@
 							<th:block th:each="item : ${salesOrder.items}">
 								<tr>
 									<td th:text="${item.stock.product.name}"></td>
+									<td th:text="${item.stock.product.sku}"></td>
 									<td th:text="${item.quantity}"></td>
 									<td th:text="${item.sellingPrice}"></td>
 									<td th:text="${item.discountPrice}"></td>
@@ -89,7 +91,7 @@
 								</tr>
 							</th:block>
 							<tr>
-								<td colspan="4" class="table-secondary text-right">
+								<td colspan="5" class="table-secondary text-right">
 									Total Amount
 								</td>
 								<td class="table-success" th:text="${salesOrder.totalAmount}">
