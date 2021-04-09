@@ -15,7 +15,7 @@
 			<div class="row">
 				<div class="col">
 					
-					<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<div class="container-fluid mt-3 shadow p-3 mb-5 bg-white rounded">
 						<!-- Customer Information -->
 						<h2>NEW SALES ORDER</h2>
 						<h4>CUSTOMER DETAILS</h4>
@@ -23,7 +23,7 @@
 						<hr/>
 						<div class="row">
 							<!-- Customer-->
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="customer.name">Customer Name:</label>
 									<input type="text" class="form-control" th:field="*{customer.name}" />
@@ -31,8 +31,14 @@
 							</div>
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label for="customer.tin">TIN:</label>
-									<input type="text" class="form-control" th:field="*{customer.tin}" />
+									<label for="customer.contactNumber">Contact Number:</label>
+									<input type="text" class="form-control" th:field="*{customer.contactNumber}" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="customer.email">Email Address:</label>
+									<input type="text" class="form-control" th:field="*{customer.email}" />
 								</div>
 							</div>
 						</div>
@@ -45,15 +51,15 @@
 							</div>
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label for="customer.contactNumber">Contact Number:</label>
-									<input type="text" class="form-control" th:field="*{customer.contactNumber}" />
+									<label for="customer.tin">TIN:</label>
+									<input type="text" class="form-control" th:field="*{customer.tin}" />
 								</div>
 							</div>
 						</div>
 					</div>
 						
 					<!-- Product Selection -->	
-					<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<div class="container-fluid mt-3 shadow p-3 mb-5 bg-white rounded">
 						
 						<h4>PRODUCT SELECTION</h4>
 						<hr/>
@@ -67,15 +73,29 @@
 								<div class="col-sm-1">
 								</div>
 								
+								<!-- Category -->
+								<div class="col-sm-2">
+									<div class="form-group">
+										<span>Category</span>
+									</div>
+								</div>
+								
 								<!-- Product -->
-								<div class="col-sm-3">
+								<div class="col-sm-2">
 									<div class="form-group">
 										<span>Product</span>
 									</div>
 								</div>
 								
-								<!-- Quantity -->
+								<!-- Stock -->
 								<div class="col-sm-2">
+									<div class="form-group">
+										<span>Stock</span>
+									</div>
+								</div>
+								
+								<!-- Quantity -->
+								<div class="col-sm-1">
 									<div class="form-group">
 										<span>Quantity</span>
 									</div>
@@ -84,21 +104,21 @@
 								<!-- Selling Price -->
 								<div class="col-sm-2">
 									<div class="form-group">
-										<span>Selling Price</span>
+										<span>Price</span>
 									</div>
 								</div>
 								
 								<!-- Discount Price -->
-								<div class="col-sm-2">
+								<div class="col-sm-1">
 									<div class="form-group">
-										<span>Discount Price</span>
+										<span>Discount</span>
 									</div>
 								</div>
 								
 								<!-- Net Selling Price -->
-								<div class="col-sm-2">
+								<div class="col-sm-1">
 									<div class="form-group">
-										<span>Net Selling Price</span>
+										<span>Net</span>
 									</div>
 								</div>
 							</div>
@@ -111,19 +131,38 @@
 									<button id="removeButton" onclick="removeProduct(0)" type="button" class="form-control btn btn-danger float-right">x</button>
 								</div>
 								
-								<!-- Product -->
-								<div class="col-sm-3">
+								<!-- Category -->
+								<div class="col-sm-2">
 									<div class="form-group">
-										<select class="form-control stock" id="stock0" th:field="*{items[0].stock.id}" data-toggle="tooltip" data-placement="bottom" title="Product">
-											<option disabled="disabled" value="0" selected>- Select Product -</option>
-											<option th:each="stock : ${stockList}" th:value="${stock.id}" th:text="${stock.product.name} + ' (' + ${stock.unitCost + stock.markup} + ')' + ' (' + ${stock.quantity} + ')'"
-											    th:data-row-srp="${stock.unitCost + stock.markup}" th:data-row-max="${stock.quantity}"></option>
+										<select class="form-control category" id="category0" data-toggle="tooltip" data-placement="bottom" title="Category">
+											<option disabled="disabled" value="0" selected>- Select Category -</option>
+											<option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"></option>
 										</select>
 									</div>
 								</div>
 								
-								<!-- Quantity -->
+								<!-- Product -->
 								<div class="col-sm-2">
+									<div class="form-group">
+										<select class="form-control product" id="productList0" data-toggle="tooltip" data-placement="bottom" title="Product" disabled=disabled>
+											<option disabled="disabled" value="0" selected>- Select Product -</option>
+										</select>
+									</div>
+								</div>
+								
+								<!-- Stock -->
+								<div class="col-sm-2">
+									<div class="form-group">
+										<select class="form-control stock" id="stockList0" th:field="*{items[0].stock.id}" data-toggle="tooltip" data-placement="bottom" title="Stock" disabled=disabled>
+											<option disabled="disabled" value="0" selected>- Select Stock -</option>
+<!-- 											<option th:each="stock : ${stockList}" th:value="${stock.id}" th:text="${stock.product.name} + ' (' + ${stock.unitCost + stock.markup} + ')' + ' (' + ${stock.quantity} + ')'" -->
+<!-- 											    th:data-row-srp="${stock.unitCost + stock.markup}" th:data-row-max="${stock.quantity}"></option> -->
+										</select>
+									</div>
+								</div>
+							
+								<!-- Quantity -->
+								<div class="col-sm-1">
 									<div class="form-group">
 										<input class="form-control quantity" type="number" id="quantity0" th:field="*{items[0].quantity}" min=0 data-toggle="tooltip" data-placement="bottom" title="Quantity"/>
 									</div>
@@ -137,14 +176,14 @@
 								</div>
 								
 								<!-- Discount Price -->
-								<div class="col-sm-2">
+								<div class="col-sm-1">
 									<div class="form-group">
 										<input class="form-control discountPrice" type="number" id="discountPrice0" th:field="*{items[0].discountPrice}" min=0 data-toggle="tooltip" data-placement="bottom" title="Discount Price"/>
 									</div>
 								</div>
 								
 								<!-- Net Selling Price -->
-								<div class="col-sm-2">
+								<div class="col-sm-1">
 									<div class="form-group">
 										<input class="form-control subTotal" type="number" id="netSellingPrice0" readonly min=0  data-toggle="tooltip" data-placement="bottom" title="Net Selling Price" />
 									</div>
@@ -169,7 +208,7 @@
 					</div>
 						
 					<!-- Order Details -->	
-					<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+					<div class="container-fluid mt-3 shadow p-3 mb-5 bg-white rounded">
 						<h4>ORDER DETAILS</h4>
 						<hr/>
 						<div class="row">
@@ -182,7 +221,7 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="invoiceNumber">Invoice No.</label>
-									<input type="text" class="form-control" th:field="*{invoiceNumber}" placeholder="enter invoice number" title="enter invoice number">
+									<input type="text" required class="form-control" th:field="*{invoiceNumber}" placeholder="enter invoice number" title="enter invoice number">
 								</div>
 							</div>
 						</div>
@@ -298,11 +337,68 @@
 			$("#totalAmountComputed").val(totalAmount);
 		}
 		
-		// When a product (stock) is selected
+		// When a category is selected
+		$('#productContainer').on('change','.category',
+			function() {
+				var category = $(this).val();
+				
+				var rowNum = 0;
+				rowNum = $(this).attr("id").replace("category", "");
+	
+	            let contextRoot = /*[[${#httpServletRequest.getContextPath()}]]*/ '';
+	            
+				$.getJSON( contextRoot + "/products/category/" + category , {
+	                ajax : 'true'
+	            }, function(data) {
+	            	var products = data;
+	
+	            	var productOptions = `<option value="0" disabled="disabled" selected>- Select Product -</option>`
+	                productOptions += products.reduce(
+	                	(a,b) => a+=`<option value="${b.id}">${b.name} - ${b.sku}</option>`
+	                	, ''
+	                	)
+				
+	                $("#productList"+rowNum).empty();
+	                $("#productList"+rowNum).append(productOptions);
+	                $('#productList'+rowNum).prop('disabled', false);
+ 	                $("#productList"+rowNum).focus();
+            });
+		});
+		
+		// When a product is selected
+		$('#productContainer').on('change','.product',
+			function() {
+				var product = $(this).val();
+				
+				var rowNum = 0;
+				rowNum = $(this).attr("id").replace("productList", "");
+	
+	            let contextRoot = /*[[${#httpServletRequest.getContextPath()}]]*/ '';
+	            console.log(product);
+				$.getJSON( contextRoot + "/stocks/" + product , {
+	                ajax : 'true'
+	            }, function(data) {
+	            	var stocks = data;
+	
+	            	var stockOptions = `<option value="0" disabled="disabled" selected>- Select Stock -</option>`
+	            		stockOptions += stocks.reduce(
+	                		(a,b) => a+=`<option value="${b.id}" 
+	                		data-row-srp="${b.unitCost + b.markup}" data-row-max="${b.quantity}">Php ${b.unitCost + b.markup} (${b.quantity})</option>`
+	                	, ''
+	                	)
+				
+	                $("#stockList"+rowNum).empty();
+	                $("#stockList"+rowNum).append(stockOptions);
+	                $('#stockList'+rowNum).prop('disabled', false);
+ 	                $("#stockList"+rowNum).focus();
+            });
+		});
+		
+		// When a stock is selected
 		$('#productContainer').on('change','.stock',
 			function() {
 				var rowNum = 0;
-				rowNum = $(this).attr("id").replace("stock", "");
+				rowNum = $(this).attr("id").replace("stockList", "");
 				console.log("rowNum " + rowNum);
 				var stockId = $(this).val();
 				var srp = $("option:selected", this).attr("data-row-srp");
@@ -379,10 +475,10 @@
 			 // Add Product
 			 $("#addProduct").click(function() {
 				 
-				 let stocks = /*[[${stockList}]]*/[];
+				let categories = /*[[${categoryList}]]*/[];
 				 
-				 var options = stocks.reduce(
-					(a,s) => a+=`<option value="${s.id}" data-row-srp="${s.unitCost + s.markup}">${s.product.name} (${s.unitCost + s.markup}) (${s.quantity})</option>`
+				var categoryOptions = categories.reduce(
+					(a,c) => a+=`<option value="${c.id}">${c.name}</option>`
 	                	, ''
 				 )
 				 
@@ -394,18 +490,36 @@
 								<button id="removeButton" onclick="removeProduct(`+i+`)" type="button" class="form-control btn btn-danger float-right">x</button>
 							</div>
 							
-							<!-- Stock -->
-							<div class="col-sm-3">
+							<!-- Category -->
+							<div class="col-sm-2">
 								<div class="form-group">
-									<select name="items[`+i+`].stock" id="stock`+i+`" class="form-control stock" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Stock">
-										<option disabled="disabled" selected>- Select Product -</option>
-										${options}
+									<select class="form-control category" name="items[`+i+`].category" id="category`+i+`" data-toggle="tooltip" data-placement="bottom" title="Category">
+										<option disabled="disabled" value="0" selected>- Select Category -</option>
+										${categoryOptions}
+									</select>
+								</div>
+							</div>
+							
+							<!-- Product -->
+							<div class="col-sm-2">
+								<div class="form-group">
+									<select class="form-control product" name="items[`+i+`].product" id="productList`+i+`" data-toggle="tooltip" data-placement="bottom" title="Product" disabled=disabled>
+										<option disabled="disabled" value="0" selected>- Select Product -</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Stock -->
+							<div class="col-sm-2">
+								<div class="form-group">
+									<select class="form-control stock" name="items[`+i+`].stock" id="stockList`+i+`" data-toggle="tooltip" data-placement="bottom" title="Stock" disabled=disabled>
+										<option disabled="disabled" value="0" selected>- Select Stock -</option>
 									</select>
 								</div>
 							</div>
 							
 							<!-- Quantity -->
-							<div class="col-sm-2">
+							<div class="col-sm-1">
 								<div class="form-group">
 									<input name="items[`+i+`].quantity" id="quantity`+i+`" class="form-control quantity" value=0 type="number" data-toggle="tooltip" data-placement="bottom" title="Quantity" >
 								</div>
@@ -419,14 +533,14 @@
 							</div>
 							
 							<!-- Discount Price -->
-							<div class="col-sm-2">
+							<div class="col-sm-1">
 								<div class="form-group">
 									<input name="items[`+i+`].discountPrice" id="discountPrice`+i+`" class="form-control discountPrice" value=0 type="number" data-toggle="tooltip" data-placement="bottom" title="Discount Price"/>
 								</div>
 							</div>
 							
 							<!-- Total -->
-							<div class="col-sm-2">
+							<div class="col-sm-1">
 								<div class="form-group">
 									<input name="items[`+i+`].netSellingPrice" id="netSellingPrice`+i+`" class="form-control subTotal" value=0 type="number" readonly="" data-toggle="tooltip" data-placement="bottom" title="Net Selling Price">
 								</div>

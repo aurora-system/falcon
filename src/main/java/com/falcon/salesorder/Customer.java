@@ -11,5 +11,5 @@ import lombok.Data;
 	private String address;
 	private String tin;
 	private String contactNumber;
-	
+	private String email;
 }

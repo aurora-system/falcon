@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.falcon.product.CategoryRepository;
 import com.falcon.stock.Stock;
 import com.falcon.stock.StockRepository;
 
@@ -25,13 +26,16 @@ public class SalesOrderController {
 
     private SalesOrderRepository salesOrderRepository;
     private StockRepository stockRepository;
+    private CategoryRepository categoryRepository;
 
     public SalesOrderController(
             SalesOrderRepository salesOrderRepository
             , StockRepository stockRepository
+            , CategoryRepository categoryRepository
             ) {
         this.salesOrderRepository = salesOrderRepository;
         this.stockRepository = stockRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/salesorders")
@@ -47,7 +51,7 @@ public class SalesOrderController {
 
     @GetMapping("/salesorders/new")
     public String newSalesOrderForm(Model model) {
-        model.addAttribute(this.stockRepository.findAll());
+        model.addAttribute(this.categoryRepository.findAll());
         model.addAttribute(new SalesOrder());
         return "sales/orderform";
     }

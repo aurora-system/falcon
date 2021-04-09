@@ -51,7 +51,7 @@
                                         <option>- Select Category -</option>
                                         <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
                                     </select>
-                                    <a th:href="@{/categories/new}" class="btn btn-primary">Add New Category</a> 
+                                    <a th:href="@{/categories/new}" class="btn btn-dark mt-2">Add New Category</a> 
                                     <input type="hidden" name="category" id="category" />
 								</div>
 							</div>

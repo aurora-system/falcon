@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.falcon.product.Product;
@@ -133,5 +134,11 @@ public class StockController {
         model.addAttribute(stockHistoryList);
         model.addAttribute("updatedCount",updatedCount);
         return "stocks/history";
+    }
+    
+    @GetMapping({"/stocks/{productId}"})
+    public @ResponseBody List<Stock> listAllStocksByProduct(@PathVariable Long productId) {
+        List<Stock> stocks = this.stockRepository.findAllByProductId(productId);
+        return stocks;
     }
 }

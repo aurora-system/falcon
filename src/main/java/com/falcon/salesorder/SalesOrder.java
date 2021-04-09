@@ -54,7 +54,8 @@ import lombok.ToString;
 		@AttributeOverride(name = "name", column = @Column(name = "customer_name")),
 		@AttributeOverride(name = "address", column = @Column(name = "customer_address")),
 		@AttributeOverride(name = "tin", column = @Column(name = "customer_tin")),
-		@AttributeOverride(name = "contactNumber", column = @Column(name = "customer_contact_number"))
+		@AttributeOverride(name = "contactNumber", column = @Column(name = "customer_contact_number")),
+		@AttributeOverride(name = "email", column = @Column(name = "email"))
 	})
 	private Customer customer;
 	@ElementCollection
