@@ -36,6 +36,7 @@
                                 <div class="form-group">
                                   <label for="sku">SKU:</label> 
                                   <span class="validationError text-danger" th:if="${#fields.hasErrors('sku')}" th:errors="*{sku}"></span>
+                                  <span class="validationError text-danger" th:if="${duplicateSku}">must be unique</span>
                                   <input class="form-control" type="text" th:field="*{sku}" />
                                 </div>
                             </div>

@@ -103,6 +103,7 @@ public class ProductController {
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", this.categoryRepository.findAll());
+        model.addAttribute("duplicateSku", false);
         return "product/productform";
     }
 
@@ -113,6 +114,13 @@ public class ProductController {
             , final RedirectAttributes redirect
             , Model model
             ) {
+        
+        Product productBySku = productRepository.findBySku(product.getSku());
+        if (productBySku != null) {
+            model.addAttribute("categories", this.categoryRepository.findAll());
+            model.addAttribute("duplicateSku", true);
+            return "product/productform";
+        }
         
         if (errors.hasErrors()) {
             model.addAttribute("categories", this.categoryRepository.findAll());
