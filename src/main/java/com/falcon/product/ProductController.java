@@ -113,7 +113,9 @@ public class ProductController {
             , final RedirectAttributes redirect
             , Model model
             ) {
+        
         if (errors.hasErrors()) {
+            model.addAttribute("categories", this.categoryRepository.findAll());
             return "product/productform";
         }
 
