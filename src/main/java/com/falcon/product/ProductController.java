@@ -116,7 +116,7 @@ public class ProductController {
             ) {
         
         Product productBySku = productRepository.findBySku(product.getSku());
-        if (productBySku != null) {
+        if (product.getId() == 0 && productBySku != null) {
             model.addAttribute("categories", this.categoryRepository.findAll());
             model.addAttribute("duplicateSku", true);
             return "product/productform";
