@@ -122,6 +122,12 @@ public class ProductController {
             return "product/productform";
         }
         
+        if (product.getCategoryId() == 0) {
+            model.addAttribute("categories", this.categoryRepository.findAll());
+            model.addAttribute("categoryNotSet", true);
+            return "product/productform";
+        }
+        
         if (errors.hasErrors()) {
             model.addAttribute("categories", this.categoryRepository.findAll());
             return "product/productform";
