@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.falcon</groupId>
     <artifactId>falcon</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <name>falcon</name>
     <description>Inventory Management for Falcon Garage</description>
 
