@@ -178,6 +178,8 @@ public class ProductController {
                 }
             }
         }
+        Category cat = this.categoryRepository.findById(product.getCategoryId()).orElseGet(Category::new);
+        product.setCategory(cat.getName());
         this.productRepository.save(product);
         redirect.addFlashAttribute("message", successMsg);
         return "redirect:/products";
