@@ -60,7 +60,7 @@
 					        <td th:text="${#numbers.formatDecimal(purchase.unitCost,1,'COMMA',2,'POINT')}"></td>
 					        <td th:text="${#numbers.formatDecimal(purchase.totalAmount,1,'COMMA',2,'POINT')}"></td>
 					        <td>
-								<a type="button" th:href="|@{/purchases}/${purchase.id}/delete|" class="btn btn-dark float-center">Cancel</a>
+								<a type="button" th:href="|@{/purchases}/${purchase.id}/confirm|" class="btn btn-dark float-center">Cancel</a>
 							</td>
 					      </tr>
 					      </th:block>

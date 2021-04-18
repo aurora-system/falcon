@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Delete Purchase')"></th:block>
+<body>
+  <div class="container-fluid">
+  	<!-- Navigation Bar -->
+	<div class="row">
+		<div class="col">
+			<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col">
+			<div class="container mt-3 shadow p-3 mb-5 bg-white rounded">
+				<!-- New In/Out Transaction Form -->
+				<h2>DELETE PURCHASE</h2>
+				
+				<form th:action="|@{/purchases}/${purchaseId}/delete|" method="post">
+				    <p>
+                    This will cancel the purchase order and may cause invalid stocks count if the item has been sold already. Are you sure you want to proceed?
+                    </p>
+				    
+				    <div class="clearfix">
+				    	<button type="submit" class="btn btn-dark float-right ml-1">YES</button>
+				    	<a th:href="@{/purchases}" class="btn btn-dark float-right">NO</a>
+				    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Footer -->
+	<th:block th:replace="fragments/common::footer"></th:block>
+  </div>
+  
+</body>
+</html>

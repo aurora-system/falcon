@@ -62,7 +62,13 @@ public class PurchaseController {
         return "purchases/purchaseform";
     }
 
-    @GetMapping("/purchases/{id}/delete")
+    @GetMapping("/purchases/{id}/confirm")
+    public String deletePurchaseConfirm(Model model, @PathVariable long id) {
+        model.addAttribute("purchaseId", id);
+        return "purchases/confirmdelete";
+    }
+
+    @PostMapping("/purchases/{id}/delete")
     @Transactional
     public String deletePurchase(Model model, @PathVariable long id, final RedirectAttributes redirect) {
         Purchase purchase = this.purchaseRepository.findById(id).orElseGet(Purchase::new);
