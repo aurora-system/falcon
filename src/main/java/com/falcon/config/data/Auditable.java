@@ -1,17 +1,19 @@
 package com.falcon.config.data;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import java.util.Date;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter(AccessLevel.PROTECTED)
@@ -21,11 +23,11 @@ import java.util.Date;
 public class Auditable
 {
     @CreatedBy
-    @Column(name = "created_by")
+    @Column(name = "created_by", updatable = false)
     private String createdBy;
 
     @CreatedDate
-    @Column(name = "created_date")
+    @Column(name = "created_date", updatable = false)
     private Date createdDate;
 
     @LastModifiedBy

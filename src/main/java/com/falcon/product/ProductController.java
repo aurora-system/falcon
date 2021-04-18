@@ -114,22 +114,22 @@ public class ProductController {
             , final RedirectAttributes redirect
             , Model model
             ) {
-        
-        Product productBySku = productRepository.findBySku(product.getSku());
+
+        if (errors.hasErrors()) {
+            model.addAttribute("categories", this.categoryRepository.findAll());
+            return "product/productform";
+        }
+
+        Product productBySku = this.productRepository.findBySku(product.getSku());
         if (product.getId() == 0 && productBySku != null) {
             model.addAttribute("categories", this.categoryRepository.findAll());
             model.addAttribute("duplicateSku", true);
             return "product/productform";
         }
-        
+
         if (product.getCategoryId() == 0) {
             model.addAttribute("categories", this.categoryRepository.findAll());
             model.addAttribute("categoryNotSet", true);
-            return "product/productform";
-        }
-        
-        if (errors.hasErrors()) {
-            model.addAttribute("categories", this.categoryRepository.findAll());
             return "product/productform";
         }
 
