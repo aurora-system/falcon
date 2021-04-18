@@ -37,9 +37,23 @@ public class ProductController {
         return "product/productlist";
     }
 
+    @GetMapping({"/categories"})
+    public String listAllCategories(Model model) {
+        Iterable<Category> categories = this.categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        return "product/categorylist";
+    }
+
     @GetMapping("/categories/new")
     public String newCategoryForm(Model model) {
         model.addAttribute(new Category());
+        return "product/categoryform";
+    }
+
+    @GetMapping("/categories/{categoryId}/edit")
+    public String editCategoryForm(@PathVariable long categoryId, Model model) {
+        Category category = this.categoryRepository.findById(categoryId).orElseGet(Category::new);
+        model.addAttribute("category", category);
         return "product/categoryform";
     }
 
@@ -63,7 +77,7 @@ public class ProductController {
 
         this.categoryRepository.save(category);
         redirect.addFlashAttribute("message", successMsg);
-        return "redirect:/products/new";
+        return "redirect:/categories";
     }
 
     @GetMapping({"/products/category/{categoryId}"})
@@ -102,6 +116,16 @@ public class ProductController {
     @GetMapping({"/products/new"})
     public String newProductForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("categories", this.categoryRepository.findAll());
+        model.addAttribute("duplicateSku", false);
+        return "product/productform";
+    }
+
+    @GetMapping({"/products/new/{categoryId}"})
+    public String newProductWithCategoryForm(@PathVariable long categoryId, Model model) {
+        Product product = new Product();
+        product.setCategoryId(categoryId);
+        model.addAttribute("product", product);
         model.addAttribute("categories", this.categoryRepository.findAll());
         model.addAttribute("duplicateSku", false);
         return "product/productform";

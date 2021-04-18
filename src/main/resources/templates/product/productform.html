@@ -51,7 +51,10 @@
                                     <span class="validationError text-danger" th:if="${categoryNotSet}">must have a selected value</span>
                                     <select name="categoryId" id="categoryId" class="form-control">
                                         <option value="0">- Select Category -</option>
-                                        <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+                                        <option th:each="c : ${categories}" 
+                                            th:value="${c.id}" 
+                                            th:text="${c.name}"
+                                            th:selected="${c.id == product.categoryId}"></option>
                                     </select>
                                     <a th:href="@{/categories/new}" class="btn btn-dark mt-2">Add New Category</a> 
                                     <input type="hidden" name="category" id="category" />

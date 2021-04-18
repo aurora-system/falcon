@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragments/common::header('Categories')"></th:block>
+
+<body>
+	<div class="container-fluid">
+		<!-- Navigation Bar -->
+		<div class="row">
+			<div class="col">
+				<div th:replace="fragments/common::navbar">Navigation bar goes here</div>
+			</div>
+		</div>
+		
+		<div class="row">
+    		<div class="col">
+    			<div class="container-fluid mt-3 shadow-lg p-3 mb-3 bg-white rounded">
+    				<!-- New Product Button -->
+					<div class="card" style="width: 18rem; float:right;">
+						<a type="button" class="btn btn-dark float-right" th:href="@{/categories/new}">New Category</a>
+					</div>
+				
+    				<!-- Product List -->
+    				<h2>CATEGORIES</h2>
+    				<div class="row">
+				        <div class="col-lg-12">
+				            <th:block th:if="${message != null}">
+				                <div class="alert alert-success alert-dismissible" role="alert">
+				                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				                        X
+				                    </button>
+				                    <strong th:text="${message}"></strong>
+				                </div>
+				            </th:block>
+				        </div>
+				    </div>
+					<table id="dataTables-categoryList" class="table table-hover table-bordered" style="width:100%">
+						<thead class="datatable-thead thead-dark">
+							<tr>
+								<th class="th-sm">Id</th>
+                                <th class="th-sm">Name</th>
+								<th class="th-sm">Description</th>
+								<th class="th-sm">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+					  	<th:block th:each="cat : ${categories}">
+						  	<tr>
+						  		<td th:text="${cat.id}"></td>
+                                <td th:text="${cat.name}"></td>
+						  		<td th:text="${cat.description}"></td>
+						  		<td>
+						  			<a type="button" th:href="|@{/categories}/${cat.id}/edit|" class="btn btn-dark float-center">View/Edit</a>
+                                    <a type="button" th:href="|@{/products}/new/${cat.id}|" class="btn btn-dark float-center">New Product</a>
+						  		</td>
+						  	</tr>
+					  	</th:block>
+					  </tbody>
+					</table>
+    			</div>
+    		</div>
+		</div>
+		
+		<!-- Footer -->
+		<th:block th:replace="fragments/common::footer"></th:block>
+	
+	</div>
+	
+	<th:block th:replace="fragments/common::javascript"></th:block>
+	
+	<script>
+		$(document).ready(function() {
+		    $('#dataTables-categoryList').DataTable({
+                "ordering": false,
+            });
+        });
+    </script>
+</body>
+</html>

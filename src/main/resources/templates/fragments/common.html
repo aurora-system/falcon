@@ -60,6 +60,9 @@
                     </li>
                     <th:block sec:authorize="hasAnyRole('ADMIN','INVENTORY')">
                     <li class="nav-item">
+                        <a class="nav-link" th:href="@{/categories}">Categories</a>
+                    </li>
+                    <li class="nav-item">
 			        	<a class="nav-link" th:href="@{/products}">Products</a>
 			      	</li>
 			      	
